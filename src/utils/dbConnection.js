@@ -15,44 +15,51 @@ module.exports = {
 
 // db operations
 function intiPool() {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         log.debug('Attempting connection to mongodb on: ' + url);
-        MongoClient.connect(url, function(err, db) {
+        MongoClient.connect(url, (err, db) => {
             if (err) {
-                log.debug('Error connecting to mongodb');
+                log.error('Error connecting to mongodb: ', err);
                 reject(err);
             } else {
                 conn = db;
                 log.debug('Connected to mongodb');
+                resolve();
             }
         });
-    });
-};
-
-function insertOne(collectionName, document) {
-    return new Promise(function(resolve, reject) {
-        log.info('inserting into: ' + collectionName + conn);
-        let collection = conn.collection(collectionName);
-        collection.insert(document,
-            function(err, result) {
-                log.info(result);
-                log.info(err);
-            });
     });
 };
 
 
 function getAll(collectionName) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
         let collection = conn.collection(collectionName);
-        collection.find({}, {_id: 0}).toArray(function(err, docs) {
+        collection.find({}, {_id: 0}).toArray((err, docs) => {
             if (err) {
-                log.debug('Error connecting to mongodb');
+                log.error('Error connecting to mongodb: ', err);
                 reject(err);
             } else {
-                log.debug(docs);
+                log.debug('Retrieved docs: ', docs);
                 resolve(docs);
             }
         });
     });
 };
+
+
+function insertOne(collectionName, document) {
+    return new Promise((resolve, reject) => {
+        let collection = conn.collection(collectionName);
+        collection.insert(document, (err, result) => {
+            if (err) {
+                log.error('Error connecting to mongodb: ', err);
+                reject(err);
+            } else {
+                log.info('Inserted into: ' + collectionName + ': ', result);
+                resolve();
+            }
+        });
+    });
+};
+
+
