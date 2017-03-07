@@ -3,32 +3,35 @@ const config = require('../../config.js');
 
 let logger;
 
-let init = function() {
+module.exports = {
+    getLogger: getLogger,
+};
+
+
+function getLogger() {
+    if (typeof logger == 'undefined') {
+        init();
+    }
+    return logger;
+};
+
+
+function init() {
     logger = bunyan.createLogger({
         name: config.logger.appname,
         src: true,
-
-    streams: [
-        {
-            path: config.logger.file_name,
-            level: config.logger.file_level,
-        },
-        {
-            stream: process.stdout,
-            level: config.logger.console_level,
-        },
-    ],
-});
+        streams: streams,
+    });
 };
 
-module.exports = {
-    logger: undefined,
 
-    getLogger: function() {
-        if (typeof logger == 'undefined') {
-            init();
-        }
-        return logger;
+const streams = [
+    {
+        path: config.logger.file_name,
+        level: config.logger.file_level,
     },
-};
-
+    {
+        stream: process.stdout,
+        level: config.logger.console_level,
+    },
+];

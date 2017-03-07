@@ -2,7 +2,7 @@ const express = require('express');
 const router = new express.Router();
 let log = require('./utils/logger.js').getLogger();
 const db = require('./utils/dbConnection.js');
-const validator = require('./validation/lap.js');
+const lap = require('./validation/lap.js');
 
 module.exports = router;
 
@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-    validator.parseRequestLap(req)
+    lap.parseRequest(req)
         .then((results) => db.insertOne('laps', results))
         .catch((err) => log.error(err));
 });

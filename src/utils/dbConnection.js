@@ -13,7 +13,6 @@ module.exports = {
 };
 
 
-// db operations
 function intiPool() {
     return new Promise((resolve, reject) => {
         log.debug('Attempting connection to mongodb on: ' + url);
