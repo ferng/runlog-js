@@ -4,33 +4,6 @@
   "private": true,
   "license": "see LICENSE file",
   "description": "An activity log, mostly for exercise, mostly for running, mostly for fern",
-  "main": "server.js",
-  "dependencies": {
-    "async": "^2.1.4",
-    "body-parser": "^1.4.3",
-    "bunyan": "1.8.4",
-    "express": "^4.4.5",
-    "mongodb": "^2.2.22",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
-  },
-  "devDependencies": {
-    "babel-core": "^6.17.0",
-    "babel-loader": "^6.2.5",
-    "babel-polyfill": "^6.16.0",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-preset-react": "^6.16.0",
-    "eslint": "^3.11.1",
-    "eslint-config-google": "^0.7.1",
-    "eslint-plugin-react": "^6.9.0",
-    "tape": "4.6.2",
-    "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.2"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ferng/runlogjs"
@@ -46,6 +19,43 @@
     "url": "https://github.com/ferng/runlogjs/issues"
   },
   "homepage": "https://thecrunchycorner.com/runlog",
+  "main": "server.js",
+  "scripts": {
+    "test": "tape",
+    "test-front": "babel-node",
+    "test-all": "test ./test/src/*/*Spec.js",
+    "start": "node server.js | bunyan",
+    "start-plain": "node server.js",
+    "webpack": "webpack",
+    "web-dev": "webpack-dev-server"
+  },
+  "dependencies": {
+    "async": "2.1.4",
+    "body-parser": "1.4.3",
+    "bunyan": "1.8.4",
+    "express": "4.4.5",
+    "mongodb": "2.2.22",
+    "react": "15.4.2",
+    "react-dom": "15.4.2"
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.0",
+    "babel-core": "6.24.0",
+    "babel-loader": "6.4.1",
+    "babel-polyfill": "6.23.0",
+    "babel-preset-es2015": "6.24.0",
+    "babel-preset-react": "6.23.0",
+    "enzyme": "2.7.1",
+    "eslint": "3.18.0",
+    "eslint-config-google": "^0.7.1",
+    "eslint-plugin-react": "6.10.3",
+    "faucet": "0.0.1",
+    "react-addons-test-utils": "15.4.2",
+    "sinon": "2.1.0",
+    "tape": "4.6.3",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2"
+  },
   "engines": {
     "node": "6.5.x"
   },

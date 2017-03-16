@@ -8,7 +8,7 @@ config.runlog.port = 3000;
 config.mongo = {};
 config.mongo.host = '127.0.0.1';
 config.mongo.port = 27017;
-config.mongo.database = 'learn';
+config.mongo.database = 'runlog';
 
 // logger
 config.logger = {};

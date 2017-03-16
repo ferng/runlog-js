@@ -1,5 +1,5 @@
 # runlog-js - an exercise log, mainly for running, mainly for me
-- Enter and review runs, as in a regular running log, not wanting to rely on my garmin and it's website to review past data many years hence
+* Enter and review runs, as in a regular running log, not wanting to rely on my garmin and it's website to review past data many years hence
 
 ## Running runlog-js
 The application uses mongodb to store data, without it an error will be logged and the application will end (to be honest, as it's effectively a db front end it's pretty much useless without a db!)
@@ -10,7 +10,7 @@ The application uses mongodb to store data, without it an error will be logged a
 ### deployment:
 * build bundle.js (see below)
 * copy everything to some directory
-* run: node server.js
+
 
 ## Development
 * ES6
@@ -23,21 +23,33 @@ The application uses mongodb to store data, without it an error will be logged a
 * ide (visual studio code): configuration in [github] (https://github.com/ferng/config/tree/master/visualStudioCode)
 
 ### building
-* run webpack.sh to build public/bundle.js
+* public/bundle.js
+
+>     npm webpack
 
 ### local instance:
 * run mongodb
-* run node server.js
+* start up server:
 
-> or run server like this for pretty printing on the console:
+>     npm start
+    npm run start-plain
+ 
+* run dev-server
 
-    node server.js |./node_modules/.bin/bunyan
-* run webpack-dev-server.sh
+>     npm web-dev
+
 * go to the webpack dev-server [page] (http://localhost:8080/webpack-dev-server/)
 
+
 ## Testing
-### run all specs:
-* from the command line run tape.sh
+### run server specs:
+>     npm run test ./test/src/*/*Spec.js
+    npm run test ./test/src/validation/commonSpec.js
+
+### run fron-end specs:
+>     npm run test-front ./test/public/*Spec.js
+    npm run test-front ./test/public/lapSpec.js
+
 
 ### run one spec file while debugging
 * open .vscode/launch.json

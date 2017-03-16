@@ -1,12 +1,12 @@
 const test = require('tape');
-const target = require('../../src/validation/lap.js');
+const target = require('../../../src/validation/lap.js');
 
-test('parseRequestGood', (t) => {
+test('Valid distance data in request', (t) => {
     let expected = {
         id: 12,
-        unit: 'meters',
-        distance: 15.23,
         time: '12:21:43',
+        distance: 15.23,
+        unit: 'meter',
     };
 
     let req = {
@@ -22,12 +22,12 @@ test('parseRequestGood', (t) => {
 });
 
 
-test('parseRequestBad', (t) => {
+test('Invalid distance data in request', (t) => {
     let reqBody = {
         id: 12,
-        unit: 'meters',
-        distance: -15.23,
         time: '12:21:43',
+        distance: -15.23,
+        unit: 'meter',
     };
 
     let req = {
@@ -43,125 +43,125 @@ test('parseRequestBad', (t) => {
 });
 
 
-test('parseDataDistanceBad', (t) => {
+test('Invalid distance data', (t) => {
     let expectedBad = 'bad';
 
     t.plan(10);
 
-    target.parseData(12, 'meters', undefined, '12:42:23')
+    target.parseData(12, 'meter', undefined, '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', NaN, '12:42:23')
+    target.parseData(12, 'meter', NaN, '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', '', '12:42:23')
+    target.parseData(12, 'meter', '', '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', ' ', '12:42:23')
+    target.parseData(12, 'meter', ' ', '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', null, '12:42:23')
+    target.parseData(12, 'meter', null, '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', 0, '12:42:23')
+    target.parseData(12, 'meter', 0, '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', -1, '12:42:23')
+    target.parseData(12, 'meter', -1, '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', '2.9.2', '12:42:23')
+    target.parseData(12, 'meter', '2.9.2', '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', '2.9.x', '12:42:23')
+    target.parseData(12, 'meter', '2.9.x', '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', '2.x', '12:42:23')
+    target.parseData(12, 'meter', '2.x', '12:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 });
 
 
-test('parseDataDistanceInteger', (t) => {
+test('Valid distance as interger', (t) => {
     let expected = {
         id: 12,
-        unit: 'meters',
+        time: '12:21:43',
         distance: 15,
-        time: '12:21:43',
+        unit: 'meter',
     };
 
     t.plan(1);
 
-    target.parseData(12, 'meters', 15, '12:21:43')
+    target.parseData(12, 'meter', 15, '12:21:43')
         .then((actual) => {
             t.equal(JSON.stringify(expected), JSON.stringify(actual));
         });
 });
 
 
-test('parseDataDistanceFloat', (t) => {
+test('Valid diatnce as float', (t) => {
     let expected = {
         id: 12,
-        unit: 'meters',
+        time: '12:21:43',
         distance: 15.75,
-        time: '12:21:43',
+        unit: 'meter',
     };
 
     t.plan(1);
 
-    target.parseData(12, 'meters', 15.75, '12:21:43')
+    target.parseData(12, 'meter', 15.75, '12:21:43')
         .then((actual) => {
             t.equal(JSON.stringify(expected), JSON.stringify(actual));
         });
 });
 
 
-test('parseDataDistanceIntegerAsString', (t) => {
+test('Valid distance as integer as string', (t) => {
     let expected = {
         id: 12,
-        unit: 'meters',
-        distance: '15',
         time: '12:21:43',
+        distance: '15',
+        unit: 'meter',
     };
 
     t.plan(1);
 
-    target.parseData(12, 'meters', '15', '12:21:43')
+    target.parseData(12, 'meter', '15', '12:21:43')
             .then((actual) => {
             t.equal(JSON.stringify(expected), JSON.stringify(actual));
         });
 });
 
 
-test('parseDataDistanceFloatAsString', (t) => {
+test('Valid distance as float as string', (t) => {
     let expected = {
         id: 12,
-        unit: 'meters',
-        distance: '15.75',
         time: '12:21:43',
+        distance: '15.75',
+        unit: 'meter',
     };
 
     t.plan(1);
 
-    target.parseData(12, 'meters', '15.75', '12:21:43')
+    target.parseData(12, 'meter', '15.75', '12:21:43')
         .then((actual) => {
             t.equal(JSON.stringify(expected), JSON.stringify(actual));
         });

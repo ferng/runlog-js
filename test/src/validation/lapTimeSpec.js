@@ -1,12 +1,12 @@
 const test = require('tape');
-const target = require('../../src/validation/lap.js');
+const target = require('../../../src/validation/lap.js');
 
-test('parseRequestGood', (t) => {
+test('Valid time data in request', (t) => {
     let expected = {
         id: 12,
-        unit: 'meters',
-        distance: 15.23,
         time: '12:21:43',
+        distance: 15.23,
+        unit: 'meter',
     };
 
     let req = {
@@ -22,12 +22,12 @@ test('parseRequestGood', (t) => {
 });
 
 
-test('parseRequestBad', (t) => {
+test('Invalid time data in request', (t) => {
     let reqBody = {
         id: 12,
-        unit: 'meters',
-        distance: 15.23,
         time: '12:69:43',
+        distance: 15.23,
+        unit: 'meter',
     };
 
     let req = {
@@ -43,47 +43,47 @@ test('parseRequestBad', (t) => {
 });
 
 
-test('parseDataDistanceBad', (t) => {
+test('Invalid time data', (t) => {
     let expectedBad = 'bad';
 
     t.plan(8);
 
-    target.parseData(12, 'meters', 15.23, undefined)
+    target.parseData(12, 'meter', 15.23, undefined)
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', 15.23, NaN)
+    target.parseData(12, 'meter', 15.23, NaN)
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', 15.23, null)
+    target.parseData(12, 'meter', 15.23, null)
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', 15.23, '')
+    target.parseData(12, 'meter', 15.23, '')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', 15.23, ' ')
+    target.parseData(12, 'meter', 15.23, ' ')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', 15.23, '24:42:23')
+    target.parseData(12, 'meter', 15.23, '24:42:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', 15.23, '12:60:23')
+    target.parseData(12, 'meter', 15.23, '12:60:23')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });
 
-    target.parseData(12, 'meters', 15.23, '12:42:60')
+    target.parseData(12, 'meter', 15.23, '12:42:60')
         .catch((actual) => {
             t.equal(expectedBad, actual);
         });

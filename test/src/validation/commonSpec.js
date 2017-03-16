@@ -1,8 +1,8 @@
 const test = require('tape');
-const target = require('../../src/validation/common.js');
+const target = require('../../../src/validation/common.js');
 
 
-test('isFLoatExprGood', (t) => {
+test('Valid float expressions', (t) => {
     t.plan(8);
     t.equal(true, target.isFloatExpr(0));
     t.equal(true, target.isFloatExpr(0.0));
@@ -12,11 +12,10 @@ test('isFLoatExprGood', (t) => {
     t.equal(true, target.isFloatExpr('0.0'));
     t.equal(true, target.isFloatExpr('0.1'));
     t.equal(true, target.isFloatExpr('8989.678'));
-    t.end();
 });
 
 
-test('isFLoatExprBad', (t) => {
+test('Invalid float expressions', (t) => {
     t.plan(8);
     t.equal(false, target.isFloatExpr(undefined));
     t.equal(false, target.isFloatExpr(NaN));
@@ -29,7 +28,7 @@ test('isFLoatExprBad', (t) => {
 });
 
 
-test('isTimeExpr24Good', (t) => {
+test('Valid time in 24hr ckock expressions', (t) => {
     t.plan(5);
     t.equal(true, target.isTimeExpr24('00:00:00'));
     t.equal(true, target.isTimeExpr24('23:00:00'));
@@ -39,7 +38,7 @@ test('isTimeExpr24Good', (t) => {
 });
 
 
-test('isTimeExpr24Bad', (t) => {
+test('Invalid Time in 24hr ckock expressions', (t) => {
     t.plan(18);
     t.equal(false, target.isTimeExpr24(undefined));
     t.equal(false, target.isTimeExpr24(NaN));
