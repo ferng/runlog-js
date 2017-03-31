@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const routeLaps = require('./src/router.js');
+const routeLaps = require('./src/routes/laps.js');
+const routeSvcs = require('./src/routes/svcs.js');
 const config = require('./config.js');
 const log = require('./src/utils/logger.js').getLogger();
 const db = require('./src/utils/dbConnection.js');
@@ -22,12 +23,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(requestHandler);
 app.use('/api/laps', routeLaps);
+app.use('/api/svcs', routeSvcs);
 app.listen(app.get('port'));
 log.info('Server started: http://localhost:' + app.get('port') + '/');
 
 
-// handlers
+// handler
 function requestHandler(req, res, next) {
+    log.debug('Inbound request: ' + req.originalUrl);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'no-cache');
     next();

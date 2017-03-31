@@ -1,26 +1,25 @@
 const express = require('express');
 const router = new express.Router();
-let log = require('./utils/logger.js').getLogger();
-const db = require('./utils/dbConnection.js');
-const lap = require('./validation/lap.js');
+let log = require('../utils/logger.js').getLogger();
+const db = require('../utils/dbConnection.js');
+const lapVal = require('../validation/lap.js');
 
 module.exports = router;
 
 router.use((req, res, next) => {
-    log.debug(req.originalUrl);
     next();
 });
 
 
 router.get('/', (req, res) => {
-    db.getAll('laps')
+    db.get('laps')
         .then((data) => res.json(data))
         .catch((err) => log.error(err));
 });
 
 
 router.post('/', (req, res) => {
-    lap.parseRequest(req)
+    lapVal.parseRequest(req)
         .then((results) => db.insertOne('laps', results))
         .catch((err) => log.error(err));
 });

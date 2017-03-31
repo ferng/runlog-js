@@ -9,10 +9,11 @@ const url = 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + c
 module.exports = {
     initPool: intiPool,
     insertOne: insertOne,
-    getAll: getAll,
+    get: get,
 };
 
 
+// initialise connection pool
 function intiPool() {
     return new Promise((resolve, reject) => {
         log.debug('Attempting connection to mongodb on: ' + url);
@@ -30,10 +31,12 @@ function intiPool() {
 };
 
 
-function getAll(collectionName) {
+// get some or all fields from all documents in a collection
+function get(collectionName, fields) {
     return new Promise((resolve, reject) => {
         let collection = conn.collection(collectionName);
-        collection.find({}, {_id: 0}).toArray((err, docs) => {
+        let projection = parseProjection(fields);
+        collection.find({}, projection).toArray((err, docs) => {
             if (err) {
                 log.error('Error connecting to mongodb: ', err);
                 reject(err);
@@ -46,6 +49,7 @@ function getAll(collectionName) {
 };
 
 
+// insert a new document into a collection
 function insertOne(collectionName, document) {
     return new Promise((resolve, reject) => {
         let collection = conn.collection(collectionName);
@@ -62,3 +66,14 @@ function insertOne(collectionName, document) {
 };
 
 
+// helpers
+function parseProjection(fields) {
+    let projection = {};
+    projection['_id'] = 0;
+    if (fields !== undefined) {
+        fields.forEach((item, index, array) => {
+            projection[item] = 1;
+        });
+    }
+    return projection;
+}
