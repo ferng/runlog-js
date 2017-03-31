@@ -42,14 +42,8 @@ The application uses mongodb to store data, without it an error will be logged a
 
 
 ## Testing
-### run server specs:
->     npm run test ./test/src/*/*Spec.js
-    npm run test ./test/src/validation/commonSpec.js
-
-### run fron-end specs:
->     npm run test-front ./test/public/*Spec.js
-    npm run test-front ./test/public/lapSpec.js
-
+### run specs:
+>     npm test ./test/src/validation/lapDistanceSpec.js
 
 ### run one spec file while debugging
 * open .vscode/launch.json

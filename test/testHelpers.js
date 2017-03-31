@@ -60,6 +60,18 @@ function getRandomString(len, asciiStart, rangeLen) {
 }
 
 
+function areObjectsEqual(obj1, obj2, fields) {
+    fields.forEach((item, index, array) => {
+        if (obj1[item] === undefined || obj2[item] === undefined) {
+            return false;
+        } if (obj1[item] != obj2[item]) {
+            return false;
+        }
+    });
+
+    return true;
+}
+
 export {
     getNewLap,
     getRandomLap,
@@ -68,4 +80,5 @@ export {
     getRandomUnit,
     getRandomNumberInclusive,
     getRandomString,
+    areObjectsEqual,
 };

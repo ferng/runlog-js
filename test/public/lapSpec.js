@@ -2,7 +2,7 @@ import React from 'react';
 import test from 'tape';
 import {shallow} from 'enzyme';
 import {LapList, LapForm} from '../../public/lap';
-import {getRandomLap, getNewLap} from './testHelpers';
+import {getRandomLap, getNewLap} from '../testHelpers';
 
 const testLap1 = getRandomLap();
 const testLap2 = getRandomLap();

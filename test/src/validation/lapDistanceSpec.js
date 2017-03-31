@@ -1,5 +1,9 @@
 const test = require('tape');
 const target = require('../../../src/validation/lap.js');
+const helper = require('../../testHelpers');
+
+const fields = ['id', 'time', 'distance', 'unit'];
+const expectedBad = 'bad';
 
 test('Valid distance data in request', (t) => {
     let expected = {
@@ -17,7 +21,7 @@ test('Valid distance data in request', (t) => {
 
     target.parseRequest(req)
         .then((actual) => {
-            t.equal(JSON.stringify(expected), JSON.stringify(actual));
+            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
         });
 });
 
@@ -38,14 +42,12 @@ test('Invalid distance data in request', (t) => {
 
     target.parseRequest(req)
         .catch((actual) => {
-            t.equal('bad', actual);
+            t.equal(expectedBad, actual);
         });
 });
 
 
 test('Invalid distance data', (t) => {
-    let expectedBad = 'bad';
-
     t.plan(10);
 
     target.parseData(12, 'meter', undefined, '12:42:23')
@@ -112,7 +114,7 @@ test('Valid distance as interger', (t) => {
 
     target.parseData(12, 'meter', 15, '12:21:43')
         .then((actual) => {
-            t.equal(JSON.stringify(expected), JSON.stringify(actual));
+            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
         });
 });
 
@@ -129,7 +131,7 @@ test('Valid diatnce as float', (t) => {
 
     target.parseData(12, 'meter', 15.75, '12:21:43')
         .then((actual) => {
-            t.equal(JSON.stringify(expected), JSON.stringify(actual));
+            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
         });
 });
 
@@ -146,7 +148,7 @@ test('Valid distance as integer as string', (t) => {
 
     target.parseData(12, 'meter', '15', '12:21:43')
             .then((actual) => {
-            t.equal(JSON.stringify(expected), JSON.stringify(actual));
+            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
         });
 });
 
@@ -163,6 +165,6 @@ test('Valid distance as float as string', (t) => {
 
     target.parseData(12, 'meter', '15.75', '12:21:43')
         .then((actual) => {
-            t.equal(JSON.stringify(expected), JSON.stringify(actual));
+            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
         });
 });

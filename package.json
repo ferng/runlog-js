@@ -21,9 +21,7 @@
   "homepage": "https://thecrunchycorner.com/runlog",
   "main": "server.js",
   "scripts": {
-    "test": "tape",
-    "test-front": "babel-node",
-    "test-all": "test ./test/src/*/*Spec.js",
+    "test": "babel-node",
     "start": "node server.js | bunyan",
     "start-plain": "node server.js",
     "webpack": "webpack",
