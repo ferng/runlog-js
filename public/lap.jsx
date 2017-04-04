@@ -68,9 +68,9 @@ class LapForm extends React.Component {
                 />
 
                 <SelectOpts
-                    optType="unit"
                     id="newLapUnit"
                     value={this.state.unit}
+                    options={this.props.options}
                     onChange={this.handleUnitChange}
                 />
 

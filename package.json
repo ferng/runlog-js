@@ -21,9 +21,11 @@
   "homepage": "https://thecrunchycorner.com/runlog",
   "main": "server.js",
   "scripts": {
-    "test": "babel-node",
     "start": "node server.js | bunyan",
     "start-plain": "node server.js",
+    "test-front": "babel-tape-runner test/public/**/*js | faucet",
+    "test-back": "babel-tape-runner test/src/**/*js | faucet",
+    "test": "npm run test-front & npm run test-back",
     "webpack": "webpack",
     "web-dev": "webpack-dev-server"
   },
@@ -43,13 +45,13 @@
     "babel-polyfill": "6.23.0",
     "babel-preset-es2015": "6.24.0",
     "babel-preset-react": "6.23.0",
+    "babel-tape-runner": "2.0.1",
     "enzyme": "2.7.1",
     "eslint": "3.18.0",
     "eslint-config-google": "^0.7.1",
     "eslint-plugin-react": "6.10.3",
     "faucet": "0.0.1",
     "react-addons-test-utils": "15.4.2",
-    "sinon": "2.1.0",
     "tape": "4.6.3",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"

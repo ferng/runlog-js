@@ -13,13 +13,24 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
     db.get('laps')
-        .then((data) => res.json(data))
-        .catch((err) => log.error(err));
+        .then((data) => {
+            res.json(data);
+        })
+        .catch((err) => {
+            log.error(err);
+            res.status(500).send('');
+        });
 });
 
 
 router.post('/', (req, res) => {
     lapVal.parseRequest(req)
-        .then((results) => db.insertOne('laps', results))
-        .catch((err) => log.error(err));
+        .then((results) => {
+            db.insertOne('laps', results);
+            res.status(201).send('');
+        })
+        .catch((err) => {
+            log.error(err);
+            res.status(500).send('');
+        });
 });

@@ -21,7 +21,7 @@ test('Valid time data in request', (t) => {
 
     target.parseRequest(req)
         .then((actual) => {
-            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
+            t.equal(true, helper.areObjectsEqual(actual, expected, fields));
         });
 });
 
@@ -42,7 +42,7 @@ test('Invalid time data in request', (t) => {
 
     target.parseRequest(req)
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 });
 
@@ -52,42 +52,42 @@ test('Invalid time data', (t) => {
 
     target.parseData(12, 'meter', 15.23, undefined)
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', 15.23, NaN)
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', 15.23, null)
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', 15.23, '')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', 15.23, ' ')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', 15.23, '24:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', 15.23, '12:60:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', 15.23, '12:42:60')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 });
 

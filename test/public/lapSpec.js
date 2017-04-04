@@ -36,8 +36,7 @@ test('Enter data into LapForm and the onchange events get called causing a new r
         return '<form class="LapForm">' +
             '<input type="time" step="1" id="newLapTime" placeholder="Time" value="' + time + '"/>' +
             '<input type="number" id="newLapDistance" placeholder="Distance" value="' + distance + '"/>' +
-            '<select><option value="metre">metre</option><option value="yard">yard</option>' +
-            '<option value="km">km</option><option value="mile">mile</option></select>' +
+            '<select></select>' +
             '<input type="submit" value="Post"/></form>';
     };
     const wrapper = shallow(<LapForm />);

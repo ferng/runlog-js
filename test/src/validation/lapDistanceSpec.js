@@ -21,7 +21,7 @@ test('Valid distance data in request', (t) => {
 
     target.parseRequest(req)
         .then((actual) => {
-            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
+            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
         });
 });
 
@@ -42,7 +42,7 @@ test('Invalid distance data in request', (t) => {
 
     target.parseRequest(req)
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 });
 
@@ -52,52 +52,52 @@ test('Invalid distance data', (t) => {
 
     target.parseData(12, 'meter', undefined, '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', NaN, '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', '', '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', ' ', '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', null, '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', 0, '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', -1, '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', '2.9.2', '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', '2.9.x', '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 
     target.parseData(12, 'meter', '2.x', '12:42:23')
         .catch((actual) => {
-            t.equal(expectedBad, actual);
+            t.equal(actual, expectedBad);
         });
 });
 
@@ -114,7 +114,7 @@ test('Valid distance as interger', (t) => {
 
     target.parseData(12, 'meter', 15, '12:21:43')
         .then((actual) => {
-            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
+            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
         });
 });
 
@@ -131,7 +131,7 @@ test('Valid diatnce as float', (t) => {
 
     target.parseData(12, 'meter', 15.75, '12:21:43')
         .then((actual) => {
-            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
+            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
         });
 });
 
@@ -148,7 +148,7 @@ test('Valid distance as integer as string', (t) => {
 
     target.parseData(12, 'meter', '15', '12:21:43')
             .then((actual) => {
-            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
+            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
         });
 });
 
@@ -165,6 +165,6 @@ test('Valid distance as float as string', (t) => {
 
     target.parseData(12, 'meter', '15.75', '12:21:43')
         .then((actual) => {
-            t.equal(true, helper.areObjectsEqual(expected, actual, fields));
+            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
         });
 });
