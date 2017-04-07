@@ -1,8 +1,7 @@
 const test = require('tape');
 const target = require('../../../src/validation/lap.js');
-const helper = require('../../testHelpers');
+const helper = require('../../helpers/tools.js');
 
-const fields = ['id', 'time', 'distance', 'unit'];
 const expectedBad = 'bad';
 
 test('Valid time data in request', (t) => {
@@ -21,7 +20,7 @@ test('Valid time data in request', (t) => {
 
     target.parseRequest(req)
         .then((actual) => {
-            t.equal(true, helper.areObjectsEqual(actual, expected, fields));
+            t.equal(true, helper.areObjectsEqual(actual, expected));
         });
 });
 

@@ -1,8 +1,7 @@
 const test = require('tape');
 const target = require('../../../src/validation/lap.js');
-const helper = require('../../testHelpers');
+const helper = require('../../helpers/tools.js');
 
-const fields = ['id', 'time', 'distance', 'unit'];
 const expectedBad = 'bad';
 
 test('Valid distance data in request', (t) => {
@@ -21,7 +20,7 @@ test('Valid distance data in request', (t) => {
 
     target.parseRequest(req)
         .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
+            t.equal(helper.areObjectsEqual(actual, expected), true);
         });
 });
 
@@ -114,7 +113,7 @@ test('Valid distance as interger', (t) => {
 
     target.parseData(12, 'meter', 15, '12:21:43')
         .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
+            t.equal(helper.areObjectsEqual(actual, expected), true);
         });
 });
 
@@ -131,7 +130,7 @@ test('Valid diatnce as float', (t) => {
 
     target.parseData(12, 'meter', 15.75, '12:21:43')
         .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
+            t.equal(helper.areObjectsEqual(actual, expected), true);
         });
 });
 
@@ -148,7 +147,7 @@ test('Valid distance as integer as string', (t) => {
 
     target.parseData(12, 'meter', '15', '12:21:43')
             .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
+            t.equal(helper.areObjectsEqual(actual, expected), true);
         });
 });
 
@@ -165,6 +164,6 @@ test('Valid distance as float as string', (t) => {
 
     target.parseData(12, 'meter', '15.75', '12:21:43')
         .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected, fields), true);
+            t.equal(helper.areObjectsEqual(actual, expected), true);
         });
 });

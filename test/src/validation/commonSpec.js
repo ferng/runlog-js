@@ -1,7 +1,6 @@
 const test = require('tape');
 const target = require('../../../src/validation/common.js');
 
-
 test('Valid float expressions', (t) => {
     t.plan(8);
     t.equal(target.isFloatExpr(0), true);

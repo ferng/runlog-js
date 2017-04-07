@@ -3,8 +3,6 @@ const router = new express.Router();
 let log = require('../utils/logger.js').getLogger();
 const db = require('../utils/dbConnection.js');
 
-const selectFields = ['desc'];
-
 module.exports = router;
 
 router.use((req, res, next) => {
@@ -17,7 +15,7 @@ router.get('/selectOpts/*', (req, res) => {
     let selectOptions = {};
 
     Promise.all(optionsTypes.map((optionType) => {
-        return db.get('select_' + optionType, selectFields)
+        return db.get('select_' + optionType)
             .then((data) => selectOptions[optionType] = data);
     }))
     .then(() => {

@@ -23,9 +23,9 @@
   "scripts": {
     "start": "node server.js | bunyan",
     "start-plain": "node server.js",
-    "test-front": "babel-tape-runner test/public/**/*js | faucet",
-    "test-back": "babel-tape-runner test/src/**/*js | faucet",
-    "test": "npm run test-front & npm run test-back",
+    "test-front": "babel-tape-runner -r test/helpers/prepTestJsdom.js test/public/**/*js",
+    "test-back": "babel-tape-runner test/src/**/*js",
+    "test": "npm run test-front | faucet & npm run test-back | faucet ",
     "webpack": "webpack",
     "web-dev": "webpack-dev-server"
   },
@@ -35,6 +35,7 @@
     "bunyan": "1.8.4",
     "express": "4.4.5",
     "mongodb": "2.2.22",
+    "prop-types": "^15.5.6",
     "react": "15.4.2",
     "react-dom": "15.4.2"
   },
@@ -51,7 +52,9 @@
     "eslint-config-google": "^0.7.1",
     "eslint-plugin-react": "6.10.3",
     "faucet": "0.0.1",
+    "jsdom": "9.12.0",
     "react-addons-test-utils": "15.4.2",
+    "sinon": "2.1.0",
     "tape": "4.6.3",
     "webpack": "^1.13.2",
     "webpack-dev-server": "^1.16.2"

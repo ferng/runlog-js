@@ -1,45 +1,22 @@
 import React from 'react';
 import test from 'tape';
 import {shallow} from 'enzyme';
-import SelectOpts from '../../public/selectOptions';
+import SelectOpts from '../../public/selectOptions.jsx';
 
 
-test('SelectOpts returns a select with dropdown options from data given to it', (t) => {
-    const optionData = ['onions', 'carrots', 'cucumber', 'lettuce', 'tomato'];
-    const expected = '<select><option value="onions">onions</option><option value="carrots">carrots</option>' +
-        '<option value="cucumber">cucumber</option><option value="lettuce">lettuce</option>' +
-        '<option value="tomato">tomato</option></select>';
-    const wrapper = shallow(<SelectOpts options={optionData} />);
+test('SelectOpts returns a select with dropdown options from data given to it or none if no data', (t) => {
+    const tests = [
+        {options: ['onions', 'carrots', 'cucumber', 'lettuce', 'tomato'], expected: 5},
+        {options: [], expected: 0},
+        {options: '', expected: 0},
+    ];
 
-    t.plan(1);
-    t.equal(wrapper.html(), expected);
-});
-
-
-test('SelectOpts returns empty select for empty option list', (t) => {
-    const expected = '<select></select>';
-    const wrapper = shallow(<SelectOpts selectOpts={[]} />);
-
-    t.plan(1);
-    t.equal(wrapper.html(), expected);
-});
-
-
-test('SelectOpts returns empty select for missing option list', (t) => {
-    const expected = '<select></select>';
-    const wrapper = shallow(<SelectOpts selectOpts='' />);
-
-    t.plan(1);
-    t.equal(wrapper.html(), expected);
-});
-
-
-test('SelectOpts returns empty select for missing option parameter', (t) => {
-    const expected = '<select></select>';
-    const wrapper = shallow(<SelectOpts />);
-
-    t.plan(1);
-    t.equal(wrapper.html(), expected);
+    t.plan(tests.length * 2);
+    for (let test of tests.values()) {
+        const wrapper = shallow(<SelectOpts options={test.options} />);
+        t.equal(wrapper.is('select'), true);
+        t.equal(wrapper.children().length, test.expected);
+    }
 });
 
 

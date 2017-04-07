@@ -3,7 +3,7 @@ const get = (endpoint) => {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', endpoint);
         let msg;
-        xhr.onload = function() {
+        xhr.onload = () => {
             if (xhr.status === 200) {
                 msg = JSON.parse(xhr.responseText);
                 resolve(msg);
@@ -21,7 +21,7 @@ const post = (endpoint, body) => {
         let xhr = new XMLHttpRequest();
         xhr.open('POST', endpoint);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
+        xhr.onload = () => {
             if (xhr.status === 201) {
                 resolve();
             } else {

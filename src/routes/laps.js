@@ -25,8 +25,8 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     lapVal.parseRequest(req)
-        .then((results) => {
-            db.insertOne('laps', results);
+        .then((lapData) => {
+            db.insertOne('laps', lapData);
             res.status(201).send('');
         })
         .catch((err) => {
