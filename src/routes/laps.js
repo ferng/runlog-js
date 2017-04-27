@@ -1,16 +1,38 @@
+/**
+ * Express router to deal with incoming lap REST requests.
+ * @module routes/laps
+ * @private
+ */
+
 const express = require('express');
-const router = new express.Router();
 let log = require('../utils/logger.js').getLogger();
 const db = require('../utils/dbConnection.js');
 const lapVal = require('../validation/lap.js');
 
-module.exports = router;
 
+/**
+ * Express router to mount lap related functions on.
+ * @type {object}
+ * @const
+ * @namespace lapsExpressRoutes
+ */
+const router = new express.Router();
 router.use((req, res, next) => {
     next();
 });
 
 
+/**
+ * GET: Route returning existing Laps from database.
+ * @name GET/api/laps
+ * @function
+ * @memberof module:routes/laps~lapsExpressRoutes
+ * @inner
+ * @param {Request} req - Express request
+ * @param {Result} res - Express response.
+ * @return {HTTP_body} the result of the query as a json payload containing all laps (even if there are none).
+ * @return {HTTP_response} HTTP-200 if OK, HTTP-500 if anything went wrong.
+ */
 router.get('/', (req, res) => {
     db.get('laps')
         .then((data) => {
@@ -23,6 +45,16 @@ router.get('/', (req, res) => {
 });
 
 
+/**
+ * POST: Route to write a new inbound lap to the database.
+ * @name POST/api/laps
+ * @function
+ * @memberof module:routes/laps~lapsExpressRoutes
+ * @inner
+ * @param {Request} req - Express request
+ * @param {Result} res - Express response.
+ * @return {HTTP_response} HTTP-201 if OK, HTTP-500 if anything went wrong.
+ */
 router.post('/', (req, res) => {
     lapVal.parseRequest(req)
         .then((lapData) => {
@@ -34,3 +66,6 @@ router.post('/', (req, res) => {
             res.status(500).send('');
         });
 });
+
+
+module.exports = router;

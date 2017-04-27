@@ -1,3 +1,16 @@
+/**
+ * Provides common ajax services based on REST actions.
+ * @module public/ajaxSvcs
+ */
+
+
+/**
+ * Encapsulates an HTTP-GET within a promise
+ * @param {String} endpoint - Where are we getting the data from
+ * @return {Promise}
+ * resolve returns retrieved data.<br>
+ * reject on connectivity or issues with the server at the endpoint.
+ */
 const get = (endpoint) => {
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
@@ -16,6 +29,13 @@ const get = (endpoint) => {
 };
 
 
+/**
+ * Encapsulates an HTTP-POST within a promise
+ * @param {String} endpoint - Where are we getting the data from
+ * @param {JsonObject} body - The data we are sending to the server to save
+ * @return {Promise}
+ * reject on connectivity or issues with the server at the endpoint.
+ */
 const post = (endpoint, body) => {
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();

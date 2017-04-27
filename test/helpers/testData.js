@@ -82,6 +82,7 @@ const splitRowData = [
     },
 ];
 
+
 const getRefData = () => {
     return {
         'unit': [
@@ -117,6 +118,7 @@ function getDistanceMults() {
 
     return expected;
 }
+
 
 const getNewLap = (timeVal, distVal, unitVal) => {
     return {
@@ -172,6 +174,7 @@ function getRandomString(len, asciiStart, rangeLen) {
 
     return rndStr;
 }
+
 
 export {
     splitRowData,

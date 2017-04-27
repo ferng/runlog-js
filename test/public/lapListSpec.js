@@ -4,6 +4,7 @@ import {shallow, mount} from 'enzyme';
 import {LapList} from '../../public/lapList.jsx';
 import {getRandomLap, getRefData} from '../helpers/testData.js';
 
+
 test('LapList with one lap returns a row div with a single lap', (t) => {
     const context = {refData: getRefData()};
     const data = [];

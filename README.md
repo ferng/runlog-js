@@ -8,6 +8,6 @@ The application uses mongodb to store data, without it an error will be logged a
 Please refer to the [wiki] (https://github.com/ferng/runlog-js/wiki) for documentation
 
 ## Bugs, changes
-Go ahead and raise an issue in the [issues log] (https://github.com/ferng/runlog-js/issues) if something is broken or you feel something should be changes, added or removed
+Go ahead and raise an issue in the [issues log] (https://github.com/ferng/runlog-js/issues) if something is broken or you feel something should be changed, added or removed
 
 ## Change history

@@ -3,6 +3,7 @@ import {areObjectsEqual, areMapsEqual, areArraysEqual} from '../helpers/tools.js
 import {prepDistanceMultiplier, getKeys, prepSelectOpts, calcTimes, splitRows} from '../../public/lapSvcs.jsx';
 import {getRefData, getDistanceMults, getUnits, splitRowData} from '../helpers/testData.js';
 
+
 test('PrepDistanceMultiplier returns a map of units from the loaded referenceData', (t) => {
     const refData = getRefData();
     const multiplierMap = prepDistanceMultiplier(refData);

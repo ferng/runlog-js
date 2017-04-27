@@ -1,20 +1,22 @@
+/**
+ * Db connection and query utilities. Database connectivity details are specified in config.js.
+ * @module utils/dbConnection
+ */
+
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../../config.js');
 const log = require('../../src/utils/logger.js').getLogger();
 
 let conn = undefined;
-
 const url = 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + config.mongo.database;
 
-module.exports = {
-    initPool: intiPool,
-    insertOne: insertOne,
-    get: get,
-};
 
-
-// initialise connection pool
-function intiPool() {
+/**
+ * Initialises the database connection pool. Should only be called once, possibly from server.js
+ * @return {Promise}
+ * reject when errors occured stablishing connection.
+ */
+function initPool() {
     return new Promise((resolve, reject) => {
         log.debug('Attempting connection to mongodb on: ' + url);
         MongoClient.connect(url, (err, db) => {
@@ -31,7 +33,14 @@ function intiPool() {
 };
 
 
-// get some or all fields from all documents in a collection
+/**
+ * Runs a query on collection retrieving specified fields from all documents.
+ * @param {String} collectionName
+ * @param {String[]} [fields = all fields] - Retrieve only specified fields
+ * @return {Promise}
+ * resolve returns retrieved documents.<br>
+ * reject on Db connection errors.
+ */
 function get(collectionName, fields) {
     return new Promise((resolve, reject) => {
         let collection = conn.collection(collectionName);
@@ -49,7 +58,13 @@ function get(collectionName, fields) {
 };
 
 
-// insert a new document into a collection
+/**
+ * Inserts a document into a collection.
+ * @param {String} collectionName
+ * @param {Object} document - Document to be added to collection
+ * @return {Promise}
+ * reject document not inserted due to Db connection errors.
+ */
 function insertOne(collectionName, document) {
     return new Promise((resolve, reject) => {
         let collection = conn.collection(collectionName);
@@ -66,7 +81,12 @@ function insertOne(collectionName, document) {
 };
 
 
-// helpers
+/**
+ * Prevents _id field from being returned by a query.
+ * @private
+ * @param {String[]} fields to be returned
+ * @return {Object} listing which fields to return / avoid.
+ */
 function parseProjection(fields) {
     let projection = {};
     projection['_id'] = 0;
@@ -77,3 +97,10 @@ function parseProjection(fields) {
     }
     return projection;
 }
+
+
+module.exports = {
+    initPool: initPool,
+    insertOne: insertOne,
+    get: get,
+};
