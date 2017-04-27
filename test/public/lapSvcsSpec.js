@@ -3,7 +3,8 @@ import {areObjectsEqual, areMapsEqual, areArraysEqual} from '../helpers/tools.js
 import {prepDistanceMultiplier, getKeys, prepSelectOpts, calcTimes, splitRows} from '../../public/lapSvcs.jsx';
 import {getRefData, getDistanceMults, getUnits, splitRowData} from '../helpers/testData.js';
 
-test('PrepDistanceMultiplier returns a map of units from the loaded referenceData', (t) => {
+
+test('prepDistanceMultiplier returns a map of units from the loaded referenceData', (t) => {
     const refData = getRefData();
     const multiplierMap = prepDistanceMultiplier(refData);
     t.plan(1);
@@ -11,7 +12,7 @@ test('PrepDistanceMultiplier returns a map of units from the loaded referenceDat
 });
 
 
-test('GetKeys returns an array with all the keys from a map', (t) => {
+test('getKeys returns an array with all the keys from a map', (t) => {
     const refData = getRefData();
     const unitMapKeys = prepDistanceMultiplier(refData);
     t.plan(1);
@@ -19,7 +20,7 @@ test('GetKeys returns an array with all the keys from a map', (t) => {
 });
 
 
-test('PrepSelectOpts returns the unit names from loaded referenceData', (t) => {
+test('prepSelectOpts returns the unit names from loaded referenceData', (t) => {
     const refData = getRefData();
     const unitDataKeys = prepSelectOpts(refData);
     t.plan(1);
@@ -27,7 +28,7 @@ test('PrepSelectOpts returns the unit names from loaded referenceData', (t) => {
 });
 
 
-test('CalcTimes calculates mph and min per mile', (t) => {
+test('calcTimes calculates mph and min per mile', (t) => {
     const tests = [
         {mult: getDistanceMults().get('metre'), dist: 1500, time: '00:05:00', returned: {mph: 11.18, mins: '5:22'}, expected: true},
         {mult: getDistanceMults().get('yard'), dist: 1200, time: '00:05:00', returned: {mph: 8.18, mins: '7:20'}, expected: true},
@@ -37,7 +38,6 @@ test('CalcTimes calculates mph and min per mile', (t) => {
         {mult: getDistanceMults().get('mile'), dist: 0, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
     ];
 
-
     t.plan(tests.length);
     for (let test of tests.values()) {
         t.equal(areObjectsEqual(calcTimes(test.mult, test.dist, test.time), test.returned), test.expected);
@@ -45,7 +45,7 @@ test('CalcTimes calculates mph and min per mile', (t) => {
 });
 
 
-test('SplitRows laps into rows of three and any remainder', (t) => {
+test('splitRows splits an array of laps into rows of three and any remainder', (t) => {
     const tests = splitRowData;
 
     t.plan(29);

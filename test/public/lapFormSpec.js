@@ -47,7 +47,7 @@ test('LapForm is well formed', (t) => {
 });
 
 
-test('OnLapSubmit returns the lap context state set by front end', (t) => {
+test('onLapSubmit returns the lap context state set by front end', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
     const wrapper = mount(<LapForm onLapSubmit={onLapSubmit} />, {context});
@@ -71,7 +71,7 @@ test('OnLapSubmit returns the lap context state set by front end', (t) => {
 });
 
 
-test('Submit resets lap context state', (t) => {
+test('onLapSubmit resets lap context state', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
     const wrapper = mount(<LapForm onLapSubmit={onLapSubmit} />, {context});
@@ -92,7 +92,7 @@ test('Submit resets lap context state', (t) => {
 });
 
 
-test('Submit returns early without reseting state or submitting if time is missing from lap data', (t) => {
+test('onLapSubmit returns early without reseting state or submitting if time is missing from lap data', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
     const wrapper = mount(<LapForm onLapSubmit={onLapSubmit} />, {context});
@@ -126,7 +126,7 @@ test('Submit returns early without reseting state or submitting if time is missi
 });
 
 
-test('Submit returns early without reseting state or submitting if distance is missing from lap data', (t) => {
+test('onLapSubmit returns early without reseting state or submitting if distance is missing from lap data', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
     const wrapper = mount(<LapForm onLapSubmit={onLapSubmit} />, {context});
@@ -160,7 +160,7 @@ test('Submit returns early without reseting state or submitting if distance is m
 });
 
 
-test('Submit returns early without reseting state or subimtting if unit is missing from lap data', (t) => {
+test('onLapSubmit returns early without reseting state or subimtting if unit is missing from lap data', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
     const wrapper = mount(<LapForm onLapSubmit={onLapSubmit} />, {context});

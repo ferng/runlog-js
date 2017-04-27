@@ -4,6 +4,7 @@ const helper = require('../../helpers/tools.js');
 
 const expectedBad = 'bad';
 
+
 test('Valid distance data in request', (t) => {
     let expected = {
         id: 12,
@@ -46,124 +47,52 @@ test('Invalid distance data in request', (t) => {
 });
 
 
-test('Invalid distance data', (t) => {
-    t.plan(10);
+test('Valid distance data', (t) => {
+    const tests = [
+        {distance: 15},
+        {distance: 15.75},
+        {distance: '15'},
+        {distance: '15.75'},
+    ];
 
-    target.parseData(12, 'meter', undefined, '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
+    t.plan(tests.length);
 
-    target.parseData(12, 'meter', NaN, '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
+    for (let test of tests.values()) {
+        let expected = {
+            id: 12,
+            time: '12:21:43',
+            distance: test.distance,
+            unit: 'meter',
+        };
 
-    target.parseData(12, 'meter', '', '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', ' ', '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', null, '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', 0, '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', -1, '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', '2.9.2', '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', '2.9.x', '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', '2.x', '12:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-});
-
-
-test('Valid distance as interger', (t) => {
-    let expected = {
-        id: 12,
-        time: '12:21:43',
-        distance: 15,
-        unit: 'meter',
-    };
-
-    t.plan(1);
-
-    target.parseData(12, 'meter', 15, '12:21:43')
-        .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected), true);
-        });
-});
-
-
-test('Valid diatnce as float', (t) => {
-    let expected = {
-        id: 12,
-        time: '12:21:43',
-        distance: 15.75,
-        unit: 'meter',
-    };
-
-    t.plan(1);
-
-    target.parseData(12, 'meter', 15.75, '12:21:43')
-        .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected), true);
-        });
-});
-
-
-test('Valid distance as integer as string', (t) => {
-    let expected = {
-        id: 12,
-        time: '12:21:43',
-        distance: '15',
-        unit: 'meter',
-    };
-
-    t.plan(1);
-
-    target.parseData(12, 'meter', '15', '12:21:43')
+        target.parseData(12, 'meter', test.distance, '12:21:43')
             .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected), true);
-        });
+                t.equal(helper.areObjectsEqual(actual, expected), true);
+            });
+    };
 });
 
 
-test('Valid distance as float as string', (t) => {
-    let expected = {
-        id: 12,
-        time: '12:21:43',
-        distance: '15.75',
-        unit: 'meter',
+test('Invalid distance data', (t) => {
+    const tests = [
+        {distance: undefined},
+        {distance: NaN},
+        {distance: ''},
+        {distance: ' '},
+        {distance: null},
+        {distance: 0},
+        {distance: -1},
+        {distance: '2.9.2'},
+        {distance: '2.9.x'},
+        {distance: '2.x'},
+    ];
+
+    t.plan(tests.length);
+
+    for (let test of tests.values()) {
+        target.parseData(12, 'meter', test.distance, '12:42:23')
+            .catch((actual) => {
+                t.equal(actual, expectedBad);
+            });
     };
-
-    t.plan(1);
-
-    target.parseData(12, 'meter', '15.75', '12:21:43')
-        .then((actual) => {
-            t.equal(helper.areObjectsEqual(actual, expected), true);
-        });
 });
