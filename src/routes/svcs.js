@@ -1,6 +1,6 @@
 /**
  * Express router to deal with incoming service REST requests.
- * @module routes/svcs
+ * @module src/routes/svcs
  * @private
  */
 

@@ -1,6 +1,6 @@
 /**
  * Db connection and query utilities. Database connectivity details are specified in config.js.
- * @module utils/dbConnection
+ * @module src/utils/dbConnection
  */
 
 const MongoClient = require('mongodb').MongoClient;
@@ -12,7 +12,7 @@ const url = 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + c
 
 
 /**
- * Initialises the database connection pool. Should only be called once, possibly from server.js
+ * Initialises the database connection pool. Should only be called once, possibly from server.js.
  * @return {Promise}
  * reject when errors occured stablishing connection.
  */

@@ -9,7 +9,7 @@ const optionTypes = ['unit', 'activity', 'kit', 'weather', 'temperature', 'effor
 
 
 /**
- * Retrieves application wide reference data from the backend server
+ * Retrieves application wide reference data from the backend server.
  * @return {Promise}
  * resolve returns retrieved data.<br>
  * reject on connectivity or issues with the server at the endpoint.
@@ -28,7 +28,7 @@ const getRefData = () => {
 
 
 /**
- * Retrieves lap data from the backend server
+ * Retrieves lap data from the backend server.
  * @return {Promise}
  * resolve returns retrieved data.<br>
  * reject on connectivity or issues with the server at the endpoint.
@@ -47,7 +47,7 @@ const getLaps = () => {
 
 
 /**
- * Uses an ajax call to send a new lap to the backend server for storage
+ * Uses an ajax call to send a new lap to the backend server for storage.
  * @param {JsonObject} body - The data we are sending to the server to save
  * @return {Promise}
  * reject on connectivity or issues with the server at the endpoint.
@@ -67,7 +67,7 @@ const postNewLap = (body) => {
 
 
 /**
- * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles
+ * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles.
  * @param {Object} optionRefData - Distance reference data
  * @return {String[]} An array containing the name of the distance units.
  */
@@ -77,7 +77,7 @@ const prepSelectOpts = (optionRefData) =>{
 
 
 /**
- * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles
+ * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles.
  * @param {Map} unitMultipliers - A map containing unit Names and corresponding multipliers
  * @return {String[]} An array containing the name of the distance units.
  */
@@ -93,7 +93,7 @@ const getKeys = (unitMultipliers) => {
 
 
 /**
- * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles
+ * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles.
  * @param {Object} optionRefData - Distance reference data
  * @return {Map} A map containing unit Names and corresponding multipliers (if any are present).
  */
@@ -109,7 +109,7 @@ const prepDistanceMultiplier = (optionRefData) => {
 
 
 /**
- * Works out miles per hour and minutes per mile for a given distance/time using the appropriate distance conversion unit
+ * Works out miles per hour and minutes per mile for a given distance/time using the appropriate distance conversion unit.
  * @param {String|Float} unitMult - Multiplier to convert to Miles
  * @param {String|Float} distance - Distance convered in the lap
  * @param {String} time - Time taken to cover the lap
@@ -134,7 +134,7 @@ const calcTimes = (unitMult, distance, time) => {
 
 
 /**
- * Rendering utility for React which splits the total number of laps into something we can use on screen
+ * Rendering utility for React which splits the total number of laps into something we can use on screen.
  * @param {Laps[]} lapData - An array with all the laps
  * @return {Rows[]} An array containing of rows each one containing an array of three laps each.
  */

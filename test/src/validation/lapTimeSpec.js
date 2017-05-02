@@ -48,46 +48,23 @@ test('Invalid time data in request', (t) => {
 
 
 test('Invalid time data', (t) => {
-    t.plan(8);
+    const tests = [
+        {time: undefined},
+        {time: NaN},
+        {time: null},
+        {time: ''},
+        {time: ' '},
+        {time: '24:423'},
+        {time: '12:60:23'},
+        {time: '12:42:60'},
+    ];
 
-    target.parseData(12, 'meter', 15.23, undefined)
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
+    t.plan(tests.length);
 
-    target.parseData(12, 'meter', 15.23, NaN)
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', 15.23, null)
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', 15.23, '')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', 15.23, ' ')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', 15.23, '24:42:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', 15.23, '12:60:23')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
-
-    target.parseData(12, 'meter', 15.23, '12:42:60')
-        .catch((actual) => {
-            t.equal(actual, expectedBad);
-        });
+    for (let test of tests.values()) {
+        target.parseData(12, 'meter', 15.23, test.time)
+            .catch((actual) => {
+                t.equal(actual, expectedBad);
+            });
+    };
 });
-

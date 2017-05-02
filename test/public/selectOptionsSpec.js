@@ -4,7 +4,7 @@ import {shallow} from 'enzyme';
 import SelectOpts from '../../public/selectOptions.jsx';
 
 
-test('SelectOpts returns a select with dropdown options from data given to it or none if no data', (t) => {
+test('LelectOpts returns a select with dropdown options from data given to it or none if no data', (t) => {
     const tests = [
         {options: ['onions', 'carrots', 'cucumber', 'lettuce', 'tomato'], expected: 5},
         {options: [], expected: 0},

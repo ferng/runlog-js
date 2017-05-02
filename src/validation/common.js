@@ -1,6 +1,6 @@
 /**
  * General validation utilities.
- * @module validation/common
+ * @module src/validation/common
  */
 
 /**

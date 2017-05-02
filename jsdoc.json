@@ -10,7 +10,8 @@
         "include": [
             "./public",
             "./src",
-            "./test"
+            "./test",
+            "./README.md"
         ],
         "exclude": [ /* array of paths to exclude */],
         "includePattern": ".+\\.js(doc|x)?$",

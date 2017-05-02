@@ -1,6 +1,6 @@
 /**
  * Validates whether a lap looks like a lap or whether it's full of junk.
- * @module validation/lap
+ * @module src/validation/lap
  */
 
 const common = require('./common.js');

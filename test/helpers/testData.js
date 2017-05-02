@@ -1,3 +1,11 @@
+/**
+ * Generates test data for unit tests. Mostly for specific tests but there are a few functions that generate generic data useful when not testing edge cases.
+ * @module test/helpers/testData
+ */
+
+import {getRandomTime, getRandomNumberInclusive} from './randomGenerator.js';
+
+
 const splitRowData = [
     {
         data:
@@ -83,6 +91,10 @@ const splitRowData = [
 ];
 
 
+/**
+ * Retrieves reference data as would have been loaded from the DB in a running system.
+ * @return {JsonObject} object containing pseudo-loaded reference data.
+ */
 const getRefData = () => {
     return {
         'unit': [
@@ -100,6 +112,10 @@ const getRefData = () => {
 };
 
 
+/**
+ * Retrieves units generated from reference data and present in the context.
+ * @return {JsonObject} object containing units.
+ */
 function getUnits() {
     return ['metre',
         'yard',
@@ -109,6 +125,10 @@ function getUnits() {
 }
 
 
+/**
+ * Retrieves distance multipliers generated from reference data and present in the context.
+ * @return {JsonObject} object containing distance multipliers.
+ */
 function getDistanceMults() {
     const expected = new Map();
     expected.set('metre', 0.000621371);
@@ -120,59 +140,49 @@ function getDistanceMults() {
 }
 
 
-const getNewLap = (timeVal, distVal, unitVal) => {
+/**
+ * Creates a new lap with the given parameters.
+ * @param {String} time - lap time
+ * @param {String} dist - lap distance
+ * @param {String} unit - distance measurement unit
+ * @return {JsonObject} object containing the lap.
+ */
+const getNewLap = (time, dist, unit) => {
     return {
         id: getRandomNumberInclusive(1, 10000),
-        time: timeVal,
-        distance: distVal,
-        unit: unitVal,
+        time: time,
+        distance: dist,
+        unit: unit,
     };
 };
 
 
+/**
+ * Creates a new lap with random data.
+ * @return {JsonObject} object containing the lap.
+ */
 const getRandomLap = () => {
     return getNewLap(getRandomTime(), getRandomDist(), getRandomUnit());
 };
 
 
-function getRandomTime() {
-    let hh = getRandomNumberInclusive(0, 23);
-    let mm = getRandomNumberInclusive(0, 59);
-    let ss = getRandomNumberInclusive(0, 59);
-
-    return (hh < 10 ? '0' + hh : hh) + ':' +
-        (mm < 10 ? '0' + mm : mm) + ':' +
-        (ss < 10 ? '0' + ss : ss);
-}
-
-
+/**
+ * Generate a random distance up to 27 miles - seems alright for a running log.
+ * @return {JsonObject} obect with the distance.
+ */
 function getRandomDist() {
     return getRandomNumberInclusive(0, 26) +
         (Math.round(Math.random() * 100) / 100);
 }
 
 
+/**
+ * Generate a random distance unit.
+ * @return {JsonObject} object contatining the distance lap.
+ */
 function getRandomUnit() {
     let unit = getUnits();
     return unit[getRandomNumberInclusive(0, unit.length - 1)];
-}
-
-
-function getRandomNumberInclusive(x, y) {
-    return Math.floor(Math.random() * (1 + y - x)) + x;
-}
-
-
-function getRandomString(len, asciiStart, rangeLen) {
-    let rndStr = '';
-    let offset;
-
-    for (let i = 0; i < len; i++) {
-        offset = (Math.random() * 100) % rangeLen;
-        rndStr += String.fromCharCode(asciiStart + offset);
-    }
-
-    return rndStr;
 }
 
 
@@ -181,11 +191,8 @@ export {
     getRefData,
     getNewLap,
     getRandomLap,
-    getRandomTime,
     getRandomDist,
     getRandomUnit,
     getUnits,
     getDistanceMults,
-    getRandomNumberInclusive,
-    getRandomString,
 };

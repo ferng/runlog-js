@@ -1,6 +1,6 @@
 /**
  * Express router to deal with incoming lap REST requests.
- * @module routes/laps
+ * @module src/routes/laps
  * @private
  */
 
