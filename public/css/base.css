@@ -3,7 +3,15 @@ body {
 }
 
 input[type='number'] {
-    width: 6rem;
+    width: 3.3rem;
+}
+
+input[type=number]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+}
+
+input[type=time]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
 }
 
 .left {
@@ -19,7 +27,6 @@ label {
     color: red;
     font-weight: normal;
     display: inline;
-    margin-right: 5%;
 }
 
 .data {
@@ -27,4 +34,10 @@ label {
     color: darkblue;
     font-weight: normal;
     display: inline;
+}
+
+.lapList {
+    height: 120px;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }

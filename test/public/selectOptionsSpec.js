@@ -1,7 +1,7 @@
 import React from 'react';
 import test from 'tape';
 import {shallow} from 'enzyme';
-import SelectOpts from '../../public/selectOptions.jsx';
+import SelectOpts from '../../public/SelectOpts.jsx';
 
 
 test('LelectOpts returns a select with dropdown options from data given to it or none if no data', (t) => {

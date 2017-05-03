@@ -2,7 +2,7 @@ import React from 'react';
 import test from 'tape';
 import sinon from 'sinon';
 import {shallow, mount} from 'enzyme';
-import {LapForm} from '../../public/lapForm.jsx';
+import {LapForm} from '../../public/LapForm.jsx';
 import {getRandomLap, getNewLap, getRefData} from '../helpers/testData.js';
 
 const testLap1 = getRandomLap();

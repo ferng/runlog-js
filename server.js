@@ -30,7 +30,7 @@ log.info('Server started: http://localhost:' + app.get('port') + '/');
 
 // handler
 function requestHandler(req, res, next) {
-    log.debug('Inbound request: ' + req.originalUrl);
+    log.debug('Inbound request: ', req.originalUrl);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'no-cache');
     next();

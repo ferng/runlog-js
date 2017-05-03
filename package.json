@@ -28,8 +28,9 @@
     "test": "npm run test-front | faucet & npm run test-back | faucet ",
     "webpack": "webpack",
     "web-dev": "webpack-dev-server",
-    "docs": "jsdoc -c jsdoc.json",
-    "docs-internal": "jsdoc -p -c jsdoc.json"
+    "docs": "npm run clean & jsdoc -c jsdoc.json",
+    "docs-internal": "npm run clean & jsdoc -p -c jsdoc.json",
+    "clean": "rm -r docs/*"
   },
   "dependencies": {
     "async": "2.1.4",

@@ -35,7 +35,15 @@ test('calcTimes calculates mph and min per mile', (t) => {
         {mult: getDistanceMults().get('km'), dist: 13, time: '01:00:00', returned: {mph: 8.08, mins: '7:26'}, expected: true},
         {mult: getDistanceMults().get('mile'), dist: 13, time: '01:32:00', returned: {mph: 8.48, mins: '7:05'}, expected: true},
         {mult: getDistanceMults().get('mile'), dist: 13, time: '00:32:00', returned: {mph: 8.48, mins: '7:05'}, expected: false},
+        {mult: getDistanceMults().get('mile'), dist: 1, time: '14:00:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+        {mult: 0, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+        {mult: undefined, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+        {mult: NaN, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+        {mult: 'crap', dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
         {mult: getDistanceMults().get('mile'), dist: 0, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+        {mult: getDistanceMults().get('mile'), dist: undefined, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+        {mult: getDistanceMults().get('mile'), dist: NaN, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+        {mult: getDistanceMults().get('mile'), dist: 'crap', time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
     ];
 
     t.plan(tests.length);

@@ -13,6 +13,7 @@ const db = require('../utils/dbConnection.js');
  * @type {object}
  * @const
  * @namespace svcsExpressRoutes
+ * @private
  */
 const router = new express.Router();
 router.use((req, res, next) => {
@@ -24,12 +25,13 @@ router.use((req, res, next) => {
  * GET: Route returning existing dropDown options from database.
  * @name GET/api/svcs/selectOpts
  * @function
- * @memberof module:routes/svcs~svcsExpressRoutes
+ * @memberof module:src/routes/svcs~svcsExpressRoutes
  * @inner
  * @param {Request} req - Express request
  * @param {Result} res - Express response.
  * @return {HTTP_body} the result of the query as a json payload containing all dropDown option values (even if there are none).
  * @return {HTTP_response} HTTP-200 if OK, HTTP-500 if anything went wrong.
+ * @private
  */
 router.get('/selectOpts/*', (req, res) => {
     let optionsTypes = req.params[0].split(',');

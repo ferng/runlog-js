@@ -66,12 +66,28 @@ const postNewLap = (body) => {
 };
 
 
+const lapArrayToMap = (lapData) => {
+    let laps = new Map;
+    lapData.map((lap) => {
+        laps.set(lap.id, lap);
+    });
+    return laps;
+};
+
+const lapMapToArray = (lapData) => {
+    let laps = [];
+    lapData.forEach((value, key, map) => {
+        laps.push(value);
+    });
+    return laps;
+};
+
 /**
  * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles.
  * @param {Object} optionRefData - Distance reference data
  * @return {String[]} An array containing the name of the distance units.
  */
-const prepSelectOpts = (optionRefData) =>{
+const prepSelectOpts = (optionRefData) => {
     return getKeys(prepDistanceMultiplier(optionRefData));
 };
 
@@ -120,14 +136,22 @@ const calcTimes = (unitMult, distance, time) => {
     let mm = Number.parseInt(time.substr(3, 2)) * 60;
     let ss = Number.parseInt(time.substr(6, 2));
     let miles = parseFloat(distance) * parseFloat(unitMult);
-    let mph = Math.round(((miles / (hh + mm + ss)) * 60 * 60) * 100) / 100;
 
+    let mph = 0;
     let mins = '00:00';
-    if (mph > 0) {
-        let minsPM = 60 / mph;
-        let secsPM = Math.round((((minsPM) - Number.parseInt(minsPM)) * 60));
-        secsPM = (secsPM < 10) ? '0' + secsPM : secsPM;
-        mins = Number.parseInt(minsPM) + ':' + secsPM;
+
+    if (miles === undefined || miles === NaN) {
+        console.warn('Please raise an issue at https://github.com/ferng/runlog-js/issues with these details: "MPH calculation failed:', unitMult, distance, time, '"');
+    }
+
+    if (miles > 0) {
+        mph = Math.round(((miles / (hh + mm + ss)) * 60 * 60) * 100) / 100;
+        if (mph > 0) {
+            let minsPM = 60 / mph;
+            let secsPM = Math.round((((minsPM) - Number.parseInt(minsPM)) * 60));
+            secsPM = (secsPM < 10) ? '0' + secsPM : secsPM;
+            mins = Number.parseInt(minsPM) + ':' + secsPM;
+        }
     }
     return {mph: mph, mins: mins};
 };
@@ -136,13 +160,16 @@ const calcTimes = (unitMult, distance, time) => {
 /**
  * Rendering utility for React which splits the total number of laps into something we can use on screen.
  * @param {Laps[]} lapData - An array with all the laps
+ * @param {Callback} editCallback - Callback when lap is clicked to edit
  * @return {Rows[]} An array containing of rows each one containing an array of three laps each.
  */
-const splitRows = (lapData) => {
+const splitRows = (lapData, editCallback) => {
     let rows = [];
     let thisRow = [];
     for (let i = 0; i < lapData.length; i++) {
-        thisRow.push(lapData[i]);
+        let lap = lapData[i];
+        lap[{'onLapEdit': editCallback}];
+        thisRow.push(lap);
         if ((i + 1) % 3 == 0) {
             rows.push(thisRow);
             thisRow = [];
@@ -157,11 +184,13 @@ const splitRows = (lapData) => {
 
 
 export {
-    getLaps,
     getRefData,
+    getLaps,
     postNewLap,
-    getKeys,
+    lapArrayToMap,
+    lapMapToArray,
     prepSelectOpts,
+    getKeys,
     prepDistanceMultiplier,
     calcTimes,
     splitRows,

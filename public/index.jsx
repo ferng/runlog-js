@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {LapList} from './lapList.jsx';
-import {LapForm} from './lapForm.jsx';
-import {getLaps, getRefData, postNewLap} from './lapSvcs.jsx';
+import {LapForm} from './LapForm.jsx';
+import {getLaps, getRefData, postNewLap, lapArrayToMap} from './lapSvcs.jsx';
 
 
 class TopLevel extends React.Component {
@@ -19,6 +19,7 @@ class TopLevel extends React.Component {
                 TopLevel.context.setState({refData: data});
             })
             .then(getLaps)
+            .then(lapArrayToMap)
             .then((data) => {
                 TopLevel.context.setState({data: data});
                 TopLevel.context.setState({dataLoaded: true});
@@ -32,21 +33,16 @@ class TopLevel extends React.Component {
 
     handleLapSubmit(lap) {
         let laps = TopLevel.context.state.data;
-        lap.id = Date.now();
-        let newLaps = laps.concat([lap]);
+        laps.set(lap.id, lap);
 
-        postNewLap(lap)
-            .then(() => {
-                TopLevel.context.setState({data: newLaps});
-            });
+        TopLevel.context.setState({data: laps});
     }
 
     render() {
         if (this.state.dataLoaded) {
             return (
                 <div className='topLevel'>
-                    <LapList data={this.state.data} />
-                    <LapForm onLapSubmit={this.handleLapSubmit} />
+                    <LapList data={this.state.data} onLapSubmit={this.handleLapSubmit} />
                 </div>
             );
         } else {

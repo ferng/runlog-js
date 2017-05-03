@@ -5,7 +5,7 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const config = require('../../config.js');
-const log = require('../../src/utils/logger.js').getLogger();
+const log = require('../utils/logger.js').getLogger();
 
 let conn = undefined;
 const url = 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + config.mongo.database;

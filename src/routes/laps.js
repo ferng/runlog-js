@@ -15,6 +15,7 @@ const lapVal = require('../validation/lap.js');
  * @type {object}
  * @const
  * @namespace lapsExpressRoutes
+ * @private
  */
 const router = new express.Router();
 router.use((req, res, next) => {
@@ -26,12 +27,13 @@ router.use((req, res, next) => {
  * GET: Route returning existing Laps from database.
  * @name GET/api/laps
  * @function
- * @memberof module:routes/laps~lapsExpressRoutes
+ * @memberof module:src/routes/laps~lapsExpressRoutes
  * @inner
  * @param {Request} req - Express request
  * @param {Result} res - Express response.
  * @return {HTTP_body} the result of the query as a json payload containing all laps (even if there are none).
  * @return {HTTP_response} HTTP-200 if OK, HTTP-500 if anything went wrong.
+ * @private
  */
 router.get('/', (req, res) => {
     db.get('laps')
@@ -49,11 +51,12 @@ router.get('/', (req, res) => {
  * POST: Route to write a new inbound lap to the database.
  * @name POST/api/laps
  * @function
- * @memberof module:routes/laps~lapsExpressRoutes
+ * @memberof module:src/routes/laps~lapsExpressRoutes
  * @inner
  * @param {Request} req - Express request
  * @param {Result} res - Express response.
  * @return {HTTP_response} HTTP-201 if OK, HTTP-500 if anything went wrong.
+ * @private
  */
 router.post('/', (req, res) => {
     lapVal.parseRequest(req)

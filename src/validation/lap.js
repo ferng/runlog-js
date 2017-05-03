@@ -4,6 +4,7 @@
  */
 
 const common = require('./common.js');
+const log = require('../utils/logger.js').getLogger();
 
 
 /**
@@ -32,6 +33,7 @@ function parseRequest(req) {
  * reject if the validation failed somehow.
  */
 function parseData(id, unit, distance, time) {
+    log.debug('Parsing lap id:[%s] unit:[%s] distance:[%s] time:[%s]', id, unit, distance, time);
     return new Promise((resolve, reject) => {
         if (isValid(id, unit, distance, time)) {
             let payload = {
