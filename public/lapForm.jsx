@@ -8,8 +8,7 @@ import {getLaps, getRefData, postNewLap} from './lapSvcs.jsx';
 class LapForm extends React.Component {
     constructor(props) {
         super(props);
-        console.log('====', props);
-        this.state = {time: '00:00:00', distance: 0, unit: '--'};
+        this.state = {id: props.id, time: props.time, distance: props.distance, unit: props.unit};
         LapForm.context = this;
     }
 
@@ -31,6 +30,7 @@ class LapForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        let id = LapForm.context.state.id > 0 ? LapForm.context.state.id : Date.now();
         let time = LapForm.context.state.time;
         let distance = LapForm.context.state.distance;
         let unit = LapForm.context.state.unit;
@@ -38,8 +38,8 @@ class LapForm extends React.Component {
             return;
         }
 
-        postNewLap({id: Date.now(), time: time, distance: distance, unit: unit});
-        LapForm.context.props.onLapSubmit({id: Date.now(), time: time, distance: distance, unit: unit});
+        postNewLap({id: id, time: time, distance: distance, unit: unit});
+        LapForm.context.props.onLapSubmit({id: id, time: time, distance: distance, unit: unit});
         LapForm.context.setState({time: '00:00:00', distance: 0, unit: '--'});
     }
 

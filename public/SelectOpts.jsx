@@ -21,7 +21,7 @@ const SelectOpts = (dropDownItems) => {
     };
 
     return (
-        <select onChange={(e) => dropDownItems.onChange(e)}>{reactOptions}</select>
+        <select onChange={(e) => dropDownItems.onChange(e)} value={dropDownItems['value']}>{reactOptions}</select>
     );
 };
 

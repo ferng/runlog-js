@@ -24,33 +24,28 @@ class LapList extends React.Component {
     }
 
     onLapEdit(id) {
-        console.log('data', LapList.context.props.data);
-        console.log('lap', LapList.context.state.lapToEdit);
-
-        let lapToEdit = LapList.context.props.data.get(LapList.context.state.lapToEdit);
-        if (lapToEdit !== undefined) {
-            lapToEdit['editLap'] = false;
-            LapList.context.props.data.set(LapList.context.state.lapToEdit, lapToEdit);
+        let prevLap = LapList.context.props.data.get(LapList.context.state.lapToEdit);
+        if (prevLap !== undefined) {
+            prevLap['editLap'] = false;
+            LapList.context.props.data.set(LapList.context.state.lapToEdit, prevLap);
         }
-        lapToEdit = LapList.context.props.data.get(id);
-        lapToEdit['editLap'] = true;
-        LapList.context.props.data.set(id, lapToEdit);
-
+        let lapToEdit = LapList.context.props.data.get(id);
+        if (lapToEdit !== undefined) {
+            lapToEdit['editLap'] = true;
+            LapList.context.props.data.set(id, lapToEdit);
+        }
         LapList.context.setState({lapToEdit: id});
-
-        // console.log(lapToEdit);
-        // LapList.context.forceUpdate(() => {
-        //     console.log('sa');
-        // });
     }
+
 
     render() {
         if (this.props.data.size > 0) {
             let laps = lapMapToArray(this.props.data);
-            let newLap = {id: '0', time: '00:00:00', distance: 0, unit: '--', editLap: false, onLapEdit: this.onLapEdit, onLapSubmit: this.onLapSubmit};
+            let editNewlap = LapList.context.state.lapToEdit === 0;
+            let newLap = {id: 0, time: '00:00:00', distance: 0, unit: '--', editLap: editNewlap, onLapEdit: this.onLapEdit, onLapSubmit: this.onLapSubmit};
             laps.push(newLap);
 
-            let splitData = splitRows(laps, this.onLapEdit);
+            let splitData = splitRows(laps, this.onLapEdit, this.onLapSubmit);
 
             let lapNodes = splitData.map((lapRow, index) => {
                 return (

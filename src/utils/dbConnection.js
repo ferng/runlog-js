@@ -58,6 +58,7 @@ function get(collectionName, fields) {
 };
 
 
+// run upsert based on the crietria (id)
 /**
  * Inserts a document into a collection.
  * @param {String} collectionName
@@ -68,7 +69,7 @@ function get(collectionName, fields) {
 function insertOne(collectionName, document) {
     return new Promise((resolve, reject) => {
         let collection = conn.collection(collectionName);
-        collection.insert(document, (err, result) => {
+        collection.update({id: document.id}, document, {upsert: true}, (err, result) => {
             if (err) {
                 log.error('Error connecting to mongodb: ', err);
                 reject(err);

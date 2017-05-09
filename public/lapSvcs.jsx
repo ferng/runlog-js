@@ -163,12 +163,13 @@ const calcTimes = (unitMult, distance, time) => {
  * @param {Callback} editCallback - Callback when lap is clicked to edit
  * @return {Rows[]} An array containing of rows each one containing an array of three laps each.
  */
-const splitRows = (lapData, editCallback) => {
+const splitRows = (lapData, editCallback, submitCallback) => {
     let rows = [];
     let thisRow = [];
     for (let i = 0; i < lapData.length; i++) {
         let lap = lapData[i];
         lap[{'onLapEdit': editCallback}];
+        lap[{'onLapSubmit': submitCallback}];
         thisRow.push(lap);
         if ((i + 1) % 3 == 0) {
             rows.push(thisRow);

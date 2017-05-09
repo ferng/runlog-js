@@ -25,10 +25,9 @@ class Lap extends React.Component {
         let mph = calcs['mph'];
         let mins = 'mins: ' + calcs['mins'];
 
-        // console.log(id, editLap);
         if (editLap) {
             return (
-                    <LapForm onLapSubmit={this.props.onLapSubmit}/>
+                    <LapForm id={id} onLapSubmit={Lap.context.props.onLapSubmit} time={time} distance={distance} unit={unit}/>
             );
         } else {
             return (
