@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SelectOpts from './SelectOpts.jsx';
-import {prepSelectOpts} from './lapSvcs.jsx';
-import {getLaps, getRefData, postNewLap} from './lapSvcs.jsx';
+import {prepSelectOpts, postNewLap} from './lapDataSvcs.jsx';
+import {createLap, createCleanLap} from './lapTools.jsx';
 
 
 class LapForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {id: props.id, time: props.time, distance: props.distance, unit: props.unit};
+        this.state = props.lap;
         LapForm.context = this;
     }
 
@@ -30,17 +30,18 @@ class LapForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        let id = LapForm.context.state.id > 0 ? LapForm.context.state.id : Date.now();
+        let id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();
         let time = LapForm.context.state.time;
-        let distance = LapForm.context.state.distance;
+        let distance = parseFloat(LapForm.context.state.distance);
         let unit = LapForm.context.state.unit;
-        if (!time || time == '00:00:00' || !distance || distance === 0 || !unit || unit === '--') {
+        if (!time || time == '00:00:00' || !distance || distance === 0 || distance === NaN || !unit || unit === '--') {
             return;
         }
 
-        postNewLap({id: id, time: time, distance: distance, unit: unit});
-        LapForm.context.props.onLapSubmit({id: id, time: time, distance: distance, unit: unit});
-        LapForm.context.setState({time: '00:00:00', distance: 0, unit: '--'});
+        let newLap = createLap(id, time, distance, unit);
+        postNewLap(newLap);
+        LapForm.context.props.onLapSubmit(newLap);
+        LapForm.context.setState(createCleanLap());
     }
 
     render() {
@@ -75,6 +76,7 @@ class LapForm extends React.Component {
                         <SelectOpts
                             id='newLapUnit'
                             value={this.state.unit}
+                            defaultValue={this.state.unit}
                             options={this.state.options}
                             onChange={this.handleUnitChange}
                         />

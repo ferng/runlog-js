@@ -1,6 +1,4 @@
 import React from 'react';
-import {Lap} from './Lap.jsx';
-
 
 class LapRow extends React.Component {
     constructor(props) {
@@ -8,16 +6,9 @@ class LapRow extends React.Component {
     }
 
     render() {
-        let lapData = this.props.data;
-        let lapNodes = lapData.map((lap) => {
-            return (
-                <Lap id={lap.id} unit={lap.unit} time={lap.time} key={lap.id} distance={lap.distance} editLap={lap.editLap} onLapSubmit={lap.onLapSubmit} onLapEdit={lap.onLapEdit}/>
-            );
-        });
-
         return (
             <div className='row'>
-                {lapNodes}
+                {this.props.data}
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import test from 'tape';
 import {areObjectsEqual, areMapsEqual, areArraysEqual} from '../helpers/tools.js';
-import {prepDistanceMultiplier, getKeys, prepSelectOpts, calcTimes, splitRows} from '../../public/lapSvcs.jsx';
+import {getKeys, calcTimes, lapsToReactRows} from '../../public/lapTools.jsx';
+import {prepDistanceMultiplier, prepSelectOpts} from '../../public/lapDataSvcs.jsx';
 import {getRefData, getDistanceMults, getUnits, splitRowData} from '../helpers/testData.js';
 
 
@@ -35,7 +36,7 @@ test('calcTimes calculates mph and min per mile', (t) => {
         {mult: getDistanceMults().get('km'), dist: 13, time: '01:00:00', returned: {mph: 8.08, mins: '7:26'}, expected: true},
         {mult: getDistanceMults().get('mile'), dist: 13, time: '01:32:00', returned: {mph: 8.48, mins: '7:05'}, expected: true},
         {mult: getDistanceMults().get('mile'), dist: 13, time: '00:32:00', returned: {mph: 8.48, mins: '7:05'}, expected: false},
-        {mult: getDistanceMults().get('mile'), dist: 1, time: '14:00:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+        {mult: getDistanceMults().get('mile'), dist: 1, time: '14:00:00', returned: {mph: 0.07, mins: '857:09'}, expected: true},
         {mult: 0, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
         {mult: undefined, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
         {mult: NaN, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
@@ -53,23 +54,28 @@ test('calcTimes calculates mph and min per mile', (t) => {
 });
 
 
-test('splitRows splits an array of laps into rows of three and any remainder', (t) => {
+test('lapsToReactRows splits an array of laps into rows of three and any remainder of React components ', (t) => {
     const tests = splitRowData;
 
     t.plan(29);
     for (let test of tests.values()) {
-        const laps = test.data;
+        const testLaps = test.data;
         const expected = test.expected;
-        const returnedRows = splitRows(laps);
+        const returnedRows = lapsToReactRows(testLaps);
         t.equal(returnedRows.length, expected.length);
+
         let curLap = 0;
         let curRow = 0;
         returnedRows.map((row) => {
-            t.equal(row.length, expected[curRow].length);
-            row.map((lap) => {
-                t.equal(areObjectsEqual(lap, laps[curLap]), true);
+            let rowData = row.props['data'];
+
+            t.equal(rowData.length, expected[curRow].length);
+
+            rowData.map((lap) => {
+                t.equal(areObjectsEqual(lap.props['lap'], testLaps[curLap]), true);
                 curLap++;
             });
+
             curRow++;
         });
     };

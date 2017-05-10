@@ -1,27 +1,34 @@
 /**
  * A React component which displays a drop down list.
- * @module public/selectOptions
+ * @module public/selectOpts
  */
 
 import React from 'react';
 
 
 /**
- * Gets an array of data to display in a drop down box.
- * @param {String[]} dropDownItems - An array of items to be displayed in the drop down
- * @return {Object} A React element that will be rendered on the browser.
+ * Creates a React dropdown element from the dropdown data provided by React properties.
+ * @param {Object} dropDown - Object with <options[]>, <onChange> callback function and <value>.
+ * @return {Object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
-const SelectOpts = (dropDownItems) => {
-    let options = dropDownItems['options'];
-    let reactOptions = [];
-    if (options !== undefined) {
-        for (let i = 0; i < options.length; i++) {
-            reactOptions.push(<option key={i} value={options[i]}>{options[i]}</option>);
-        }
-    };
+const SelectOpts = (dropDown) => {
+    let id = dropDown['id'];
+    let options = dropDown['options'];
+    let onChange = dropDown['onChange'];
+    let value = dropDown['value'];
+
+    if (!(options && options.constructor === Array &&
+        onChange && onChange.constructor === Function &&
+        value && value.constructor === String)) {
+        return null;
+    }
+
+    let reactOptions = options.map((option, index) => {
+        return <option key={index} value={option}>{option}</option>;
+    });
 
     return (
-        <select onChange={(e) => dropDownItems.onChange(e)} value={dropDownItems['value']}>{reactOptions}</select>
+        <select id={id} onChange={(e) => onChange(e)} value={value}>{reactOptions}</select>
     );
 };
 
