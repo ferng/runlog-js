@@ -10,7 +10,7 @@ test('LapList with one lap returns a row div with a single lap (plus one for ent
     const context = {refData: getRefData()};
     const lapData = getRandomLap();
     const laps = lapArrayToMap([lapData]);
-    const wrapper = mount(<LapList laps={laps} />, {context});
+    const wrapper = mount(<LapList laps={laps} />, {context: context});
     const row = wrapper.children();
 
     t.plan(11);
@@ -47,7 +47,7 @@ test('LapList with 4 laps (plus one for entry) returns 2 row divs, second one wi
         lapData.push(getRandomLap());
     }
     const laps = lapArrayToMap(lapData);
-    const wrapper = mount(<LapList laps={laps} />, {context});
+    const wrapper = mount(<LapList laps={laps} />, {context: context});
     const row = wrapper.children();
 
     t.plan(9);
@@ -69,6 +69,31 @@ test('LapList with 4 laps (plus one for entry) returns 2 row divs, second one wi
     const mins = lap.find('#dataMph').parent().prop('title');
     t.equal(mins.startsWith('mins: '), true);
     t.equal(parseInt(mins.substring(9, 11)) !== NaN, true);
+});
+
+
+test('LapList decides which lap is being edited by simply clicking on it', (t) => {
+    const context = {refData: getRefData()};
+    const lapData = getRandomLap();
+    const laps = lapArrayToMap([lapData]);
+    const wrapper = mount(<LapList laps={laps} />, {
+        context: context,
+        childContextTypes: {
+            multipliers: React.PropTypes.object,
+            refData: React.PropTypes.object,
+        },
+    });
+
+    const lapField = wrapper.find('.four.columns').first();
+
+    t.plan(2);
+
+    // initially the new 00 lap is set for editing
+    t.equal(wrapper.state('lapToEdit'), 0);
+
+    // we then select the 1st existing lap for editing
+    lapField.simulate('click');
+    t.equal(wrapper.state('lapToEdit'), lapData.id);
 });
 
 

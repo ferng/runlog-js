@@ -1,31 +1,65 @@
 import test from 'tape';
-import {areObjectsEqual, areMapsEqual, areArraysEqual} from '../helpers/tools.js';
-import {getKeys, calcTimes, lapsToReactRows} from '../../public/lapTools.jsx';
-import {prepDistanceMultiplier, prepSelectOpts} from '../../public/lapDataSvcs.jsx';
-import {getRefData, getDistanceMults, getUnits, splitRowData} from '../helpers/testData.js';
+import {areObjectsEqual} from '../helpers/tools.js';
+import {lapsToReactRows, createCleanLap, createLap, lapArrayToMap, calcTimes, getKeys, getValues} from '../../public/lapTools.jsx';
+import {getDistanceMults, splitRowData, getRandomLap} from '../helpers/testData.js';
 
 
-test('prepDistanceMultiplier returns a map of units from the loaded referenceData', (t) => {
-    const refData = getRefData();
-    const multiplierMap = prepDistanceMultiplier(refData);
-    t.plan(1);
-    t.equal(areMapsEqual(multiplierMap, getDistanceMults()), true);
+test('lapsToReactRows splits an array of laps into rows of three and any remainder of React components ', (t) => {
+    const tests = splitRowData;
+
+    t.plan(29);
+    for (let test of tests.values()) {
+        const testLaps = test.data;
+        const expected = test.expected;
+        const returnedRows = lapsToReactRows(testLaps);
+        t.equal(returnedRows.length, expected.length);
+
+        let curLap = 0;
+        let curRow = 0;
+        returnedRows.map((row) => {
+            let rowData = row.props['data'];
+            t.equal(rowData.length, expected[curRow].length);
+
+            rowData.map((lap) => {
+                t.equal(areObjectsEqual(lap.props['lap'], testLaps[curLap]), true);
+                curLap++;
+            });
+            curRow++;
+        });
+    };
 });
 
 
-test('getKeys returns an array with all the keys from a map', (t) => {
-    const refData = getRefData();
-    const unitMapKeys = prepDistanceMultiplier(refData);
+test('createCleanLap generates a lap ready for data entry', (t) => {
+    const cleanLap = createCleanLap();
+    const lap = {id: 0, time: '00:00:00', distance: 0, unit: '--'};
     t.plan(1);
-    t.equal(areArraysEqual(getKeys(unitMapKeys), getUnits()), true);
+    t.equal(areObjectsEqual(cleanLap, lap), true);
 });
 
 
-test('prepSelectOpts returns the unit names from loaded referenceData', (t) => {
-    const refData = getRefData();
-    const unitDataKeys = prepSelectOpts(refData);
+test('createLap generates a well lap with the data we give it', (t) => {
+    const lap = getRandomLap();
+    const createdLap = createLap(lap.id, lap.time, lap.distance, lap.unit);
     t.plan(1);
-    t.equal(areArraysEqual(unitDataKeys, getUnits()), true);
+    t.equal(areObjectsEqual(createdLap, lap), true);
+});
+
+
+test('lapArrayToMap returns a map produced from the laps in the given array, key is lap_id, value is the lap itself', (t) => {
+    const lap1 = getRandomLap();
+    const lap2 = getRandomLap();
+    const lap3 = getRandomLap();
+    const laps = [lap1, lap2, lap3];
+
+    const lapMap = lapArrayToMap(laps);
+    const ids = getKeys(lapMap);
+
+    t.plan(4);
+    t.equal(ids.length, laps.length);
+    ids.map((id, index) => {
+        t.equal(areObjectsEqual(lapMap.get(id), laps[index]), true);
+    });
 });
 
 
@@ -54,29 +88,20 @@ test('calcTimes calculates mph and min per mile', (t) => {
 });
 
 
-test('lapsToReactRows splits an array of laps into rows of three and any remainder of React components ', (t) => {
-    const tests = splitRowData;
+test('getKeys returns an array with all the keys from a map, getValues does the same but for the values in a map', (t) => {
+    const dataMap = new Map();
+    dataMap.set('a', 1);
+    dataMap.set('b', 17);
+    dataMap.set('f', 265);
+    dataMap.set('onions', 88);
 
-    t.plan(29);
-    for (let test of tests.values()) {
-        const testLaps = test.data;
-        const expected = test.expected;
-        const returnedRows = lapsToReactRows(testLaps);
-        t.equal(returnedRows.length, expected.length);
+    const keys = getKeys(dataMap);
+    const vals = getValues(dataMap);
 
-        let curLap = 0;
-        let curRow = 0;
-        returnedRows.map((row) => {
-            let rowData = row.props['data'];
-
-            t.equal(rowData.length, expected[curRow].length);
-
-            rowData.map((lap) => {
-                t.equal(areObjectsEqual(lap.props['lap'], testLaps[curLap]), true);
-                curLap++;
-            });
-
-            curRow++;
-        });
-    };
+    t.plan(6);
+    t.equal(keys.length, dataMap.size);
+    t.equal(vals.length, dataMap.size);
+    for (let i = 0; i < 4; i++) {
+        t.equal(dataMap.get(keys[i]), vals[i]);
+    }
 });

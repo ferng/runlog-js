@@ -30,7 +30,7 @@ class Lap extends React.Component {
                         </div>
                     </div>
                     <div className='three columns'>
-                        <label id='lapDistanceLabel' htmlFor='dataDist'>Distance:</label>
+                        <label id='lapDistLabel' htmlFor='dataDist'>Distance:</label>
                         <div className='data' id='dataDist'>
                             {lap.distance}
                         </div>

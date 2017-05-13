@@ -4,7 +4,6 @@
  */
 
 import {getRandomTime, getRandomNumberInclusive} from './randomGenerator.js';
-import {lapArrayToMap} from '../../public/lapTools.jsx';
 
 
 const splitRowData = [
@@ -167,15 +166,6 @@ const getRandomLap = () => {
 };
 
 
-const getNewLapAsMap = (time, dist, unit) => {
-    return lapArrayToMap([getNewLap(time, dist, unit)]);
-};
-
-const getRandomLapAsMap = () => {
-    return lapArrayToMap([getRandomLap()]);
-};
-
-
 /**
  * Generate a random distance up to 27 miles - seems alright for a running log.
  * @return {JsonObject} obect with the distance.
@@ -201,8 +191,6 @@ export {
     getRefData,
     getNewLap,
     getRandomLap,
-    getNewLapAsMap,
-    getRandomLapAsMap,
     getRandomDist,
     getRandomUnit,
     getUnits,
