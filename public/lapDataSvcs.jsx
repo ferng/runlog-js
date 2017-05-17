@@ -6,7 +6,7 @@
 import {get, post} from './ajaxSvcs.jsx';
 import {getKeys} from './lapTools.jsx';
 
-const optionTypes = ['unit', 'activity', 'kit', 'weather', 'temperature', 'effort'];
+const optionTypes = ['unit', 'activity', 'kit', 'weather', 'temp', 'effort'];
 
 
 /**
@@ -69,8 +69,8 @@ const postNewLap = (body) => {
 
 /**
  * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles.
- * @param {object} optionRefData - Distance reference data
- * @return {Object.<String, Float>} A map containing unit Names and {@link module:public/types~multipliers|corresponding multipliers} (if any are present).
+ * @param {object} optionRefData - {@link module:public/types~multipliers|Reference data}
+ * @return {object.<string, object>} A map containing unit Names and {@link module:public/types~multipliers|corresponding multipliers} (if any are present).
  */
 const prepDistanceMultiplier = (optionRefData) => {
     let multipliers = new Map();
@@ -84,12 +84,19 @@ const prepDistanceMultiplier = (optionRefData) => {
 
 
 /**
- * Parses the distance multiplier map and gets the unit names to use as Select Options.
- * @param {Object.<String, Float>} optionRefData - Distance multipliers data
- * @return {string[]} An array containing the name of the distance units.
+ * Parses reference data objects and creates an array with the names to use as Select Options.
+ * @param {object.<string, Object>} optionRefData - {@link module:public/types~multipliers|Reference data}
+ * @param {string} type - The type of Select data the dropdown will display
+ * @return {string[]} An array containing the name of the given Select option type.
  */
-const prepSelectOpts = (optionRefData) => {
-    return getKeys(prepDistanceMultiplier(optionRefData));
+const prepSelectOpts = (optionRefData, type) => {
+    let opts = [];
+    if (optionRefData !== undefined) {
+        optionRefData[type].map((option) => {
+            opts.push(option['desc']);
+        });
+    }
+    return opts;
 };
 
 

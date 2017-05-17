@@ -1,15 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import SelectOpts from './SelectOpts.jsx';
-import {prepSelectOpts, postNewLap} from './lapDataSvcs.jsx';
+import {LapEntry} from './LapEntry.jsx';
+import {postNewLap} from './lapDataSvcs.jsx';
 import {createLap, createCleanLap} from './lapTools.jsx';
 
+
 /**
- * A React component to enter lap data.
- * The {@link module:public/types~lapContext|context} should contain:
- *      a Map with {@link module:public/types~refData|refData}.
- * @param {props} props - object containing the properties for this dropdown
- * @property {object} lap - an object defining a {@link module:public/types~lap|lap}
+ * A React component to enter and submit lap data.
+ * @param {props} props - The properties object containing the properties for this React component
+ * @property {object} lap - An object defining a {@link module:public/types~lap|lap}
  * @property {function} onLapSubmit - Callback function to execute when a lap being entered or edited is submitted
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
@@ -20,20 +18,8 @@ class LapForm extends React.Component {
         LapForm.context = this;
     }
 
-    componentWillMount() {
-        LapForm.context.setState({options: prepSelectOpts(this.context.refData)});
-    }
-
-    handleTimeChange(e) {
-        LapForm.context.setState({time: e.target.value});
-    }
-
-    handleDistanceChange(e) {
-        LapForm.context.setState({distance: e.target.value});
-    }
-
-    handleUnitChange(e) {
-        LapForm.context.setState({unit: e.target.value});
+    handleChange(data) {
+        LapForm.context.setState(data);
     }
 
     handleSubmit(e) {
@@ -56,39 +42,11 @@ class LapForm extends React.Component {
         return (
             <div className='four columns left'>
                 <form className='LapForm' onSubmit={this.handleSubmit}>
-                    <div className='three columns'>
-                        <label id='newLapTimeLabel' htmlFor='newLapTime'>Time: </label>
-                        <input
-                            type='time'
-                            id='newLapTime'
-                            placeholder='Time'
-                            value={this.state.time}
-                            onChange={this.handleTimeChange}
-                            step='1'
-                        />
-                    </div>
-
-                    <div className='three columns'>
-                        <label id='newLapDistanceLabel' htmlFor='newLapDistance'>Distance: </label>
-                        <input
-                            type='number'
-                            id='newLapDistance'
-                            placeholder='Distance'
-                            value={this.state.distance}
-                            onChange={this.handleDistanceChange}
-                        />
-                    </div>
-
-                    <div className='three columns'>
-                        <label id='newLapUnitLabel' htmlFor='newLapUnit'>Unit: </label>
-                        <SelectOpts
-                            id='newLapUnit'
-                            value={this.state.unit}
-                            defaultValue={this.state.unit}
-                            options={this.state.options}
-                            onChange={this.handleUnitChange}
-                        />
-                    </div>
+                    <LapEntry
+                        time={this.state.time}
+                        distance={this.state.distance}
+                        unit={this.state.unit}
+                        onChange={this.handleChange} />
 
                     <div className='three columns'>
                         <button display="primary" type="submit" >OK</button>
@@ -99,11 +57,6 @@ class LapForm extends React.Component {
     }
 
 };
-
-LapForm.contextTypes = {
-    refData: PropTypes.any.isRequired,
-};
-
 
 export {
     LapForm,

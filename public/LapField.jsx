@@ -4,8 +4,8 @@ import {Lap} from './Lap.jsx';
 
 /**
  * A React component to display or enter lap data.
- * @param {props} props - object containing the properties for this dropdown
- * @property {object} lap - an object defining a {@link module:public/types~lap|lap}
+ * @param {props} props - The properties object containing the properties for this React component
+ * @property {object} lap - Object defining a {@link module:public/types~lap|lap}
  * @property {function} onLapEdit - Callback function to execute when a lap being displayed is clicked for editing
  * @property {function} onLapSubmit - Callback function to execute when a lap being entered or edited is submitted for processing
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.

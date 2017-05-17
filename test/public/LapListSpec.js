@@ -34,9 +34,9 @@ test('LapList with one lap returns a row div with a single lap (plus one for ent
 
     // now check the data entry lap
     const entrylap = row.childAt(1);
-    t.equal(entrylap.find('#newLapTime').prop('value'), '00:00:00');
-    t.equal(entrylap.find('#newLapDistance').prop('value'), 0);
-    t.equal(entrylap.find('#newLapUnit').children().length, 4);
+    t.equal(entrylap.find('#time').prop('value'), '00:00:00');
+    t.equal(entrylap.find('#distance').prop('value'), 0);
+    t.equal(entrylap.find('#unit').children().length, 4);
 });
 
 
@@ -114,7 +114,7 @@ test('LapList decides which lap is being edited by simply clicking on it', (t) =
 
 //     // now check the data entry lap
 //     const entrylap = row.childAt(1);
-//     t.equal(entrylap.find('#newLapTime').prop('value'), '00:00:00');
-//     t.equal(entrylap.find('#newLapDistance').prop('value'), 0);
-//     t.equal(entrylap.find('#newLapUnit').children().length, 4);
+//     t.equal(entrylap.find('#time').prop('value'), '00:00:00');
+//     t.equal(entrylap.find('#distance').prop('value'), 0);
+//     t.equal(entrylap.find('#unit').children().length, 4);
 // });

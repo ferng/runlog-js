@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import {LapList} from './lapList.jsx';
+import {LapList} from './LapList.jsx';
+import {ActivityForm} from './ActivityForm.jsx';
 import {getLaps, getRefData} from './lapDataSvcs.jsx';
 import {lapArrayToMap} from './lapTools.jsx';
 
@@ -42,6 +43,7 @@ class TopLevel extends React.Component {
         if (this.state.dataLoaded) {
             return (
                 <div className='topLevel'>
+                     {/* <ActivityForm />*/}
                     <LapList laps={this.state.laps} onLapSubmit={this.handleLapSubmit} />
                 </div>
             );

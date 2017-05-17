@@ -14,7 +14,7 @@ test('prepDistanceMultiplier returns a map of units from the loaded referenceDat
 
 test('prepSelectOpts returns the unit names from loaded referenceData', (t) => {
     const refData = getRefData();
-    const unitDataKeys = prepSelectOpts(refData);
+    const unitDataKeys = prepSelectOpts(refData, 'unit');
     t.plan(1);
     t.equal(areArraysEqual(unitDataKeys, getUnits()), true);
 });

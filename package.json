@@ -24,6 +24,7 @@
     "start": "node server.js | bunyan",
     "start-plain": "node server.js",
     "test-front": "babel-tape-runner -r test/helpers/prepTestJsdom.js test/public/**/*js",
+    "test-front-one": "babel-tape-runner -r test/helpers/prepTestJsdom.js test/public/LapEntrySpec.js",
     "test-back": "babel-tape-runner test/src/**/*js",
     "test": "npm run test-front | faucet & npm run test-back | faucet ",
     "webpack": "webpack",
