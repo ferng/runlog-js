@@ -4,7 +4,15 @@ import SelectOpts from './SelectOpts.jsx';
 import {prepSelectOpts, postNewLap} from './lapDataSvcs.jsx';
 import {createLap, createCleanLap} from './lapTools.jsx';
 
-
+/**
+ * A React component to enter lap data.
+ * The {@link module:public/types~lapContext|context} should contain:
+ *      a Map with {@link module:public/types~refData|refData}.
+ * @param {props} props - object containing the properties for this dropdown
+ * @property {object} lap - an object defining a {@link module:public/types~lap|lap}
+ * @property {function} onLapSubmit - Callback function to execute when a lap being entered or edited is submitted
+ * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
+ */
 class LapForm extends React.Component {
     constructor(props) {
         super(props);

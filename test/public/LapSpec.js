@@ -10,7 +10,7 @@ test('Lap is well formed and speed items are where they should be', (t) => {
     let context = {refData: getRefData(), multipliers: getDistanceMults()};
 
     t.plan(11);
-    const wrapper = shallow(<Lap lap={lap}/>, {context: context});
+    const wrapper = shallow(<Lap lap={lap}/>, {context});
     t.equal(wrapper.find('.four.columns.left').length, 1);
     t.equal(wrapper.find('.lap').length, 1);
     t.equal(wrapper.find('.three.columns').length, 4);

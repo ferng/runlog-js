@@ -20,7 +20,7 @@ test('Enter data into LapForm, the onchange events get called causing a new rend
     ];
 
     let context = {refData: getRefData()};
-    const wrapper = shallow(<LapForm lap={cleanLap}/>, {context: context});
+    const wrapper = shallow(<LapForm lap={cleanLap}/>, {context});
     t.plan(tests.length * 3);
     for (let test of tests.values()) {
         wrapper.find({id: test.elementId}).simulate('change', {target: {value: test.updatedValue}});
@@ -34,7 +34,7 @@ test('Enter data into LapForm, the onchange events get called causing a new rend
 test('LapForm is well formed', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
-    const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {context: context});
+    const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {context});
 
     t.plan(5);
     t.equal(wrapper.find('input').length, 2);
@@ -50,7 +50,7 @@ test('LapForm is well formed', (t) => {
 test('onLapSubmit returns the lap context state set by front end', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
-    const wrapper = mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {context: context});
+    const wrapper = mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {context});
     const instance = wrapper.instance();
 
     t.plan(6);
@@ -73,7 +73,7 @@ test('onLapSubmit returns the lap context state set by front end', (t) => {
 test('onLapSubmit resets lap context state', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
-    const wrapper = mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {context: context});
+    const wrapper = mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {context});
     const instance = wrapper.instance();
 
     t.plan(6);
@@ -93,7 +93,7 @@ test('onLapSubmit resets lap context state', (t) => {
 test('onLapSubmit returns early without reseting state or submitting if time is missing from lap data', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
-    const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {context: context});
+    const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {context});
     const instance = wrapper.instance();
     const tstLap = getRandomLap();
 
@@ -127,7 +127,7 @@ test('onLapSubmit returns early without reseting state or submitting if time is 
 test('onLapSubmit returns early without reseting state or submitting if distance is missing from lap data', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
-    const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {context: context});
+    const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {context});
     const instance = wrapper.instance();
     const tstLap = getRandomLap();
 
@@ -161,7 +161,7 @@ test('onLapSubmit returns early without reseting state or submitting if distance
 test('onLapSubmit returns early without reseting state or submitting if unit is missing from lap data', (t) => {
     const onLapSubmit = sinon.spy();
     const context = {refData: getRefData()};
-    const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {context: context});
+    const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {context});
     const instance = wrapper.instance();
     const tstLap = getRandomLap();
 

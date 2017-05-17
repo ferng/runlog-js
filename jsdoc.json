@@ -32,5 +32,8 @@
     "docdash": {
         "static": true,
         "sort": true
-    }
+    },
+    "plugins": [
+        "plugins/markdown"
+    ]
 }

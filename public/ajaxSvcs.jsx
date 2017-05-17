@@ -6,7 +6,7 @@
 
 /**
  * Encapsulates an HTTP-GET within a promise.
- * @param {String} endpoint - Where are we getting the data from
+ * @param {string} endpoint - Where are we getting the data from
  * @return {Promise}
  * resolve returns retrieved data.<br>
  * reject on connectivity or issues with the server at the endpoint.
@@ -31,8 +31,8 @@ const get = (endpoint) => {
 
 /**
  * Encapsulates an HTTP-POST within a promise.
- * @param {String} endpoint - Where are we getting the data from
- * @param {JsonObject} body - The data we are sending to the server to save
+ * @param {string} endpoint - Where are we getting the data from
+ * @param  body - The data we are sending to the server to save
  * @return {Promise}
  * reject on connectivity or issues with the server at the endpoint.
  */

@@ -5,7 +5,7 @@
 
 /**
  * Checks whether a String looks like a floating number.
- * @param {String} value - String to parse
+ * @param {string} value - String to parse
  * @return {Boolean} TRUE if it does FALSE otherwise.
  */
 function isFloatExpr(value) {
@@ -15,7 +15,7 @@ function isFloatExpr(value) {
 
 /**
  * Checks whether a String looks like it could be representing a timestamp in 24hr format.
- * @param {String} value - String to parse
+ * @param {string} value - String to parse
  * @return {Boolean} TRUE if it does FALSE otherwise.
  */
 function isTimeExpr24(value) {
@@ -26,7 +26,7 @@ function isTimeExpr24(value) {
 /**
  * Checks whether a String looks like it could be representing a timestamp.
  * @private
- * @param {String} value - String to parse
+ * @param {string} value - String to parse
  * @param {Number} maxhour - time format: [12|24]
  * @return {Boolean} TRUE if it does FALSE otherwise.
  */

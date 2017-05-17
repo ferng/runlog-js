@@ -12,7 +12,7 @@ const optionTypes = ['unit', 'activity', 'kit', 'weather', 'temperature', 'effor
 /**
  * Uses an ajax call to retrieve application wide reference data from the backend server.
  * @return {Promise}
- * resolve returns retrieved data.<br>
+ * resolve returns a Map with {@link module:public/types~refData|retrieved data}.<br>
  * reject on connectivity or issues with the server at the endpoint.
  */
 const getRefData = () => {
@@ -49,7 +49,7 @@ const getLaps = () => {
 
 /**
  * Uses an ajax call to send a new lap to the backend server for storage.
- * @param {JsonObject} body - The data we are sending to the server to save
+ * @param {body} body - The data we are sending to the server to save
  * @return {Promise}
  * reject on connectivity or issues with the server at the endpoint.
  */
@@ -69,8 +69,8 @@ const postNewLap = (body) => {
 
 /**
  * Parses reference data objects and creates a map of unit names and multipliers to convert to/from miles.
- * @param {Object} optionRefData - Distance reference data
- * @return {Object.<String, Float>} A map containing unit Names and corresponding multipliers (if any are present).
+ * @param {object} optionRefData - Distance reference data
+ * @return {Object.<String, Float>} A map containing unit Names and {@link module:public/types~multipliers|corresponding multipliers} (if any are present).
  */
 const prepDistanceMultiplier = (optionRefData) => {
     let multipliers = new Map();
@@ -86,7 +86,7 @@ const prepDistanceMultiplier = (optionRefData) => {
 /**
  * Parses the distance multiplier map and gets the unit names to use as Select Options.
  * @param {Object.<String, Float>} optionRefData - Distance multipliers data
- * @return {String[]} An array containing the name of the distance units.
+ * @return {string[]} An array containing the name of the distance units.
  */
 const prepSelectOpts = (optionRefData) => {
     return getKeys(prepDistanceMultiplier(optionRefData));

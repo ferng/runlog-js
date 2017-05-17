@@ -35,8 +35,8 @@ function initPool() {
 
 /**
  * Runs a query on collection retrieving specified fields from all documents.
- * @param {String} collectionName
- * @param {String[]} [fields = all fields] - Retrieve only specified fields
+ * @param {string} collectionName
+ * @param {string[]} [fields = all fields] - Retrieve only specified fields
  * @return {Promise}
  * resolve returns retrieved documents.<br>
  * reject on Db connection errors.
@@ -61,8 +61,8 @@ function get(collectionName, fields) {
 // run upsert based on the crietria (id)
 /**
  * Inserts a document into a collection.
- * @param {String} collectionName
- * @param {Object} document - Document to be added to collection
+ * @param {string} collectionName
+ * @param  {object} document - Document to be added to collection
  * @return {Promise}
  * reject document not inserted due to Db connection errors.
  */
@@ -85,8 +85,8 @@ function insertOne(collectionName, document) {
 /**
  * Prevents _id field from being returned by a query.
  * @private
- * @param {String[]} fields to be returned
- * @return {Object} listing which fields to return / avoid.
+ * @param {string[]} fields to be returned
+ * @return  {object} An object listing which fields to return / avoid.
  */
 function parseProjection(fields) {
     let projection = {};

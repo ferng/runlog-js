@@ -10,7 +10,7 @@ test('LapList with one lap returns a row div with a single lap (plus one for ent
     const context = {refData: getRefData()};
     const lapData = getRandomLap();
     const laps = lapArrayToMap([lapData]);
-    const wrapper = mount(<LapList laps={laps} />, {context: context});
+    const wrapper = mount(<LapList laps={laps} />, {context});
     const row = wrapper.children();
 
     t.plan(11);
@@ -47,7 +47,7 @@ test('LapList with 4 laps (plus one for entry) returns 2 row divs, second one wi
         lapData.push(getRandomLap());
     }
     const laps = lapArrayToMap(lapData);
-    const wrapper = mount(<LapList laps={laps} />, {context: context});
+    const wrapper = mount(<LapList laps={laps} />, {context});
     const row = wrapper.children();
 
     t.plan(9);

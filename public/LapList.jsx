@@ -3,7 +3,16 @@ import PropTypes from 'prop-types';
 import {prepDistanceMultiplier} from './lapDataSvcs.jsx';
 import {lapsToReactRows, getValues, createCleanLap} from './lapTools.jsx';
 
-
+/**
+ * A React component to display data for a number of laps.
+ * The {@link module:public/types~lapContext|context} should contain:
+ *      a Map with {@link module:public/types~refData|refData},
+ * it adds a Map with {@link module:public/types~multipliers|multipliers} to the context.
+ * @param {props} props - object containing the properties for this dropdown
+ * @property {object.<number, object>} laps - A map of all laps with key=lap.id, value={@link module:public/types~lap|lap}
+ * @property {function} onLapSubmit - Callback function to execute when a lap being entered or edited is submitted
+ * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
+ */
 class LapList extends React.Component {
     constructor(props) {
         super(props);

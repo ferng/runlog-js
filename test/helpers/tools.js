@@ -6,8 +6,8 @@
 
 /**
  * Compare two objects. The comparison is shallow, not recursive. Only the first level fields are compared.
- * @param {Object} obj1 - 1st object in comparison
- * @param {Object} obj2 - 2nd object in comparison
+ * @param  {object} obj1 - 1st object in comparison
+ * @param  {object} obj2 - 2nd object in comparison
  * @return {Boolean} true if the two objects match, false otherwise.
  */
 function areObjectsEqual(obj1, obj2) {

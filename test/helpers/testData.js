@@ -93,7 +93,7 @@ const splitRowData = [
 
 /**
  * Retrieves reference data as would have been loaded from the DB in a running system.
- * @return {JsonObject} object containing pseudo-loaded reference data.
+ * @return  object containing pseudo-loaded reference data.
  */
 const getRefData = () => {
     return {
@@ -114,7 +114,7 @@ const getRefData = () => {
 
 /**
  * Retrieves units generated from reference data and present in the context.
- * @return {JsonObject} object containing units.
+ * @return  object containing units.
  */
 function getUnits() {
     return ['metre',
@@ -127,7 +127,7 @@ function getUnits() {
 
 /**
  * Retrieves distance multipliers generated from reference data and present in the context.
- * @return {JsonObject} object containing distance multipliers.
+ * @return  object containing distance multipliers.
  */
 function getDistanceMults() {
     const expected = new Map();
@@ -142,10 +142,10 @@ function getDistanceMults() {
 
 /**
  * Creates a new lap with the given parameters.
- * @param {String} time - lap time
- * @param {String} dist - lap distance
- * @param {String} unit - distance measurement unit
- * @return {JsonObject} object containing the lap.
+ * @param {string} time - lap time
+ * @param {string} dist - lap distance
+ * @param {string} unit - distance measurement unit
+ * @return  object containing the lap.
  */
 const getNewLap = (time, dist, unit) => {
     return {
@@ -159,7 +159,7 @@ const getNewLap = (time, dist, unit) => {
 
 /**
  * Creates a new lap with random data.
- * @return {JsonObject} object containing the lap.
+ * @return  object containing the lap.
  */
 const getRandomLap = () => {
     return getNewLap(getRandomTime(), getRandomDist(), getRandomUnit());
@@ -168,7 +168,7 @@ const getRandomLap = () => {
 
 /**
  * Generate a random distance up to 27 miles - seems alright for a running log.
- * @return {JsonObject} obect with the distance.
+ * @return  obect with the distance.
  */
 function getRandomDist() {
     return getRandomNumberInclusive(0, 26) +
@@ -178,7 +178,7 @@ function getRandomDist() {
 
 /**
  * Generate a random distance unit.
- * @return {JsonObject} object contatining the distance lap.
+ * @return  object contatining the distance lap.
  */
 function getRandomUnit() {
     let unit = getUnits();
