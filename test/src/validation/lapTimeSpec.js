@@ -1,5 +1,5 @@
 const test = require('tape');
-const target = require('../../../src/validation/lap.js');
+const target = require('../../../src/validation/run.js');
 const helper = require('../../helpers/tools.js');
 
 const expectedBad = 'bad';
@@ -15,6 +15,7 @@ test('Valid time data in request', (t) => {
 
     let req = {
         body: expected,
+        path: '/laps',
     };
 
     t.plan(1);
@@ -36,6 +37,7 @@ test('Invalid time data in request', (t) => {
 
     let req = {
         body: reqBody,
+        path: '/laps',
     };
 
     t.plan(1);
@@ -62,7 +64,7 @@ test('Invalid time data', (t) => {
     t.plan(tests.length);
 
     for (let test of tests.values()) {
-        target.parseData(12, 'meter', 15.23, test.time)
+        target.parseLapData(12, 'meter', 15.23, test.time)
             .catch((actual) => {
                 t.equal(actual, expectedBad);
             });

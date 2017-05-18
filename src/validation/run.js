@@ -1,6 +1,6 @@
 /**
  * Validates whether a lap looks like a lap or whether it's full of junk.
- * @module src/validation/lap
+ * @module src/validation/run
  */
 
 const common = require('./common.js');
@@ -15,10 +15,16 @@ const log = require('../utils/logger.js').getLogger();
  * reject if the validation failed somehow.
  */
 function parseRequest(req) {
-    return parseData(req.body.id,
-        req.body.unit,
-        req.body.distance,
-        req.body.time);
+    const dataType = req.path.slice(1);
+    switch (dataType) {
+        case 'laps':
+            return parseLapData(req.body.id,
+                req.body.unit,
+                req.body.distance,
+                req.body.time);
+        default:
+            return null;
+    }
 };
 
 
@@ -32,7 +38,7 @@ function parseRequest(req) {
  * resolve returns parsed and validated data as a {@link module:public/types~lap|lap}.<br>
  * reject if the validation failed somehow.
  */
-function parseData(id, unit, distance, time) {
+function parseLapData(id, unit, distance, time) {
     log.debug('Parsing lap id:[%s] unit:[%s] distance:[%s] time:[%s]', id, unit, distance, time);
     return new Promise((resolve, reject) => {
         if (isValid(id, unit, distance, time)) {
@@ -57,19 +63,19 @@ function isValid(id, unit, distance, time) {
 
 
 function isValidDistance(dist) {
-    return (typeof(dist) != 'undefined' &&
+    return (typeof (dist) != 'undefined' &&
         common.isFloatExpr(dist) &&
         dist > 0);
 };
 
 
 function isValidTime24(time) {
-    return (typeof(time) != 'undefined' &&
+    return (typeof (time) != 'undefined' &&
         common.isTimeExpr24(time));
 };
 
 
 module.exports = {
     parseRequest: parseRequest,
-    parseData: parseData,
+    parseLapData: parseLapData,
 };

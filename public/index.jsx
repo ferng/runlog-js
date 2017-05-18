@@ -19,7 +19,7 @@ class TopLevel extends React.Component {
             .then((data) => {
                 TopLevel.context.setState({refData: data});
             })
-            .then(getLaps)
+            .then((data) => getLaps('laps'))
             .then(lapArrayToMap)
             .then((data) => {
                 TopLevel.context.setState({laps: data});

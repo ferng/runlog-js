@@ -33,7 +33,7 @@ class LapForm extends React.Component {
         }
 
         let newLap = createLap(id, time, distance, unit);
-        postNewLap(newLap);
+        postNewLap(newLap, 'laps');
         LapForm.context.props.onLapSubmit(newLap);
         LapForm.context.setState(createCleanLap());
     }

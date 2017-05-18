@@ -1,5 +1,5 @@
 const test = require('tape');
-const target = require('../../../src/validation/lap.js');
+const target = require('../../../src/validation/run.js');
 const helper = require('../../helpers/tools.js');
 
 const expectedBad = 'bad';
@@ -15,6 +15,7 @@ test('Valid distance data in request', (t) => {
 
     let req = {
         body: expected,
+        path: '/laps',
     };
 
     t.plan(1);
@@ -36,6 +37,7 @@ test('Invalid distance data in request', (t) => {
 
     let req = {
         body: reqBody,
+        path: '/laps',
     };
 
     t.plan(1);
@@ -65,7 +67,7 @@ test('Valid distance data', (t) => {
             unit: 'meter',
         };
 
-        target.parseData(12, 'meter', test.distance, '12:21:43')
+        target.parseLapData(12, 'meter', test.distance, '12:21:43')
             .then((actual) => {
                 t.equal(helper.areObjectsEqual(actual, expected), true);
             });
@@ -90,7 +92,7 @@ test('Invalid distance data', (t) => {
     t.plan(tests.length);
 
     for (let test of tests.values()) {
-        target.parseData(12, 'meter', test.distance, '12:42:23')
+        target.parseLapData(12, 'meter', test.distance, '12:42:23')
             .catch((actual) => {
                 t.equal(actual, expectedBad);
             });

@@ -4,7 +4,6 @@
  */
 
 import {get, post} from './ajaxSvcs.jsx';
-import {getKeys} from './lapTools.jsx';
 
 const optionTypes = ['unit', 'activity', 'kit', 'weather', 'temp', 'effort'];
 
@@ -31,12 +30,13 @@ const getRefData = () => {
 /**
  * Uses an ajax call to retrieve lap data from the backend server.
  * @return {Promise}
+ * @param {string} dataType - Specify the running log data type we are requesting (laps, activities, etc)
  * resolve returns retrieved data.<br>
  * reject on connectivity or issues with the server at the endpoint.
  */
-const getLaps = () => {
+const getLaps = (dataType) => {
     return new Promise((resolve, reject) => {
-        get('/api/laps?_=1')
+        get('/api/runs/' + dataType)
             .then((data) => {
                 resolve(data);
             })
@@ -50,12 +50,13 @@ const getLaps = () => {
 /**
  * Uses an ajax call to send a new lap to the backend server for storage.
  * @param {body} body - The data we are sending to the server to save
+ * @param {string} dataType - Specify the running log data type we are submitting (lap, activity, etc)
  * @return {Promise}
  * reject on connectivity or issues with the server at the endpoint.
  */
-const postNewLap = (body) => {
+const postNewLap = (body, dataType) => {
     return new Promise((resolve, reject) => {
-        post('/api/laps', body)
+        post('/api/runs/' + dataType, body)
             .then(() => {
                 resolve();
             })

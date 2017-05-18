@@ -1,20 +1,20 @@
 /**
  * Express router to deal with incoming lap REST requests.
- * @module src/routes/laps
+ * @module src/routes/runs
  * @private
  */
 
 const express = require('express');
 let log = require('../utils/logger.js').getLogger();
 const db = require('../utils/dbConnection.js');
-const lapVal = require('../validation/lap.js');
+const runVal = require('../validation/run.js');
 
 
 /**
- * Express router to mount lap related functions on.
+ * Express router to mount run related functions on.
  * @type {object}
  * @const
- * @namespace lapsExpressRoutes
+ * @namespace runsExpressRoutes
  * @private
  */
 const router = new express.Router();
@@ -25,9 +25,9 @@ router.use((req, res, next) => {
 
 /**
  * GET: Route returning existing Laps from database.
- * @name GET/api/laps
+ * @name GET/api/runs
  * @function
- * @memberof module:src/routes/laps~lapsExpressRoutes
+ * @memberof module:src/routes/runs~runsExpressRoutes
  * @inner
  * @param {Request} req - Express request
  * @param {Result} res - Express response.
@@ -35,8 +35,9 @@ router.use((req, res, next) => {
  * @return {HTTP_response} HTTP-200 if OK, HTTP-500 if anything went wrong.
  * @private
  */
-router.get('/', (req, res) => {
-    db.get('laps')
+router.get('/*', (req, res) => {
+    const dataType = req.path.slice(1);
+    db.get(dataType)
         .then((data) => {
             res.json(data);
         })
@@ -49,19 +50,20 @@ router.get('/', (req, res) => {
 
 /**
  * POST: Route to write a new inbound lap to the database.
- * @name POST/api/laps
+ * @name POST/api/runs
  * @function
- * @memberof module:src/routes/laps~lapsExpressRoutes
+ * @memberof module:src/routes/runs~runsExpressRoutes
  * @inner
  * @param {Request} req - Express request
  * @param {Result} res - Express response.
  * @return {HTTP_response} HTTP-201 if OK, HTTP-500 if anything went wrong.
  * @private
  */
-router.post('/', (req, res) => {
-    lapVal.parseRequest(req)
+router.post('/*', (req, res) => {
+    const dataType = req.path.slice(1);
+    runVal.parseRequest(req)
         .then((lapData) => {
-            db.insertOne('laps', lapData);
+            db.insertOne(dataType, lapData);
             res.status(201).send('');
         })
         .catch((err) => {

@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const routeLaps = require('./src/routes/laps.js');
+const routeRuns = require('./src/routes/runs.js');
 const routeSvcs = require('./src/routes/svcs.js');
 const config = require('./config.js');
 const log = require('./src/utils/logger.js').getLogger();
@@ -22,7 +22,7 @@ app.use('/', express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(requestHandler);
-app.use('/api/laps', routeLaps);
+app.use('/api/runs', routeRuns);
 app.use('/api/svcs', routeSvcs);
 app.listen(app.get('port'));
 log.info('Server started: http://localhost:' + app.get('port') + '/');
