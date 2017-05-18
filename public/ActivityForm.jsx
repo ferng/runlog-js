@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SelectOpts from './SelectOpts.jsx';
-import {prepSelectOpts, postNewLap} from './lapDataSvcs.jsx';
+import {Lap} from './Lap.jsx';
+import {prepSelectOpts, prepDistanceMultiplier} from './lapDataSvcs.jsx';
+import {createCleanLap} from './lapTools.jsx';
 
 /**
  * A React component to enter activity data.
  * The {@link module:public/types~lapContext|context} should contain:
  *      a Map with {@link module:public/types~refData|refData}.
+ * it adds a Map with {@link module:public/types~multipliers|multipliers} to the context.
  * @param {props} props - The properties object containing the properties for this React component
  * @property {object} lap - An object defining a {@link module:public/types~lap|lap}
  * @property {function} onActivitySubmit - Callback function to execute when an actrivity being entered or edited is submitted
@@ -20,6 +23,7 @@ class ActivityForm extends React.Component {
     }
 
     componentWillMount() {
+        ActivityForm.context.setState({multipliers: prepDistanceMultiplier(this.context.refData)});
         ActivityForm.context.setState({activity: 'track'});
         ActivityForm.context.setState({kit: 'fast'});
         ActivityForm.context.setState({weather: 'rainy'});
@@ -30,6 +34,10 @@ class ActivityForm extends React.Component {
         ActivityForm.context.setState({weatherOpts: prepSelectOpts(this.context.refData, 'weather')});
         ActivityForm.context.setState({tempOpts: prepSelectOpts(this.context.refData, 'temp')});
         ActivityForm.context.setState({effortOpts: prepSelectOpts(this.context.refData, 'effort')});
+    }
+
+    getChildContext() {
+        return {multipliers: this.state.multipliers};
     }
 
     handleActivityChange(e) {
@@ -52,11 +60,28 @@ class ActivityForm extends React.Component {
         ActivityForm.context.setState({effort: e.target.value});
     }
 
+    onLapEdit(e) {
+        console.log('yeay');
+    }
+
     handleSubmit(e) {
-        console.log(e);
+        e.preventDefault();
+        // let id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();
+        // let time = LapForm.context.state.time;
+        // let distance = parseFloat(LapForm.context.state.distance);
+        // let unit = LapForm.context.state.unit;
+        // if (!time || time == '00:00:00' || !distance || distance === 0 || distance === NaN || !unit || unit === '--') {
+        //     return;
+        // }
+
+        // let newLap = createLap(id, time, distance, unit);
+        // postNewLap(newLap);
+        // LapForm.context.props.onLapSubmit(newLap);
+        // LapForm.context.setState(createCleanLap());
     }
 
     render() {
+        const lap = createCleanLap();
         return (
             <div className='lapList'>
             <div className='twelve columns left'>
@@ -113,6 +138,8 @@ class ActivityForm extends React.Component {
                         />
                     </div>
 
+                <Lap lap={lap} onLapEdit={this.onLapEdit} />
+
 
                     <div className='one column'>
                         <button display="primary" type="submit" >OK</button>
@@ -129,6 +156,9 @@ ActivityForm.contextTypes = {
     refData: PropTypes.any.isRequired,
 };
 
+ActivityForm.childContextTypes = {
+    multipliers: PropTypes.any.isRequired,
+};
 
 export {
     ActivityForm,

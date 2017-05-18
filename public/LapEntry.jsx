@@ -48,7 +48,7 @@ class LapEntry extends React.Component {
     render() {
         return (
             <div className='LapEntry'>
-                <div className='three columns'>
+                <div className={this.state.format}>
                     <label id='timeLabel' htmlFor='time'>Time: </label>
                     <input
                         type='time'
@@ -61,7 +61,7 @@ class LapEntry extends React.Component {
                     />
                 </div>
 
-                <div className='three columns'>
+                <div className={this.state.format}>
                     <label id='distanceLabel' htmlFor='distance'>Distance: </label>
                     <input
                         type='number'
@@ -73,7 +73,7 @@ class LapEntry extends React.Component {
                     />
                 </div>
 
-                <div className='three columns'>
+                <div className={this.state.format}>
                     <label id='unitLabel' htmlFor='unit'>Unit: </label>
                     <SelectOpts
                         id='unit'

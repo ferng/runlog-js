@@ -43,7 +43,7 @@ class TopLevel extends React.Component {
         if (this.state.dataLoaded) {
             return (
                 <div className='topLevel'>
-                     {/* <ActivityForm />*/}
+                      <ActivityForm />
                     <LapList laps={this.state.laps} onLapSubmit={this.handleLapSubmit} />
                 </div>
             );

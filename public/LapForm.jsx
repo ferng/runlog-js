@@ -46,7 +46,8 @@ class LapForm extends React.Component {
                         time={this.state.time}
                         distance={this.state.distance}
                         unit={this.state.unit}
-                        onChange={this.handleChange} />
+                        onChange={this.handleChange}
+                        format='three columns'/>
 
                     <div className='three columns'>
                         <button display="primary" type="submit" >OK</button>

@@ -18,6 +18,7 @@ class Lap extends React.Component {
     }
 
     onLapEdit(id) {
+        console.log('dsdsa', Lap.context.props.onLapEdit);
         Lap.context.props.onLapEdit(id);
     }
 
