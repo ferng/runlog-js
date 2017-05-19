@@ -28,13 +28,13 @@ const getRefData = () => {
 
 
 /**
- * Uses an ajax call to retrieve lap data from the backend server.
+ * Uses an ajax call to retrieve runlog entry data from the backend server.
  * @return {Promise}
  * @param {string} dataType - Specify the running log data type we are requesting (laps, activities, etc)
  * resolve returns retrieved data.<br>
  * reject on connectivity or issues with the server at the endpoint.
  */
-const getLaps = (dataType) => {
+const getItems = (dataType) => {
     return new Promise((resolve, reject) => {
         get('/api/runs/' + dataType)
             .then((data) => {
@@ -103,7 +103,7 @@ const prepSelectOpts = (optionRefData, type) => {
 
 export {
     getRefData,
-    getLaps,
+    getItems,
     postNewItem,
     prepDistanceMultiplier,
     prepSelectOpts,

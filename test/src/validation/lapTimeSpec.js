@@ -6,21 +6,15 @@ const expectedBad = 'bad';
 
 
 test('Valid time data in request', (t) => {
-    let expected = {
+    let expected = {lap: {
         id: 12,
         time: '12:21:43',
         distance: 15.23,
         unit: 'meter',
-    };
-
-    let req = {
-        body: expected,
-        path: '/lap',
-    };
+    }};
 
     t.plan(1);
-
-    target.parseRequest(req)
+    target.validateRequest(expected)
         .then((actual) => {
             t.equal(true, helper.areObjectsEqual(actual, expected));
         });
@@ -28,21 +22,16 @@ test('Valid time data in request', (t) => {
 
 
 test('Invalid time data in request', (t) => {
-    let reqBody = {
+    let reqBody = {lap: {
         id: 12,
         time: '12:69:43',
         distance: 15.23,
         unit: 'meter',
-    };
-
-    let req = {
-        body: reqBody,
-        path: '/lap',
-    };
+    }};
 
     t.plan(1);
 
-    target.parseRequest(req)
+    target.validateRequest(reqBody)
         .catch((actual) => {
             t.equal(actual, expectedBad);
         });
@@ -64,7 +53,7 @@ test('Invalid time data', (t) => {
     t.plan(tests.length);
 
     for (let test of tests.values()) {
-        target.parseLapData(12, 'meter', 15.23, test.time)
+        target.validateLap({lap: {id: 12, time: test.time, distance: 15.23, unit: 'meter'}})
             .catch((actual) => {
                 t.equal(actual, expectedBad);
             });

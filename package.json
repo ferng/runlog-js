@@ -26,6 +26,7 @@
     "test-front": "babel-tape-runner -r test/helpers/prepTestJsdom.js test/public/**/*js",
     "test-front-one": "babel-tape-runner -r test/helpers/prepTestJsdom.js test/public/LapEntrySpec.js",
     "test-back": "babel-tape-runner test/src/**/*js",
+    "test-back-one": "babel-tape-runner test/src/validation/lapDistanceSpec.js",
     "test": "npm run test-front | faucet & npm run test-back | faucet ",
     "webpack": "webpack",
     "web-dev": "webpack-dev-server",

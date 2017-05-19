@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import {LapList} from './LapList.jsx';
 import {ActivityForm} from './ActivityForm.jsx';
-import {getLaps, getRefData} from './lapDataSvcs.jsx';
+import {getItems, getRefData} from './lapDataSvcs.jsx';
 import {lapArrayToMap} from './lapTools.jsx';
 
 
@@ -19,7 +19,7 @@ class TopLevel extends React.Component {
             .then((data) => {
                 TopLevel.context.setState({refData: data});
             })
-            .then((data) => getLaps('lap'))
+            .then((data) => getItems('lap'))
             .then(lapArrayToMap)
             .then((data) => {
                 TopLevel.context.setState({laps: data});
@@ -34,7 +34,7 @@ class TopLevel extends React.Component {
 
     handleLapSubmit(lapData) {
         let laps = TopLevel.context.state.laps;
-        laps.set(lapData.id, lapData['lap']);
+        laps.set(lapData['lap'].id, lapData['lap']);
 
         TopLevel.context.setState({laps: laps});
     }
