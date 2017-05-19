@@ -15,13 +15,23 @@ const log = require('../utils/logger.js').getLogger();
  * reject if the validation failed somehow.
  */
 function parseRequest(req) {
+    console.log(req.body);
     const dataType = req.path.slice(1);
     switch (dataType) {
-        case 'laps':
-            return parseLapData(req.body.id,
+        case 'lap':
+            return parseLapData(
+                req.body.id,
                 req.body.unit,
                 req.body.distance,
                 req.body.time);
+        case 'activity':
+            return parseActivityData(
+                req.body.id,
+                req.body.activity,
+                req.body.kit,
+                req.body.weather,
+                req.body.temp,
+                req.body.effort);
         default:
             return null;
     }
@@ -41,7 +51,7 @@ function parseRequest(req) {
 function parseLapData(id, unit, distance, time) {
     log.debug('Parsing lap id:[%s] unit:[%s] distance:[%s] time:[%s]', id, unit, distance, time);
     return new Promise((resolve, reject) => {
-        if (isValid(id, unit, distance, time)) {
+        if (isValidLap(id, unit, distance, time)) {
             let payload = {
                 id: id,
                 unit: unit,
@@ -56,9 +66,46 @@ function parseLapData(id, unit, distance, time) {
 };
 
 
-function isValid(id, unit, distance, time) {
+/**
+ * Parses a request with activity data to see whether that data is valid or not.
+ * @param {number} id - Activity id
+ * @param {string} activity - The activity the set of Laps will define
+ * @param {string} kit - The kit I relied on for this activity
+ * @param {string} weather - What was the weather like
+ * @param {string} temp - What did the temperature feel like
+ * @param {string} effort - And what was the perceived effort
+ * @return {Promise}
+ * resolve returns parsed and validated data as a {@link module:public/types~lap|lap}.<br>
+ * reject if the validation failed somehow.
+ */
+function parseActivityData(id, activity, kit, weather, temp, effort) {
+    log.debug('Parsing activity id:[%s] activity:[%s]kit:[%s] weather:[%s] temp:[%s] effort:[%s]', id, activity, kit, weather, temp, effort);
+    return new Promise((resolve, reject) => {
+        if (isValidActivity(id, activity, kit, weather, temp, effort)) {
+            let payload = {
+                id: id,
+                activity: activity,
+                kit: kit,
+                weather: weather,
+                temp: temp,
+                effort: effort,
+            };
+            resolve(payload);
+        } else {
+            reject('bad');
+        }
+    });
+};
+
+
+function isValidLap(id, unit, distance, time) {
     return (isValidDistance(distance) &&
         isValidTime24(time));
+};
+
+
+function isValidActivity(id, unit, distance, time) {
+    return true;
 };
 
 

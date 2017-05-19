@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {prepDistanceMultiplier} from './lapDataSvcs.jsx';
-import {lapsToReactRows, getValues, createCleanLap} from './lapTools.jsx';
+import {lapsToReactRows, getValues, createLap} from './lapTools.jsx';
 
 /**
  * A React component to display data for a number of laps.
@@ -43,7 +43,7 @@ class LapList extends React.Component {
     }
 
     createNewLap() {
-        let newLap = createCleanLap();
+        let newLap = createLap();
         let editNewlap = LapList.context.state.lapToEdit === 0;
         newLap['editLap'] = editNewlap;
         return newLap;

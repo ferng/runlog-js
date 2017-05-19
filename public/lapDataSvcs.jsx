@@ -48,13 +48,13 @@ const getLaps = (dataType) => {
 
 
 /**
- * Uses an ajax call to send a new lap to the backend server for storage.
+ * Uses an ajax call to send a new item of data to the backend server for storage.
  * @param {body} body - The data we are sending to the server to save
- * @param {string} dataType - Specify the running log data type we are submitting (lap, activity, etc)
+ * @param {string} dataType - Specify the running log data type we are submitting (laps, activities, etc)
  * @return {Promise}
  * reject on connectivity or issues with the server at the endpoint.
  */
-const postNewLap = (body, dataType) => {
+const postNewItem = (body, dataType) => {
     return new Promise((resolve, reject) => {
         post('/api/runs/' + dataType, body)
             .then(() => {
@@ -104,7 +104,7 @@ const prepSelectOpts = (optionRefData, type) => {
 export {
     getRefData,
     getLaps,
-    postNewLap,
+    postNewItem,
     prepDistanceMultiplier,
     prepSelectOpts,
 };

@@ -39,3 +39,14 @@
  * @property {Float} distance - What was the distance convered
  * @property {string} unit - What was the distance unit: mile, metre, etc
  */
+
+/**
+ * Object used to contain data about the activity.
+ * @typedef activity {@link activity}
+ * @param {number} id - Activity id
+ * @param {string} activity - The activity the set of Laps will define
+ * @param {string} kit - The kit I relied on for this activity
+ * @param {string} weather - What was the weather like
+ * @param {string} temp - What did the temperature feel like
+ * @param {string} effort - And what was the perceived effort
+ */

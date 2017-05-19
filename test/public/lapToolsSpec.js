@@ -1,6 +1,6 @@
 import test from 'tape';
 import {areObjectsEqual} from '../helpers/tools.js';
-import {lapsToReactRows, createCleanLap, createLap, lapArrayToMap, calcTimes, getKeys, getValues} from '../../public/lapTools.jsx';
+import {lapsToReactRows, createLap, lapArrayToMap, calcTimes, getKeys, getValues} from '../../public/lapTools.jsx';
 import {getDistanceMults, splitRowData, getRandomLap} from '../helpers/testData.js';
 
 
@@ -30,8 +30,8 @@ test('lapsToReactRows splits an array of laps into rows of three and any remaind
 });
 
 
-test('createCleanLap generates a lap ready for data entry', (t) => {
-    const cleanLap = createCleanLap();
+test('createLap generates a new lap ready for data entry', (t) => {
+    const cleanLap = createLap();
     const lap = {id: 0, time: '00:00:00', distance: 0, unit: '--'};
     t.plan(1);
     t.equal(areObjectsEqual(cleanLap, lap), true);

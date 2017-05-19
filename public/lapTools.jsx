@@ -66,24 +66,30 @@ const rowsToReact = (rows) => {
 
 
 /**
- * Creates a brand new lap object with default data.
- * @return  {object} A Lap with 0s everywhere.
- */
-const createCleanLap = () => {
-    return createLap(0, '00:00:00', 0, '--');
-};
-
-
-/**
- * Creates a brand new lap object with the provided data.
+ * Creates a brand new lap object with the provided data or with blank default data if none is provided.
  * @param {number} id - Lap id
  * @param {string} time - Time taken to complete the lap
  * @param {float} distance - What was the distance convered
  * @param {string} unit - What was the distance unit: mile, metre, etc
- * @return {object} A Lap with the data provided.
+ * @return {object} A Lap with the data provided or blanks if none.
  */
-const createLap = (id, time, distance, unit) => {
+const createLap = (id=0, time='00:00:00', distance=0, unit='--') => {
     return ({id: id, time: time, distance: distance, unit: unit});
+};
+
+
+/**
+ * Creates a brand new activity object with the provided data or with blank default data if none is provided.
+ * @param {number} id - Activity id
+ * @param {string} activity - The activity the set of Laps will define
+ * @param {string} kit - The kit I relied on for this activity
+ * @param {string} weather - What was the weather like
+ * @param {string} temp - What did the temperature feel like
+ * @param {string} effort - And what was the perceived effort
+ * @return {object} An Activity with the data provided or blanks if none.
+ */
+const createActivity = (id=0, activity='--', kit='--', weather='--', temp='--', effort='--') => {
+    return ({id: id, activity: activity, kit: kit, weather: weather, temp: temp, effort: effort});
 };
 
 
@@ -170,8 +176,8 @@ const getValues = (map) => {
 
 export {
     lapsToReactRows,
-    createCleanLap,
     createLap,
+    createActivity,
     lapArrayToMap,
     calcTimes,
     getKeys,

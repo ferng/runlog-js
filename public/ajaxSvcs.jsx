@@ -32,7 +32,7 @@ const get = (endpoint) => {
 /**
  * Encapsulates an HTTP-POST within a promise.
  * @param {string} endpoint - Where are we getting the data from
- * @param  body - The data we are sending to the server to save
+ * @param {object} body - The data we are sending to the server to save
  * @return {Promise}
  * reject on connectivity or issues with the server at the endpoint.
  */

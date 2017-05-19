@@ -62,8 +62,8 @@ router.get('/*', (req, res) => {
 router.post('/*', (req, res) => {
     const dataType = req.path.slice(1);
     runVal.parseRequest(req)
-        .then((lapData) => {
-            db.insertOne(dataType, lapData);
+        .then((data) => {
+            db.insertOne(dataType, data);
             res.status(201).send('');
         })
         .catch((err) => {

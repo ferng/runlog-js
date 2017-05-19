@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SelectOpts from './SelectOpts.jsx';
+import {postNewItem} from './lapDataSvcs.jsx';
 import {Lap} from './Lap.jsx';
 import {prepSelectOpts, prepDistanceMultiplier} from './lapDataSvcs.jsx';
-import {createCleanLap} from './lapTools.jsx';
+import {createLap, createActivity} from './lapTools.jsx';
 
 /**
  * A React component to enter activity data.
@@ -11,8 +12,8 @@ import {createCleanLap} from './lapTools.jsx';
  *      a Map with {@link module:public/types~refData|refData}.
  * it adds a Map with {@link module:public/types~multipliers|multipliers} to the context.
  * @param {props} props - The properties object containing the properties for this React component
- * @property {object} lap - An object defining a {@link module:public/types~lap|lap}
- * @property {function} onActivitySubmit - Callback function to execute when an actrivity being entered or edited is submitted
+ * @property {object} activity - An object defining a {@link module:public/types~activity|activity}
+ * @property {function} onActivitySubmit - Callback function to execute when an activity being entered or edited is submitted
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class ActivityForm extends React.Component {
@@ -66,22 +67,28 @@ class ActivityForm extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        // let id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();
-        // let time = LapForm.context.state.time;
-        // let distance = parseFloat(LapForm.context.state.distance);
-        // let unit = LapForm.context.state.unit;
-        // if (!time || time == '00:00:00' || !distance || distance === 0 || distance === NaN || !unit || unit === '--') {
-        //     return;
-        // }
+        let id = ActivityForm.context.state.id !== 0 ? ActivityForm.context.state.id : Date.now();
+        let activity = ActivityForm.context.state.activity;
+        let kit = ActivityForm.context.state.kit;
+        let weather = ActivityForm.context.state.weather;
+        let temp = ActivityForm.context.state.temp;
+        let effort = ActivityForm.context.state.effort;
+        if (!activity || activity === '--' ||
+            !kit || kit === '--' ||
+            !weather || weather === '--' ||
+            !temp || temp === '--' ||
+            !effort || effort === '--') {
+                return;
+        }
 
-        // let newLap = createLap(id, time, distance, unit);
-        // postNewLap(newLap);
-        // LapForm.context.props.onLapSubmit(newLap);
+        let newActivity = {activiy: createActivity(id, activity, kit, weather, temp, effort)};
+        postNewItem(newActivity, 'activity');
+        // ActivityForm.context.props.onActivitySubmit(newActivity);
         // LapForm.context.setState(createCleanLap());
     }
 
     render() {
-        const lap = createCleanLap();
+        const lap = createLap();
         return (
             <div className='lapList'>
             <div className='twelve columns left'>

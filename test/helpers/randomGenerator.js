@@ -6,7 +6,7 @@
 
 /**
  * Generate a random time stamp in 24hr format.
- * @return {string} string representation of the timestamp.
+ * @return {string} String representation of the timestamp.
  */
 function getRandomTime() {
     let hh = getRandomNumberInclusive(0, 23);
@@ -23,7 +23,7 @@ function getRandomTime() {
  * Generate a random number up to and including max.
  * @param {Number} min - range floor
  * @param {string} max - range ceiling
- * @return {Number} the generated number
+ * @return {Number} The generated number
  */
 function getRandomNumberInclusive(min, max) {
     return Math.floor(Math.random() * (1 + max - min)) + min;
@@ -35,7 +35,7 @@ function getRandomNumberInclusive(min, max) {
  * @param {Number} len - how long do you want it
  * @param {Number} asciiStart - ASCII code for the first character in the range to use
  * @param {Number} rangeLen - size of character set
- * @return {string} the generated string.
+ * @return {string} The generated string.
  *
  * @example
  * // 10 character string made up of upper case characters.

@@ -19,7 +19,7 @@ class TopLevel extends React.Component {
             .then((data) => {
                 TopLevel.context.setState({refData: data});
             })
-            .then((data) => getLaps('laps'))
+            .then((data) => getLaps('lap'))
             .then(lapArrayToMap)
             .then((data) => {
                 TopLevel.context.setState({laps: data});
@@ -32,12 +32,19 @@ class TopLevel extends React.Component {
         return {refData: TopLevel.context.state.refData};
     }
 
-    handleLapSubmit(lap) {
+    handleLapSubmit(lapData) {
         let laps = TopLevel.context.state.laps;
-        laps.set(lap.id, lap);
+        laps.set(lapData.id, lapData['lap']);
 
         TopLevel.context.setState({laps: laps});
     }
+
+    // handleActivitySubmit(activity) {
+    //     let activities = TopLevel.context.state.activities;
+    //     activities.set(activities.id, activities);
+
+    //     TopLevel.context.setState({activities: activities});
+    // }
 
     render() {
         if (this.state.dataLoaded) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {LapEntry} from './LapEntry.jsx';
-import {postNewLap} from './lapDataSvcs.jsx';
-import {createLap, createCleanLap} from './lapTools.jsx';
+import {postNewItem} from './lapDataSvcs.jsx';
+import {createLap} from './lapTools.jsx';
 
 
 /**
@@ -32,10 +32,10 @@ class LapForm extends React.Component {
             return;
         }
 
-        let newLap = createLap(id, time, distance, unit);
-        postNewLap(newLap, 'laps');
+        let newLap = {lap: createLap(id, time, distance, unit)};
+        postNewItem(newLap, 'lap');
         LapForm.context.props.onLapSubmit(newLap);
-        LapForm.context.setState(createCleanLap());
+        LapForm.context.setState(createLap());
     }
 
     render() {

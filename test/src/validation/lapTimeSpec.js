@@ -15,7 +15,7 @@ test('Valid time data in request', (t) => {
 
     let req = {
         body: expected,
-        path: '/laps',
+        path: '/lap',
     };
 
     t.plan(1);
@@ -37,7 +37,7 @@ test('Invalid time data in request', (t) => {
 
     let req = {
         body: reqBody,
-        path: '/laps',
+        path: '/lap',
     };
 
     t.plan(1);

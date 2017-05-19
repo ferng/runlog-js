@@ -81,7 +81,7 @@ test('onLapSubmit returns the lap context state set by front end', (t) => {
     t.equal(instance.state['time'], '00:00:00');
 
     // checking returned lap is what state used to be
-    const actualData = onLapSubmit.args[0][0];
+    const actualData = (onLapSubmit.args[0][0])['lap'];
     t.equal(onLapSubmit.calledOnce, true);
     t.equal(actualData['time'], testLap1.time);
     t.equal(actualData['distance'], testLap1.distance);
