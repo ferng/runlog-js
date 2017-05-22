@@ -4,7 +4,7 @@ import SelectOpts from './SelectOpts.jsx';
 import {postNewItem} from './lapDataSvcs.jsx';
 import {Lap} from './Lap.jsx';
 import {prepSelectOpts, prepDistanceMultiplier} from './lapDataSvcs.jsx';
-import {createLap, createActivity} from './lapTools.jsx';
+import {createLap, createActivity} from '../common/lap.jsx';
 
 /**
  * A React component to enter activity data.

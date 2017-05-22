@@ -1,6 +1,8 @@
 import test from 'tape';
 import {areObjectsEqual} from '../helpers/tools.js';
-import {lapsToReactRows, createLap, lapArrayToMap, calcTimes, getKeys, getValues} from '../../public/lapTools.jsx';
+import {lapsToReactRows, lapArrayToMap, calcTimes} from '../../public/lapTools.jsx';
+import {createLap} from '../../common/lap.jsx';
+import {getKeys, getValues} from '../../common/tools.jsx';
 import {getDistanceMults, splitRowData, getRandomLap} from '../helpers/testData.js';
 
 

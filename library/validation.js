@@ -1,6 +1,6 @@
 /**
  * General validation utilities.
- * @module src/validation/common
+ * @module common/validation
  */
 
 /**
@@ -45,8 +45,21 @@ function isTimeExpr(value, maxhour) {
     );
 };
 
+function isValidDistance(dist) {
+    return (typeof (dist) != 'undefined' &&
+        isFloatExpr(dist) &&
+        dist > 0);
+};
+
+
+function isValidTime24(time) {
+    return (typeof (time) != 'undefined' &&
+        isTimeExpr24(time));
+};
 
 module.exports = {
-    isFloatExpr: isFloatExpr,
-    isTimeExpr24: isTimeExpr24,
+    isFloatExpr,
+    isTimeExpr24,
+    isValidDistance,
+    isValidTime24,
 };

@@ -37,7 +37,7 @@ const lapsToReactRows = (laps, editCallback, submitCallback) => {
 
 /**
  * Rendering utility which converts a data lap into a React LapField for display.
- * @param  {object} lap - The {@link module:public/types~lap|lap} to convert
+ * @param {object} lap - The {@link module:public/types~lap|lap} to convert
  * @param {Function} editCallback - callBack function when a lap is clicked for editing
  * @param {Function} submitCallback - callBack function when lap being edited is submitted for saving
  * @return {LapField} A LapField React component.
@@ -62,34 +62,6 @@ const rowsToReact = (rows) => {
     });
 
     return lapNodes;
-};
-
-
-/**
- * Creates a brand new lap object with the provided data or with blank default data if none is provided.
- * @param {number} id - Lap id
- * @param {string} time - Time taken to complete the lap
- * @param {float} distance - What was the distance convered
- * @param {string} unit - What was the distance unit: mile, metre, etc
- * @return {object} A Lap with the data provided or blanks if none.
- */
-const createLap = (id=0, time='00:00:00', distance=0, unit='--') => {
-    return ({id: id, time: time, distance: distance, unit: unit});
-};
-
-
-/**
- * Creates a brand new activity object with the provided data or with blank default data if none is provided.
- * @param {number} id - Activity id
- * @param {string} activity - The activity the set of Laps will define
- * @param {string} kit - The kit I relied on for this activity
- * @param {string} weather - What was the weather like
- * @param {string} temp - What did the temperature feel like
- * @param {string} effort - And what was the perceived effort
- * @return {object} An Activity with the data provided or blanks if none.
- */
-const createActivity = (id=0, activity='--', kit='--', weather='--', temp='--', effort='--') => {
-    return ({id: id, activity: activity, kit: kit, weather: weather, temp: temp, effort: effort});
 };
 
 
@@ -140,46 +112,8 @@ const calcTimes = (unitMult, distance, time) => {
 };
 
 
-/**
- * Parses a map and creates an array of its keys.
- * @param {Object.<String, Float>} map - A map
- * @return {string[]} An array containing the keys in the map.
- */
-const getKeys = (map) => {
-    let keys = [];
-
-    const iter = map.keys();
-    for (let k of iter) {
-        keys.push(k);
-    }
-
-    return keys;
-};
-
-
-/**
- * Parses a map and creates an array of its values.
- * @param {Object.<String, Float>} map - A map
- * @return {Object[]} An array containing the values in the map.
- */
-const getValues = (map) => {
-    let values = [];
-
-    const iter = map.values();
-    for (let v of iter) {
-        values.push(v);
-    }
-
-    return values;
-};
-
-
 export {
     lapsToReactRows,
-    createLap,
-    createActivity,
     lapArrayToMap,
     calcTimes,
-    getKeys,
-    getValues,
 };

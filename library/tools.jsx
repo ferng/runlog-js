@@ -1,7 +1,41 @@
 /**
- * General helper tools used while testing, mostly asserting whether complex data types are equal or not.
- * @module test/helpers/tools
+ * Provides common services used for lap data entry and rendering.
+ * @module common/tools
  */
+
+
+/**
+ * Parses a map and creates an array of its keys.
+ * @param {Object.<String, Float>} map - A map
+ * @return {string[]} An array containing the keys in the map.
+ */
+const getKeys = (map) => {
+    let keys = [];
+
+    const iter = map.keys();
+    for (let k of iter) {
+        keys.push(k);
+    }
+
+    return keys;
+};
+
+
+/**
+ * Parses a map and creates an array of its values.
+ * @param {Object.<String, Float>} map - A map
+ * @return {Object[]} An array containing the values in the map.
+ */
+const getValues = (map) => {
+    let values = [];
+
+    const iter = map.values();
+    for (let v of iter) {
+        values.push(v);
+    }
+
+    return values;
+};
 
 
 /**
@@ -64,8 +98,9 @@ function areMapsEqual(map1, map2) {
     return areEqual;
 }
 
-
 export {
+    getKeys,
+    getValues,
     areObjectsEqual,
     areArraysEqual,
     areMapsEqual,

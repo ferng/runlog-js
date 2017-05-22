@@ -1,6 +1,6 @@
 /**
  * Common object definitions.
- * @module public/types
+ * @module common/types
  */
 
 /**

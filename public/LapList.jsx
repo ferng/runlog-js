@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {prepDistanceMultiplier} from './lapDataSvcs.jsx';
-import {lapsToReactRows, getValues, createLap} from './lapTools.jsx';
+import {lapsToReactRows} from './lapTools.jsx';
+import {getValues} from '../common/tools.jsx';
+import {createLap} from '../common/lap.jsx';
 
 /**
  * A React component to display data for a number of laps.

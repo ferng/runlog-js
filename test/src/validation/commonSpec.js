@@ -1,5 +1,5 @@
 const test = require('tape');
-const target = require('../../../src/validation/common.js');
+const target = require('../../../common/validation.js');
 
 test('Valid float expressions', (t) => {
     t.plan(8);

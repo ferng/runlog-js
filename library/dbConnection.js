@@ -1,11 +1,11 @@
 /**
  * Db connection and query utilities. Database connectivity details are specified in config.js.
- * @module src/utils/dbConnection
+ * @module common/dbConnection
  */
 
 const MongoClient = require('mongodb').MongoClient;
-const config = require('../../config.js');
-const log = require('../utils/logger.js').getLogger();
+const config = require('../config.js');
+const log = require('./logger.js').getLogger();
 
 let conn = undefined;
 const url = 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + config.mongo.database;

@@ -3,18 +3,18 @@
  * Uses bunyan to carry out the actual logging, so the usual log levels apply.
  * @see https://github.com/trentm/node-bunyan
  *
- * @module src/utils/logger
+ * @module common/logger
  *
  * @example
  * // Needed once at the top of the file.
- * const log = require('../../src/utils/logger.js').getLogger();
+ * const log = require('../common/logger.js').getLogger();
  *
  * // Any place in the code where logging is required.
  * log.debug('Attempting connection to mongodb on: ' + url);
  */
 
 const bunyan = require('bunyan');
-const config = require('../../config.js');
+const config = require('../config.js');
 
 let logger;
 

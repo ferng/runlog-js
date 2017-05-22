@@ -1,5 +1,5 @@
 const test = require('tape');
-const target = require('../../../src/validation/run.js');
+const target = require('../../../src/validation.js');
 const helper = require('../../helpers/tools.js');
 
 const expectedBad = 'bad';

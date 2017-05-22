@@ -4,8 +4,8 @@ const app = express();
 const routeRuns = require('./src/routes/runs.js');
 const routeSvcs = require('./src/routes/svcs.js');
 const config = require('./config.js');
-const log = require('./src/utils/logger.js').getLogger();
-const db = require('./src/utils/dbConnection.js');
+const log = require('./common/logger.js').getLogger();
+const db = require('./common/dbConnection.js');
 
 
 // initialize mongo db connection pool

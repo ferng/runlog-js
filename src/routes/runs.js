@@ -5,8 +5,8 @@
  */
 
 const express = require('express');
-let log = require('../utils/logger.js').getLogger();
-const db = require('../utils/dbConnection.js');
+let log = require('../../common/logger.js').getLogger();
+const db = require('../../common/dbConnection.js');
 const runVal = require('../validation/run.js');
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {LapEntry} from './LapEntry.jsx';
 import {postNewItem} from './lapDataSvcs.jsx';
-import {createLap} from './lapTools.jsx';
+import {createLap} from '../common/lap.jsx';
 
 
 /**
