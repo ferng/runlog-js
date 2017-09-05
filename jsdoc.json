@@ -8,7 +8,9 @@
     },
     "source": {
         "include": [
+            "./fernJs",
             "./public",
+            "./shared",
             "./src",
             "./test",
             "./README.md"

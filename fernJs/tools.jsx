@@ -10,14 +10,7 @@
  * @return {string[]} An array containing the keys in the map.
  */
 const getKeys = (map) => {
-    let keys = [];
-
-    const iter = map.keys();
-    for (let k of iter) {
-        keys.push(k);
-    }
-
-    return keys;
+    return Array.from(map.keys());
 };
 
 
@@ -27,39 +20,32 @@ const getKeys = (map) => {
  * @return {Object[]} An array containing the values in the map.
  */
 const getValues = (map) => {
-    let values = [];
-
-    const iter = map.values();
-    for (let v of iter) {
-        values.push(v);
-    }
-
-    return values;
+    return Array.from(map.values());
 };
 
 
 /**
- * Compare two objects. The comparison is shallow, not recursive. Only the first level fields are compared.
+ * Compare two objects. The comparison is shallow, not recursive.
  * @param  {object} obj1 - 1st object in comparison
  * @param  {object} obj2 - 2nd object in comparison
  * @return {Boolean} true if the two objects match, false otherwise.
  */
 function areObjectsEqual(obj1, obj2) {
-    let obj1Keys = Object.keys(obj1);
-    let obj2Keys = Object.keys(obj2);
-
-    let areEqual = true;
-    if (!areArraysEqual(obj1Keys, obj2Keys)) {
-        areEqual = false;
-    }
-    obj1Keys.forEach((item, index, array) => {
-        if (obj1[item] === undefined || obj2[item] === undefined) {
-            areEqual = false;
-        } if (obj1[item] != obj2[item]) {
-            areEqual = false;
+    if ((typeof obj1 == 'object' && obj1 != null) && (typeof obj2 == 'object' && obj2 != null)) {
+        console.log('top', obj1, obj2);
+        if (Object.keys(obj1).length != Object.keys(obj2).length) {
+            return false;
         }
-    });
-    return areEqual;
+        for (let key in obj1) {
+            if ((!(key in obj2)) || (!areObjectsEqual(obj1[key], obj2[key]))) {
+                return false;
+            }
+        }
+        return true;
+    } else {
+        console.log('here', obj1, obj2);
+        return obj1 === obj2;
+    }
 }
 
 

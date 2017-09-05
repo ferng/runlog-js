@@ -1,6 +1,14 @@
 /**
- * Db connection and query utilities. Database connectivity details are specified in config.js.
- * @module common/dbConnection
+ * Db connection and query utilities.
+ * Database connectivity details are specified in config.js:
+ * @module fernJs/dbConnection
+ *
+ * @example
+ * // database configuration in config.js:
+ * config.mongo = {};
+ * config.mongo.host = '127.0.0.1';
+ * config.mongo.port = 27017;
+ * config.mongo.database = 'runlog';
  */
 
 const MongoClient = require('mongodb').MongoClient;
@@ -14,7 +22,9 @@ const url = 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + c
 /**
  * Initialises the database connection pool. Should only be called once, possibly from server.js.
  * @return {Promise}
- * reject when errors occured stablishing connection.
+ * Resolve on success with with no data.<br>
+ * Reject on Db connection errors.
+ * @todo check conn if it's already set and reject if so
  */
 function initPool() {
     return new Promise((resolve, reject) => {
@@ -36,10 +46,10 @@ function initPool() {
 /**
  * Runs a query on collection retrieving specified fields from all documents.
  * @param {string} collectionName
- * @param {string[]} [fields = all fields] - Retrieve only specified fields
+ * @param {string[]} [fields = all fields] - retrieve only specified fields or all fields if none given
  * @return {Promise}
- * resolve returns retrieved documents.<br>
- * reject on Db connection errors.
+ * Resolve on success with any retrieved documents.<br>
+ * Reject on Db connection errors.
  */
 function get(collectionName, fields) {
     return new Promise((resolve, reject) => {
@@ -58,13 +68,13 @@ function get(collectionName, fields) {
 };
 
 
-// run upsert based on the crietria (id)
 /**
- * Inserts a document into a collection.
+ * Inserts a document into a collection if it doesn't exist, or updates an existing one if it already does.
  * @param {string} collectionName
- * @param  {object} document - Document to be added to collection
+ * @param {object} document - document to be added to collection
  * @return {Promise}
- * reject document not inserted due to Db connection errors.
+ * Resolve on success with with no data.<br>
+ * Reject on Db connection errors, document could not be inserted, client should retry or abend transaction.
  */
 function insertOne(collectionName, document) {
     return new Promise((resolve, reject) => {
@@ -83,10 +93,10 @@ function insertOne(collectionName, document) {
 
 
 /**
- * Prevents _id field from being returned by a query.
+ * Helper to prevent _id field from being returned by a query.
  * @private
  * @param {string[]} fields to be returned
- * @return  {object} An object listing which fields to return / avoid.
+ * @return {object} An object listing which fields to return / avoid.
  */
 function parseProjection(fields) {
     let projection = {};

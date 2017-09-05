@@ -1,6 +1,6 @@
 /**
- * Generates test data for unit tests. These are generic helper methods.
- * @module test/helpers/randomGenerator
+ * Generates random data..
+ * @module fernJs/randomGenerator
  */
 
 
@@ -20,13 +20,26 @@ function getRandomTime() {
 
 
 /**
- * Generate a random number up to and including max.
+ * Generate a positive random number up to and including max.
  * @param {Number} min - range floor
  * @param {string} max - range ceiling
- * @return {Number} The generated number
+ * @return {Number} The generated random number or undefined if min is negative or larger than max or either value is undefined or NaN.
  */
 function getRandomNumberInclusive(min, max) {
+    if (min < 0 || min > max || min === undefined || isNaN(min) || max === undefined || isNaN(max)) {
+        return undefined;
+    }
     return Math.floor(Math.random() * (1 + max - min)) + min;
+}
+
+
+/**
+ * Generate a random alphabetical string in lower case
+ * @param {Number} len - how long do you want it
+ * @return {string} The generated string or undefined if len is negative, undefined or NaN.
+ */
+function getRandomAlphaString(len) {
+    return getRandomString(len, 97, 26);
 }
 
 
@@ -35,7 +48,7 @@ function getRandomNumberInclusive(min, max) {
  * @param {Number} len - how long do you want it
  * @param {Number} asciiStart - ASCII code for the first character in the range to use
  * @param {Number} rangeLen - size of character set
- * @return {string} The generated string.
+ * @return {string} The generated string, or undefined if any value is negative, undefined or NaN.
  *
  * @example
  * // 10 character string made up of upper case characters.
@@ -43,11 +56,13 @@ function getRandomNumberInclusive(min, max) {
  *
  * // 10 character string made up of lower case characters.
  * getRandomString(10, 97, 26)
- *
- * // 3 character string made up of digits.
- * getRandomString(3, 48, 10)
  */
 function getRandomString(len, asciiStart, rangeLen) {
+    if (len < 0 || len === undefined || isNaN(len) ||
+        asciiStart < 0 || asciiStart === undefined || isNaN(asciiStart) ||
+        rangeLen < 0 || rangeLen === undefined || isNaN(rangeLen)) {
+        return undefined;
+    }
     let rndStr = '';
     let offset;
 
@@ -63,5 +78,6 @@ function getRandomString(len, asciiStart, rangeLen) {
 export {
     getRandomTime,
     getRandomNumberInclusive,
+    getRandomAlphaString,
     getRandomString,
 };

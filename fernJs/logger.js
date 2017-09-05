@@ -3,7 +3,7 @@
  * Uses bunyan to carry out the actual logging, so the usual log levels apply.
  * @see https://github.com/trentm/node-bunyan
  *
- * @module common/logger
+ * @module fernJs/logger
  *
  * @example
  * // Needed once at the top of the file.
@@ -11,17 +11,25 @@
  *
  * // Any place in the code where logging is required.
  * log.debug('Attempting connection to mongodb on: ' + url);
+ *
+ * // logger configuration in config.js:
+ * config.logger = {};
+ * config.logger.appname = 'runlog';
+ * config.logger.file_name = 'runlog.log.json';
+ * config.logger.file_level = 'trace';
+ * config.logger.console_level = 'trace';
  */
 
 const bunyan = require('bunyan');
 const config = require('../config.js');
 
-let logger;
+let logger = undefined;
 
 
 /**
  * Get a logger object which can then be used to log messages.
  * @return {Logger}
+ * @todo see if logger === undefined is better
  */
 function getLogger() {
     if (typeof logger == 'undefined') {

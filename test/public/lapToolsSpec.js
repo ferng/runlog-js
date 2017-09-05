@@ -90,20 +90,3 @@ test('calcTimes calculates mph and min per mile', (t) => {
 });
 
 
-test('getKeys returns an array with all the keys from a map, getValues does the same but for the values in a map', (t) => {
-    const dataMap = new Map();
-    dataMap.set('a', 1);
-    dataMap.set('b', 17);
-    dataMap.set('f', 265);
-    dataMap.set('onions', 88);
-
-    const keys = getKeys(dataMap);
-    const vals = getValues(dataMap);
-
-    t.plan(6);
-    t.equal(keys.length, dataMap.size);
-    t.equal(vals.length, dataMap.size);
-    for (let i = 0; i < 4; i++) {
-        t.equal(dataMap.get(keys[i]), vals[i]);
-    }
-});
