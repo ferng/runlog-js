@@ -45,8 +45,21 @@ function isTimeExpr(value, maxhour) {
     );
 };
 
+function objEmpty(obj) {
+  return obj === undefined ||
+    obj === null ||
+    Object.keys(obj).length === 0
+  ;
+}
+
+function isDocumentValid(doc) {
+  return ! objEmpty(doc);
+}
+
 
 module.exports = {
-    isFloatExpr: isFloatExpr,
-    isTimeExpr24: isTimeExpr24,
+  isFloatExpr: isFloatExpr,
+  isTimeExpr24: isTimeExpr24,
+  isDocumentValid: isDocumentValid,
+  objEmpty: objEmpty 
 };
