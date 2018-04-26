@@ -5,6 +5,11 @@ const val = require('../validation/common.js');
 
 var conn;
 
+/**
+ * Initialises the database connection pool. Should only be called once, possibly from server.js.
+ * @return {Promise}
+ * reject when errors occured stablishing connection.
+ */
 function initPool() {
   return new Promise((resolve, reject) => {
     var dbFile = config.sqlite.file;
@@ -22,26 +27,24 @@ function initPool() {
 }
 
 
+/**
+ * Closes a proviously initialized pool
+ */
 function closePool(){
   conn.close();
 }
 
 
-function execute(statement) {
-  return new Promise((resolve, reject) => {
-    conn.run(statement, (err) => {
-      if (err) {
-        log.error('Error executing sql: ', err);
-        reject(err);
-        return;
-      }
-      log.debug('Statement executed: ', statement);
-      resolve();
-    });
-  });
-}
-
-
+/**
+ * Retrieve the specified fields (or all fields if no fields are specified) matching the criteria
+ * (or all rows if blank criteria is specified).
+ * @param {string} table
+ * @param {json} criteria - Json doc specifying fields and matcher values, can be emty document to omit criteria 
+ * @param {string[]} [fields = all fields] - Retrieve only specified fields, or all fields if this parameter is omitted
+ * @return {Promise}
+ * resolve returns retrieved documents.<br>
+ * reject on Db connection errors.
+ */
 function get(table, criteria, fields) {
   return new Promise((resolve, reject) => {
     if (fields === undefined || fields === null || fields.length === 0) {
@@ -72,6 +75,14 @@ function get(table, criteria, fields) {
 }
 
 
+/**
+ * Inserts the given document into the specified database.
+ * @param {string} table
+ * @param {json} document - Json doc specifying fields and values
+ * @return {Promise}
+ * resolve returns the rowId of the newly inserted document. Al rowId constraints apply<br>
+ * reject on errors: document, sql or connectivity.
+ */
 function insertOne(table, document) {
   return new Promise((resolve, reject) => {
     if (! val.isDocumentValid(document)) {
@@ -93,6 +104,13 @@ function insertOne(table, document) {
 }
 
 
+/**
+ * Inserts the given document into the specified database.
+ * @param {string} table
+ * @param {json[]} documents - Array of Json documents specifying fields and values
+ * @return {Promise}
+ * reject on errors: document, sql or connectivity.
+ */
 function insertMany(table, documents) {
   return new Promise((resolve, reject) => {
     if (documents === undefined || documents === null || documents.length === 0 || documents.length === undefined) {
@@ -121,6 +139,14 @@ function insertMany(table, documents) {
 }
 
 
+/**
+ * Inserts the given document into the specified database.
+ * @param {string} table
+ * @param {json} criteria - Json doc specifying fields and matcher values, can be emty document to omit criteria 
+ * @param {json} updates - Json doc specifying fields and values
+ * @return {Promise}
+ * reject on errors: document, sql or connectivity.
+ */
 function update(table, criteria, updates) {
   return new Promise((resolve, reject) => {
     if (! val.isDocumentValid(criteria)) {
@@ -147,6 +173,21 @@ function update(table, criteria, updates) {
         reject(err);
         return;
       }
+      resolve();
+    });
+  });
+}
+
+
+function execute(statement) {
+  return new Promise((resolve, reject) => {
+    conn.run(statement, (err) => {
+      if (err) {
+        log.error('Error executing sql: ', err);
+        reject(err);
+        return;
+      }
+      log.debug('Statement executed: ', statement);
       resolve();
     });
   });
@@ -197,7 +238,6 @@ function prepFields(fields) {
 module.exports = {
   initPool: initPool,
   closePool: closePool,
-  execute: execute,
   get: get,
   insertOne: insertOne,
   insertMany: insertMany,

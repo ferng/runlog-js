@@ -1,5 +1,5 @@
 const test = require('tape');
-const conn = require('../../../src/utils/dbConn.js');
+const db = require('../../../src/utils/dbConn.js');
 const config = require('../../../config.js');
 
 
@@ -8,7 +8,7 @@ test('Open db failure', async (t) => {
 
   try {
     config.sqlite.file = undefined; 
-    await conn.initPool();
+    await db.initPool();
     t.fail();
   } catch (actual) {
       t.true(actual instanceof TypeError);
@@ -21,7 +21,7 @@ test('Open db success', async (t) => {
  
   try {
     config.sqlite.file = ':memory:'; 
-    await conn.initPool();
+    await db.initPool();
     t.pass();
   } catch (err) {
     t.fail(err);
@@ -32,7 +32,7 @@ test('Open db success', async (t) => {
 test('Invalid SQL command', async (t) => {
   t.plan(2);
   try {
-    await conn.execute('CRXEATE TABLE unit1 (unit_id INTEGER PRIMARY KEY, desc TEXT NOT NULL, conversion REAL NOT NULL)');
+    await db.execute('CRXEATE TABLE unit1 (unit_id INTEGER PRIMARY KEY, desc TEXT NOT NULL, conversion REAL NOT NULL)');
     t.fail();
   } catch (actual) {
       t.equal(actual.name, 'Error');
@@ -44,8 +44,8 @@ test('Invalid SQL command', async (t) => {
 test('Create and drop table', async (t) => {
   t.plan(1);
   try {
-    await conn.execute('CREATE TABLE unit2 (unit_id INTEGER PRIMARY KEY, desc TEXT NOT NULL, conversion REAL NOT NULL)');
-    await conn.execute('DROP TABLE unit2');
+    await db.execute('CREATE TABLE unit2 (unit_id INTEGER PRIMARY KEY, desc TEXT NOT NULL, conversion REAL NOT NULL)');
+    await db.execute('DROP TABLE unit2');
     t.pass()
   } catch (err) {
     t.fail(err);
@@ -56,11 +56,11 @@ test('Create and drop table', async (t) => {
 test('InsertOne and get', async (t) => {
   t.plan(1);
   try {
-    await conn.execute('CREATE TABLE unit3 (desc TEXT NOT NULL)');
-    await conn.insertOne('unit3', {'desc': 'hello'});
-    const actual = await conn.get('unit3', {});
+    await db.execute('CREATE TABLE unit3 (desc TEXT NOT NULL)');
+    await db.insertOne('unit3', {'desc': 'hello'});
+    const actual = await db.get('unit3', {});
     t.equal(actual[0].desc, 'hello');
-    await conn.execute('DROP TABLE unit3');
+    await db.execute('DROP TABLE unit3');
   } catch (err) {
     it.fail(err);
   }
@@ -77,7 +77,7 @@ test('InsertOne document errors', async (t) => {
   t.plan(tests.length * 2);
   for (let test of tests.values()) {
     try {
-    await conn.insertOne('table', test.doc);
+    await db.insertOne('table', test.doc);
     t.fail();
   } catch (actual) {
       t.equal(actual.name === 'Error', test.expected);
@@ -90,14 +90,14 @@ test('InsertOne document errors', async (t) => {
 test('InsertMany and get', async (t) => {
   t.plan(2);
   try {
-    await conn.execute('CREATE TABLE unit4 (desc TEXT NOT NULL)');
-    await conn.insertMany('unit4', [{'desc': 'well'}, {'desc': 'now'}]);
+    await db.execute('CREATE TABLE unit4 (desc TEXT NOT NULL)');
+    await db.insertMany('unit4', [{'desc': 'well'}, {'desc': 'now'}]);
 
-    const actual = await conn.get('unit4', {});
+    const actual = await db.get('unit4', {});
     t.equal(actual[0].desc, 'well');
     t.equal(actual[1].desc, 'now');
 
-    await conn.execute('DROP TABLE unit4');
+    await db.execute('DROP TABLE unit4');
   } catch(err) {
     t.fail(err);
   }
@@ -119,7 +119,7 @@ test('InsertMany document errors', async (t) => {
   t.plan(tests.length * 2);
   for (let test of tests.values()) {
     try {
-      await conn.insertMany('table', test.doc)
+      await db.insertMany('table', test.doc)
       t.fail();
     } catch (actual) {
       t.equal(actual.name === 'Error', test.expected);
@@ -137,16 +137,16 @@ test('Get Multiple fields', async (t) => {
       {'desc': 'later', 'conversion': 2, 'fruit': 'mangos'},
     ];
   try {
-    await conn.execute('CREATE TABLE unit5 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
-    await conn.insertMany('unit5', testRecords);
+    await db.execute('CREATE TABLE unit5 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
+    await db.insertMany('unit5', testRecords);
     
-    var actual = await conn.get('unit5', {});
+    var actual = await db.get('unit5', {});
     t.equal(actual.length, 3);
     
-    actual = await conn.get('unit5', {}, ['fruit', 'conversion']);
+    actual = await db.get('unit5', {}, ['fruit', 'conversion']);
     t.equal(actual.length, 3);
     
-    await conn.execute('DROP TABLE unit5');
+    await db.execute('DROP TABLE unit5');
     t.pass();
   } catch(err) {
     t.fail(err);
@@ -162,13 +162,13 @@ test('Update one record', async (t) => {
       {'desc': 'later', 'conversion': 2, 'fruit': 'mangos'},
     ];
   try {
-    await conn.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
-    await conn.insertMany('unit6', testRecords);
+    await db.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
+    await db.insertMany('unit6', testRecords);
     
-    var actual = await conn.get('unit6', {});
+    var actual = await db.get('unit6', {});
     t.equal(actual.length, 3);
     
-    actual = await conn.get('unit6', {}, ['fruit']);
+    actual = await db.get('unit6', {}, ['fruit']);
     t.equal(actual.length, 3);
     var expected = ['apples', 'pears', 'mangos'];
     actual.forEach((actFruit) => {
@@ -179,9 +179,9 @@ test('Update one record', async (t) => {
   
     const criteria = {'desc': 'now'};
     const update = {'fruit': 'onions'};
-    actual = await conn.update('unit6', criteria, update);
+    actual = await db.update('unit6', criteria, update);
 
-    actual = await conn.get('unit6', {}, ['fruit']);
+    actual = await db.get('unit6', {}, ['fruit']);
     t.equal(actual.length, 3);
     expected = ['apples', 'onions', 'mangos'];
     actual.forEach((actFruit) => {
@@ -190,7 +190,7 @@ test('Update one record', async (t) => {
       }
     });
   
-    await conn.execute('DROP TABLE unit6');
+    await db.execute('DROP TABLE unit6');
     t.pass();
   } catch(err) {
     t.fail(err);
@@ -206,13 +206,13 @@ test('Update multiple records', async (t) => {
       {'desc': 'now', 'conversion': 2, 'fruit': 'mangos'},
     ];
   try {
-    await conn.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
-    await conn.insertMany('unit6', testRecords);
+    await db.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
+    await db.insertMany('unit6', testRecords);
     
-    var actual = await conn.get('unit6', {});
+    var actual = await db.get('unit6', {});
     t.equal(actual.length, 3);
     
-    actual = await conn.get('unit6', {}, ['fruit']);
+    actual = await db.get('unit6', {}, ['fruit']);
     t.equal(actual.length, 3);
     var expected = ['apples', 'pears', 'mangos'];
     actual.forEach((actFruit) => {
@@ -223,9 +223,9 @@ test('Update multiple records', async (t) => {
   
     const criteria = {'desc': 'now'};
     const update = {'fruit': 'onions'};
-    actual = await conn.update('unit6', criteria, update);
+    actual = await db.update('unit6', criteria, update);
 
-    actual = await conn.get('unit6', {}, ['fruit']);
+    actual = await db.get('unit6', {}, ['fruit']);
     t.equal(actual.length, 3);
  
     t.equal(Object.values(actual).length, 3);
@@ -235,7 +235,7 @@ test('Update multiple records', async (t) => {
       }
     });
 
-    await conn.execute('DROP TABLE unit6');
+    await db.execute('DROP TABLE unit6');
     t.pass();
   } catch(err) {
     t.fail(err);
@@ -251,14 +251,14 @@ test('Get with criteria', async (t) => {
       {'desc': 'now', 'conversion': 2, 'fruit': 'mangos'},
     ];
   try {
-    await conn.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
-    await conn.insertMany('unit6', testRecords);
+    await db.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
+    await db.insertMany('unit6', testRecords);
     
-    var actual = await conn.get('unit6', {});
+    var actual = await db.get('unit6', {});
     t.equal(actual.length, 3);
     
     const criteria = {'desc': 'now'};
-    actual = await conn.get('unit6', criteria);
+    actual = await db.get('unit6', criteria);
 
     t.equal(actual.length, 2);
     var expected = ['pears', 'mangos'];
@@ -271,7 +271,7 @@ test('Get with criteria', async (t) => {
       }
     });
   
-    await conn.execute('DROP TABLE unit6');
+    await db.execute('DROP TABLE unit6');
     t.pass();
   } catch(err) {
     t.fail(err);
@@ -287,14 +287,14 @@ test('Get some fields with criteria', async (t) => {
       {'desc': 'now', 'conversion': 2, 'fruit': 'mangos'},
     ];
   try {
-    await conn.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
-    await conn.insertMany('unit6', testRecords);
+    await db.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
+    await db.insertMany('unit6', testRecords);
     
-    var actual = await conn.get('unit6', {}, ['conversion']);
+    var actual = await db.get('unit6', {}, ['conversion']);
     t.equal(actual.length, 3);
     
     const criteria = {'desc': 'now'};
-    actual = await conn.get('unit6', criteria, ['conversion']);
+    actual = await db.get('unit6', criteria, ['conversion']);
 
     t.equal(actual.length, 2);
     var expected = [1.5, 2];
@@ -302,13 +302,12 @@ test('Get some fields with criteria', async (t) => {
       if (expected.includes(act.conversion)) {
         t.pass();
       }
-      console.log('------')
       if (Object.keys(act).length === 1) {
         t.pass();
       }
     });
   
-    await conn.execute('DROP TABLE unit6');
+    await db.execute('DROP TABLE unit6');
     t.pass();
   } catch(err) {
     t.fail(err);

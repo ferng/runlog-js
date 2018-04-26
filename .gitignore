@@ -6,3 +6,4 @@ bundle.js
 *log.json
 npm-debug.log
 tags
+*.swp
