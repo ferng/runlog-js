@@ -39,7 +39,7 @@ class TopLevel extends React.Component {
         TopLevel.context.setState({laps: laps});
     }
 
-    // handleActivitySubmit(activity) {
+  // handleActivitySubmit(activity) {
     //     let activities = TopLevel.context.state.activities;
     //     activities.set(activities.id, activities);
 

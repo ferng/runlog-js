@@ -72,6 +72,7 @@ var definitions = [unit, activity, kit, weather, feelslike, effort];
 
 
 function init() {
+  
   definitions.foreach ((def) => {
     try {
       await db.execute(def.create);

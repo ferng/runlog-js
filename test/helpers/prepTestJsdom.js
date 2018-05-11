@@ -1,6 +1,17 @@
-let jsdom = require('jsdom').jsdom;
+let jsdom = require('jsdom');
 
-global.document = jsdom('');
+const options = {
+    resources: 'usable',
+    runScripts: 'dangerously',
+    beforeParse(window) {
+          window.alert = window.console.log.bind(window.console);
+        },
+};
+
+const {JSDOM} = jsdom;
+const {document} = (new JSDOM('', options)).window;
+
+global.document = document;
 global.window = document.defaultView;
 
 Object.keys(document.defaultView).forEach((property) => {

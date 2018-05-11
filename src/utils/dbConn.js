@@ -34,7 +34,7 @@ function closePool(){
   conn.close();
 }
 
-
+  
 /**
  * Retrieve the specified fields (or all fields if no fields are specified) matching the criteria
  * (or all rows if blank criteria is specified).
@@ -242,4 +242,5 @@ module.exports = {
   insertOne: insertOne,
   insertMany: insertMany,
   update: update,
+  execute: execute,
 };

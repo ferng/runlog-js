@@ -5,15 +5,22 @@ const routeRuns = require('./src/routes/runs.js');
 const routeSvcs = require('./src/routes/svcs.js');
 const config = require('./config.js');
 const log = require('./src/utils/logger.js').getLogger();
-const db = require('./src/utils/dbConnection.js');
+const db = require('./src/utils/dbConn.js');
+const dbInit = require('./src/utils/dbInit.js');
 
 
-// initialize mongo db connection pool
-db.initPool()
-    .catch((err) => {
-        log.fatal(err);
-        process.exit(1);
-    });
+// initializa database if not already there
+try {
+  await db.initPool();
+  await db.get('effort', {});
+} catch(err) {
+  if (err.messagei === 'SQLITE_ERROR: no such table: effort') {
+    dbInit.init();
+  } else {
+    log.fatal(err);
+    process.exit(1);
+  }
+};
 
 
 // initialize app server

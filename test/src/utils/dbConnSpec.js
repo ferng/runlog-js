@@ -53,6 +53,18 @@ test('Create and drop table', async (t) => {
 })
 
 
+test('get on empty', async (t) => {
+  t.plan(2);
+  try {
+    await db.get('unit3', {});
+    t.fail();
+  } catch (actual) {
+    t.equal(actual.name, 'Error');
+    t.equal(actual.message, 'SQLITE_ERROR: no such table: unit3');
+  }
+})
+
+
 test('InsertOne and get', async (t) => {
   t.plan(1);
   try {
@@ -62,7 +74,7 @@ test('InsertOne and get', async (t) => {
     t.equal(actual[0].desc, 'hello');
     await db.execute('DROP TABLE unit3');
   } catch (err) {
-    it.fail(err);
+    t.fail(err);
   }
 })
 

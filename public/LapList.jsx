@@ -49,9 +49,11 @@ class LapList extends React.Component {
         return newLap;
     }
 
-    render() {
+  render() {
+        let laps = [];
         if (this.state.laps.size > 0) {
-            let laps = getValues(LapList.context.state.laps); // gets an array of all laps in the lap map
+            laps = getValues(LapList.context.state.laps); // gets an array of all laps in the lap map
+        }
             let newLap = this.createNewLap();
             laps.push(newLap);
 
@@ -61,9 +63,6 @@ class LapList extends React.Component {
                     {splitData}
                 </div>
             );
-        } else {
-            return null;
-        }
     }
 };
 

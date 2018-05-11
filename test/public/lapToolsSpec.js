@@ -5,103 +5,103 @@ import {getDistanceMults, splitRowData, getRandomLap} from '../helpers/testData.
 
 
 test('lapsToReactRows splits an array of laps into rows of three and any remainder of React components ', (t) => {
-    const tests = splitRowData;
+  const tests = splitRowData;
 
-    t.plan(29);
-    for (let test of tests.values()) {
-        const testLaps = test.data;
-        const expected = test.expected;
-        const returnedRows = lapsToReactRows(testLaps);
-        t.equal(returnedRows.length, expected.length);
+  t.plan(29);
+  for (let test of tests.values()) {
+    const testLaps = test.data;
+    const expected = test.expected;
+    const returnedRows = lapsToReactRows(testLaps);
+    t.equal(returnedRows.length, expected.length);
 
-        let curLap = 0;
-        let curRow = 0;
-        returnedRows.map((row) => {
-            let rowData = row.props['data'];
-            t.equal(rowData.length, expected[curRow].length);
+    let curLap = 0;
+    let curRow = 0;
+    returnedRows.map((row) => {
+      let rowData = row.props['data'];
+      t.equal(rowData.length, expected[curRow].length);
 
-            rowData.map((lap) => {
-                t.equal(areObjectsEqual(lap.props['lap'], testLaps[curLap]), true);
-                curLap++;
-            });
-            curRow++;
-        });
-    };
+      rowData.map((lap) => {
+        t.equal(areObjectsEqual(lap.props['lap'], testLaps[curLap]), true);
+        curLap++;
+      });
+      curRow++;
+    });
+  };
 });
 
 
 test('createLap generates a new lap ready for data entry', (t) => {
-    const cleanLap = createLap();
-    const lap = {id: 0, time: '00:00:00', distance: 0, unit: '--'};
-    t.plan(1);
-    t.equal(areObjectsEqual(cleanLap, lap), true);
+  const cleanLap = createLap();
+  const lap = {id: 0, time: '00:00:00', distance: 0, unit: '--'};
+  t.plan(1);
+  t.equal(areObjectsEqual(cleanLap, lap), true);
 });
 
 
 test('createLap generates a well lap with the data we give it', (t) => {
-    const lap = getRandomLap();
-    const createdLap = createLap(lap.id, lap.time, lap.distance, lap.unit);
-    t.plan(1);
-    t.equal(areObjectsEqual(createdLap, lap), true);
+  const lap = getRandomLap();
+  const createdLap = createLap(lap.id, lap.time, lap.distance, lap.unit);
+  t.plan(1);
+  t.equal(areObjectsEqual(createdLap, lap), true);
 });
 
 
 test('lapArrayToMap returns a map produced from the laps in the given array, key is lap_id, value is the lap itself', (t) => {
-    const lap1 = getRandomLap();
-    const lap2 = getRandomLap();
-    const lap3 = getRandomLap();
-    const laps = [lap1, lap2, lap3];
+  const lap1 = getRandomLap();
+  const lap2 = getRandomLap();
+  const lap3 = getRandomLap();
+  const laps = [lap1, lap2, lap3];
 
-    const lapMap = lapArrayToMap(laps);
-    const ids = getKeys(lapMap);
+  const lapMap = lapArrayToMap(laps);
+  const ids = getKeys(lapMap);
 
-    t.plan(4);
-    t.equal(ids.length, laps.length);
-    ids.map((id, index) => {
-        t.equal(areObjectsEqual(lapMap.get(id), laps[index]), true);
-    });
+  t.plan(4);
+  t.equal(ids.length, laps.length);
+  ids.map((id, index) => {
+    t.equal(areObjectsEqual(lapMap.get(id), laps[index]), true);
+  });
 });
 
 
 test('calcTimes calculates mph and min per mile', (t) => {
-    const tests = [
-        {mult: getDistanceMults().get('metre'), dist: 1500, time: '00:05:00', returned: {mph: 11.18, mins: '5:22'}, expected: true},
-        {mult: getDistanceMults().get('yard'), dist: 1200, time: '00:05:00', returned: {mph: 8.18, mins: '7:20'}, expected: true},
-        {mult: getDistanceMults().get('km'), dist: 13, time: '01:00:00', returned: {mph: 8.08, mins: '7:26'}, expected: true},
-        {mult: getDistanceMults().get('mile'), dist: 13, time: '01:32:00', returned: {mph: 8.48, mins: '7:05'}, expected: true},
-        {mult: getDistanceMults().get('mile'), dist: 13, time: '00:32:00', returned: {mph: 8.48, mins: '7:05'}, expected: false},
-        {mult: getDistanceMults().get('mile'), dist: 1, time: '14:00:00', returned: {mph: 0.07, mins: '857:09'}, expected: true},
-        {mult: 0, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
-        {mult: undefined, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
-        {mult: NaN, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
-        {mult: 'crap', dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
-        {mult: getDistanceMults().get('mile'), dist: 0, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
-        {mult: getDistanceMults().get('mile'), dist: undefined, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
-        {mult: getDistanceMults().get('mile'), dist: NaN, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
-        {mult: getDistanceMults().get('mile'), dist: 'crap', time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
-    ];
+  const tests = [
+    {mult: getDistanceMults().get('metre'), dist: 1500, time: '00:05:00', returned: {mph: 11.18, mins: '5:22'}, expected: true},
+    {mult: getDistanceMults().get('yard'), dist: 1200, time: '00:05:00', returned: {mph: 8.18, mins: '7:20'}, expected: true},
+    {mult: getDistanceMults().get('km'), dist: 13, time: '01:00:00', returned: {mph: 8.08, mins: '7:26'}, expected: true},
+    {mult: getDistanceMults().get('mile'), dist: 13, time: '01:32:00', returned: {mph: 8.48, mins: '7:05'}, expected: true},
+    {mult: getDistanceMults().get('mile'), dist: 13, time: '00:32:00', returned: {mph: 8.48, mins: '7:05'}, expected: false},
+    {mult: getDistanceMults().get('mile'), dist: 1, time: '14:00:00', returned: {mph: 0.07, mins: '857:09'}, expected: true},
+    {mult: 0, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+    {mult: undefined, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+    {mult: NaN, dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+    {mult: 'crap', dist: 13, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+    {mult: getDistanceMults().get('mile'), dist: 0, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+    {mult: getDistanceMults().get('mile'), dist: undefined, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+    {mult: getDistanceMults().get('mile'), dist: NaN, time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+    {mult: getDistanceMults().get('mile'), dist: 'crap', time: '00:32:00', returned: {mph: 0, mins: '00:00'}, expected: true},
+  ];
 
-    t.plan(tests.length);
-    for (let test of tests.values()) {
-        t.equal(areObjectsEqual(calcTimes(test.mult, test.dist, test.time), test.returned), test.expected);
-    }
+  t.plan(tests.length);
+  for (let test of tests.values()) {
+    t.equal(areObjectsEqual(calcTimes(test.mult, test.dist, test.time), test.returned), test.expected);
+  }
 });
 
 
 test('getKeys returns an array with all the keys from a map, getValues does the same but for the values in a map', (t) => {
-    const dataMap = new Map();
-    dataMap.set('a', 1);
-    dataMap.set('b', 17);
-    dataMap.set('f', 265);
-    dataMap.set('onions', 88);
+  const dataMap = new Map();
+  dataMap.set('a', 1);
+  dataMap.set('b', 17);
+  dataMap.set('f', 265);
+  dataMap.set('onions', 88);
 
-    const keys = getKeys(dataMap);
-    const vals = getValues(dataMap);
+  const keys = getKeys(dataMap);
+  const vals = getValues(dataMap);
 
-    t.plan(6);
-    t.equal(keys.length, dataMap.size);
-    t.equal(vals.length, dataMap.size);
-    for (let i = 0; i < 4; i++) {
-        t.equal(dataMap.get(keys[i]), vals[i]);
-    }
+  t.plan(6);
+  t.equal(keys.length, dataMap.size);
+  t.equal(vals.length, dataMap.size);
+  for (let i = 0; i < 4; i++) {
+    t.equal(dataMap.get(keys[i]), vals[i]);
+  }
 });

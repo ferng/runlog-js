@@ -37,7 +37,7 @@ router.use((req, res, next) => {
  */
 router.get('/*', (req, res) => {
     const dataType = req.path.slice(1);
-    db.get(dataType)
+    db.get(dataType, {})
         .then((data) => {
             res.json(data);
         })
@@ -47,7 +47,7 @@ router.get('/*', (req, res) => {
         });
 });
 
-
+//validate should not be a promise, the d stuff should be wrapped up in it
 /**
  * POST: Route to write a new inbound lap to the database.
  * @name POST/api/runs

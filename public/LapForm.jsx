@@ -33,7 +33,10 @@ class LapForm extends React.Component {
         }
 
         let newLap = {lap: createLap(id, time, distance, unit)};
-        postNewItem(newLap, 'lap');
+      postNewItem(newLap, 'lap')
+        .catch((error) => {
+          alert('Error saving data, please try later.');
+        });
         LapForm.context.props.onLapSubmit(newLap);
         LapForm.context.setState(createLap());
     }

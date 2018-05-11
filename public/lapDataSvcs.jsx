@@ -61,7 +61,6 @@ const postNewItem = (body, dataType) => {
                 resolve();
             })
             .catch((error) => {
-                alert('Error saving data, please try later.');
                 reject(error);
             });
     });

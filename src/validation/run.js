@@ -6,7 +6,7 @@
 const common = require('./common.js');
 const log = require('../utils/logger.js').getLogger();
 
-
+//update doco this doens't return a promise, and neither should any other validation stuff it is not slow as it does not rely on anything external, test it all first then re-work it
 /**
  * Parses a request with lap data to see whether that data is valid or not.
  * @param {object} data - A data object being validated

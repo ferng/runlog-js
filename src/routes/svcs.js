@@ -6,7 +6,7 @@
 
 const express = require('express');
 let log = require('../utils/logger.js').getLogger();
-const db = require('../utils/dbConnection.js');
+const db = require('../utils/dbConn.js');
 
 /**
  * Express router to mount general system related functions on.
@@ -38,7 +38,7 @@ router.get('/selectOpts/*', (req, res) => {
     let selectOptions = {};
 
     Promise.all(optionsTypes.map((optionType) => {
-        return db.get('select_' + optionType)
+        return db.get(optionType, {})
             .then((data) => selectOptions[optionType] = data);
     }))
     .then(() => {
