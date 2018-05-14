@@ -3,7 +3,8 @@ docs
 node_modules
 .vscode
 bundle.js
-*log.json
-npm-debug.log
 tags
 *.swp
+*log.json
+npm-debug.log
+runlogDb

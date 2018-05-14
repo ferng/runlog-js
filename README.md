@@ -9,3 +9,6 @@ Please refer to the [wiki](https://github.com/ferng/runlog-js/wiki) for document
 Go ahead and raise an issue in the [issues log](https://github.com/ferng/runlog-js/issues) if something is broken or you feel something should be changed, added or removed.
 
 ## Change history
+
+# TODOs
+* if no values are updated it fails, send default values if they are left this includes seconds & minutes in the time fields

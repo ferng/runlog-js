@@ -5,7 +5,7 @@
 
 import {get, post} from './ajaxSvcs.jsx';
 
-const optionTypes = ['unit', 'activity', 'kit', 'weather', 'temp', 'effort'];
+const optionTypes = ['unit', 'activity', 'kit', 'weather', 'feels', 'effort'];
 
 
 /**
@@ -17,7 +17,8 @@ const optionTypes = ['unit', 'activity', 'kit', 'weather', 'temp', 'effort'];
 const getRefData = () => {
     return new Promise((resolve, reject) => {
         get('/api/svcs/selectOpts/' + optionTypes.toString())
-            .then((data) => {
+        .then((data) => {
+          console.log(data);
                 resolve(data);
             })
             .catch((error) => {

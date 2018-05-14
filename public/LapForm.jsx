@@ -18,19 +18,23 @@ class LapForm extends React.Component {
         LapForm.context = this;
     }
 
-    handleChange(data) {
+  handleChange(data) {
+    console.log('1-----', data);
         LapForm.context.setState(data);
     }
 
-    handleSubmit(e) {
+  handleSubmit(e) {
         e.preventDefault();
         let id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();
         let time = LapForm.context.state.time;
         let distance = parseFloat(LapForm.context.state.distance);
         let unit = LapForm.context.state.unit;
-        if (!time || time == '00:00:00' || !distance || distance === 0 || distance === NaN || !unit || unit === '--') {
+console.log('2----', id, time, distance, unit);
+      if (!time || time === '00:00:00' || time === '00:00' || !distance || distance === 0 || distance === NaN || !unit || unit === '--') {
             return;
-        }
+      }
+
+      time = time.length === 5 ? time + ':00' : time;
 
         let newLap = {lap: createLap(id, time, distance, unit)};
       postNewItem(newLap, 'lap')

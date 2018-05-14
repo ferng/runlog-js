@@ -16,7 +16,7 @@ class TopLevel extends React.Component {
 
     componentDidMount() {
         getRefData()
-            .then((data) => {
+        .then((data) => {
                 TopLevel.context.setState({refData: data});
             })
             .then((data) => getItems('lap'))

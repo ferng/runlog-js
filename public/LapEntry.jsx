@@ -26,20 +26,25 @@ class LapEntry extends React.Component {
         LapEntry.context.setState({options: prepSelectOpts(this.context.refData, 'unit')});
     }
 
-    handleTimeChange(e) {
-        LapEntry.context.setState({time: e.target.value});
-    }
+  handleTimeChange(e) {
+    console.log('3---', e.target);
+    LapEntry.context.setState({time: e.target.value});
+  }
 
     handleDistanceChange(e) {
         LapEntry.context.setState({distance: e.target.value});
     }
 
-    handleUnitChange(e) {
+  handleUnitChange(e) {
+    console.log(LapEntry.context);
         LapEntry.context.setState({unit: e.target.value});
         LapEntry.context.handleChange(e);
+    console.log(LapEntry.context);
     }
 
     handleChange(e) {
+    console.log('4---', e.target);
+    console.log(LapEntry.context);
         const data = {};
         data[e.target.id] = e.target.value;
         LapEntry.context.props.onChange(data);

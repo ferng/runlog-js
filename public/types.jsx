@@ -47,6 +47,6 @@
  * @param {string} activity - The activity the set of Laps will define
  * @param {string} kit - The kit I relied on for this activity
  * @param {string} weather - What was the weather like
- * @param {string} temp - What did the temperature feel like
+ * @param {string} feels - What did the temperature feel like
  * @param {string} effort - And what was the perceived effort
  */

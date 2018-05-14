@@ -61,7 +61,6 @@ function get(table, criteria, fields) {
       statement = 'SELECT ' + fields + ' FROM ' + table + ' WHERE ' + criteriaSub + ';';
     }
 
-
     conn.all(statement, (err, docs) => {
       if (err) {
         log.error('Error retrieving rows: ', err);

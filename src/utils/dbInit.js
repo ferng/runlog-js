@@ -1,14 +1,14 @@
-const db = require('./src/utils/dbConn.js');
+const db = require('../utils/dbConn.js');
 const log = require('../utils/logger.js').getLogger();
 
 var unit = {
   'table': 'unit',
   'create': 'CREATE TABLE unit (id INTEGER PRIMARY KEY, desc TEXT NOT NULL, conversion REAL NOT NULL)',
   'data': [
-    {desc: 'metre', conversion: 0.000621371};
-    {desc: 'yard', conversion: 0.000568182};
-    {desc: 'km', conversion: 0.621371};
-    {desc: 'mile', conversion: 1};
+    {desc: 'metre', conversion: 0.000621371},
+    {desc: 'yard', conversion: 0.000568182},
+    {desc: 'km', conversion: 0.621371},
+    {desc: 'mile', conversion: 1},
   ]
 };
 
@@ -25,7 +25,7 @@ var activity = {
 };
 
 var kit = {
-  'table': 'kit'
+  'table': 'kit',
   'create': 'CREATE TABLE kit (id INTEGER PRIMARY KEY, desc TEXT NOT NULL)',
   'data': [
     {desc: 'everyday'},
@@ -47,9 +47,9 @@ var weather = {
   ]
 };
 
-var feelslike = {
-  'table': 'feelslike',
-  'create': 'CREATE TABLE feelslike (id INTEGER PRIMARY KEY, desc TEXT NOT NULL)',
+var feels = {
+  'table': 'feels',
+  'create': 'CREATE TABLE feels (id INTEGER PRIMARY KEY, desc TEXT NOT NULL)',
   'data': [
     {desc: 'freezing'},
     {desc: 'cold'},
@@ -60,7 +60,7 @@ var feelslike = {
 
 var effort = {
   'table': 'effort',
-  'create': 'CREATE TABLE effort (id INTEGER PRIMARY KEY, desc TEXT NOT NULL)'
+  'create': 'CREATE TABLE effort (id INTEGER PRIMARY KEY, desc TEXT NOT NULL)',
   'data': [
     {desc: 'easy'},
     {desc: 'ok'},
@@ -68,15 +68,21 @@ var effort = {
   ]
 };
 
-var definitions = [unit, activity, kit, weather, feelslike, effort];
+var lap = {
+  'table': 'lap',
+  'create': 'CREATE TABLE lap (id INTEGER PRIMARY KEY AUTOINCREMENT, time INTEGER NOT NULL, distance REAL NOT NULL, unit INTEGER NOT NULL)'
+}
+
+var definitions = [unit, activity, kit, weather, feels, effort, lap]
 
 
 function init() {
-  
-  definitions.foreach ((def) => {
+  definitions.forEach (async (def) => {
     try {
       await db.execute(def.create);
-      await db.insertMany(def.table, def.data);
+      if (def.data !== undefined) {
+        await db.insertMany(def.table, def.data);
+      }
     } catch(err) {
         log.error('Fatal error during database creation: ', err);
     }

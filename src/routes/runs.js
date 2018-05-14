@@ -6,7 +6,7 @@
 
 const express = require('express');
 let log = require('../utils/logger.js').getLogger();
-const db = require('../utils/dbConnection.js');
+const db = require('../utils/dbConn.js');
 const runVal = require('../validation/run.js');
 
 
@@ -61,6 +61,7 @@ router.get('/*', (req, res) => {
  */
 router.post('/*', (req, res) => {
     const dataType = req.path.slice(1);
+  console.log(req);
     runVal.validateRequest(req.body)
         .then((data) => {
             db.insertOne(dataType, data[dataType]);

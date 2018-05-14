@@ -1,4 +1,5 @@
 module.exports = {
+	mode: 'development',
   entry: {
     app: ['./public/index.jsx'],
   },
@@ -8,7 +9,7 @@ module.exports = {
     filename: 'bundle.js',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
@@ -22,6 +23,9 @@ module.exports = {
       },
     ],
   },
+	resolve: {
+		extensions: ['.js', '.jsx']
+	},
   devServer: {
     proxy: {
       '/api': {

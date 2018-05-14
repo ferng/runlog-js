@@ -25,7 +25,7 @@ function validateRequest(data) {
                 req.body.activity,
                 req.body.kit,
                 req.body.weather,
-                req.body.temp,
+                req.body.feels,
                 req.body.effort);
         default:
             return null;
@@ -45,7 +45,7 @@ function validateLap(lap) {
         if (isValidLap(lap)) {
             resolve(lap);
         } else {
-            reject('bad');
+            reject('failed lap validation');
         }
     });
 };
@@ -57,27 +57,27 @@ function validateLap(lap) {
  * @param {string} activity - The activity the set of Laps will define
  * @param {string} kit - The kit I relied on for this activity
  * @param {string} weather - What was the weather like
- * @param {string} temp - What did the temperature feel like
+ * @param {string} feels - What did the temperature feel like
  * @param {string} effort - And what was the perceived effort
  * @return {Promise}
  * resolve returns parsed and validated data as a {@link module:public/types~lap|lap}.<br>
  * reject if the validation failed somehow.
  */
-function validateActivity(id, activity, kit, weather, temp, effort) {
-    log.debug('Parsing activity id:[%s] activity:[%s]kit:[%s] weather:[%s] temp:[%s] effort:[%s]', id, activity, kit, weather, temp, effort);
+function validateActivity(id, activity, kit, weather, feels, effort) {
+    log.debug('Parsing activity id:[%s] activity:[%s]kit:[%s] weather:[%s] feels:[%s] effort:[%s]', id, activity, kit, weather, feels, effort);
     return new Promise((resolve, reject) => {
-        if (isValidActivity(id, activity, kit, weather, temp, effort)) {
+        if (isValidActivity(id, activity, kit, weather, feels, effort)) {
             let payload = {
                 id: id,
                 activity: activity,
                 kit: kit,
                 weather: weather,
-                temp: temp,
+                feels: feels,
                 effort: effort,
             };
             resolve(payload);
         } else {
-            reject('bad');
+            reject('failed activity validation');
         }
     });
 };

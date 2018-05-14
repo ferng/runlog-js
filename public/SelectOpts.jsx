@@ -13,10 +13,13 @@ import React from 'react';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 const SelectOpts = (props) => {
-    let id = props['id'] + 'Opts';
+    let id = props['id'];
     let options = props['options'];
     let onChange = props['onChange'];
     let value = props['value'];
+
+
+  console.log(options);
 
     if (!(options && options.constructor === Array &&
         onChange && onChange.constructor === Function &&

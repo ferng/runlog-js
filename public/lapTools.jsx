@@ -84,12 +84,12 @@ const createLap = (id=0, time='00:00:00', distance=0, unit='--') => {
  * @param {string} activity - The activity the set of Laps will define
  * @param {string} kit - The kit I relied on for this activity
  * @param {string} weather - What was the weather like
- * @param {string} temp - What did the temperature feel like
+ * @param {string} feels - What did the temperature feel like
  * @param {string} effort - And what was the perceived effort
  * @return {object} An Activity with the data provided or blanks if none.
  */
-const createActivity = (id=0, activity='--', kit='--', weather='--', temp='--', effort='--') => {
-    return ({id: id, activity: activity, kit: kit, weather: weather, temp: temp, effort: effort});
+const createActivity = (id=0, activity='--', kit='--', weather='--', feels='--', effort='--') => {
+    return ({id: id, activity: activity, kit: kit, weather: weather, feels: feels, effort: effort});
 };
 
 

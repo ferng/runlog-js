@@ -1,10 +1,12 @@
-let config = {};
+const config = {};
 
 // server
 config.runlog = {};
 config.runlog.port = 3000;
-config.runlog.env = 0       // dev
-//config.runlog.env = 1       // prod
+
+// environment
+config.runlog.env = 0;
+// config.runlog.env = 1;
 
 // database - mongo
 config.mongo = {};
