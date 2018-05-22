@@ -61,7 +61,6 @@ router.get('/*', (req, res) => {
  */
 router.post('/*', (req, res) => {
     const dataType = req.path.slice(1);
-  console.log(req);
     runVal.validateRequest(req.body)
         .then((data) => {
             db.insertOne(dataType, data[dataType]);

@@ -22,12 +22,15 @@ class LapEntry extends React.Component {
         LapEntry.context = this;
     }
 
-    componentWillMount() {
+  componentWillMount() {
         LapEntry.context.setState({options: prepSelectOpts(this.context.refData, 'unit')});
     }
+  
+  componentWillReceiveProps(nextProps) {
+        LapEntry.context.setState(nextProps);
+  }
 
   handleTimeChange(e) {
-    console.log('3---', e.target);
     LapEntry.context.setState({time: e.target.value});
   }
 
@@ -36,18 +39,14 @@ class LapEntry extends React.Component {
     }
 
   handleUnitChange(e) {
-    console.log(LapEntry.context);
         LapEntry.context.setState({unit: e.target.value});
         LapEntry.context.handleChange(e);
-    console.log(LapEntry.context);
     }
 
     handleChange(e) {
-    console.log('4---', e.target);
-    console.log(LapEntry.context);
         const data = {};
         data[e.target.id] = e.target.value;
-        LapEntry.context.props.onChange(data);
+      LapEntry.context.props.onChange(data);
     }
 
     render() {

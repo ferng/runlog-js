@@ -10,11 +10,11 @@ import {lapArrayToMap} from './lapTools.jsx';
 class TopLevel extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {laps: [], refData: {}};
+        this.state = {laps: [], refData: []};
         TopLevel.context = this;
     }
 
-    componentDidMount() {
+  componentDidMount() {
         getRefData()
         .then((data) => {
                 TopLevel.context.setState({refData: data});
@@ -35,8 +35,7 @@ class TopLevel extends React.Component {
     handleLapSubmit(lapData) {
         let laps = TopLevel.context.state.laps;
         laps.set(lapData['lap'].id, lapData['lap']);
-
-        TopLevel.context.setState({laps: laps});
+      TopLevel.context.setState({laps: laps});
     }
 
   // handleActivitySubmit(activity) {
@@ -50,7 +49,6 @@ class TopLevel extends React.Component {
         if (this.state.dataLoaded) {
             return (
                 <div className='topLevel'>
-                      <ActivityForm />
                     <LapList laps={this.state.laps} onLapSubmit={this.handleLapSubmit} />
                 </div>
             );

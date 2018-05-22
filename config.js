@@ -5,7 +5,7 @@ config.runlog = {};
 config.runlog.port = 3000;
 
 // environment
-config.runlog.env = 0;
+// config.runlog.env = 0;
 // config.runlog.env = 1;
 
 // database - mongo
@@ -17,6 +17,7 @@ config.mongo.database = 'runlog';
 // database - sqlite
 config.sqlite = {};
 config.sqlite.file = 'runlogDb';
+config.sqlite.file = ':memory:';
 
 // logger
 config.logger = {};

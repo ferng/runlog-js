@@ -12,14 +12,13 @@ import {createLap} from './lapTools.jsx';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapForm extends React.Component {
-    constructor(props) {
+  constructor(props) {
         super(props);
-        this.state = props.lap;
+      this.state = props.lap;
         LapForm.context = this;
     }
 
   handleChange(data) {
-    console.log('1-----', data);
         LapForm.context.setState(data);
     }
 
@@ -29,20 +28,23 @@ class LapForm extends React.Component {
         let time = LapForm.context.state.time;
         let distance = parseFloat(LapForm.context.state.distance);
         let unit = LapForm.context.state.unit;
-console.log('2----', id, time, distance, unit);
       if (!time || time === '00:00:00' || time === '00:00' || !distance || distance === 0 || distance === NaN || !unit || unit === '--') {
             return;
       }
 
       time = time.length === 5 ? time + ':00' : time;
 
-        let newLap = {lap: createLap(id, time, distance, unit)};
-      postNewItem(newLap, 'lap')
+    let newLap = {lap: createLap(id, time, distance, unit)};
+    
+    postNewItem(newLap, 'lap')
         .catch((error) => {
           alert('Error saving data, please try later.');
         });
-        LapForm.context.props.onLapSubmit(newLap);
-        LapForm.context.setState(createLap());
+    LapForm.context.props.onLapSubmit(newLap);
+
+    LapForm.context.setState({'onions': 56});
+
+    LapForm.context.setState(createLap());
     }
 
     render() {

@@ -16,9 +16,9 @@ class LapField extends React.Component {
         LapField.context = this;
     }
 
-    render() {
+  render() {
         let lap = this.props.lap;
-        let editLap = this.props.editLap;
+      let editLap = this.props.editLap;
 
         if (editLap) {
             return (

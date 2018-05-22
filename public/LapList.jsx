@@ -30,7 +30,7 @@ class LapList extends React.Component {
         return {multipliers: this.state.multipliers};
     }
 
-    onLapEdit(id) {
+  onLapEdit(id) {
         let prevEditLap = LapList.context.state.laps.get(LapList.context.state.lapToEdit);
         if (prevEditLap !== undefined) {
             prevEditLap['editLap'] = false;
@@ -42,8 +42,8 @@ class LapList extends React.Component {
         LapList.context.setState({lapToEdit: id});
     }
 
-    createNewLap() {
-        let newLap = createLap();
+  createNewLap() {
+      let newLap = createLap();
         let editNewlap = LapList.context.state.lapToEdit === 0;
         newLap['editLap'] = editNewlap;
         return newLap;
@@ -55,9 +55,9 @@ class LapList extends React.Component {
             laps = getValues(LapList.context.state.laps); // gets an array of all laps in the lap map
         }
             let newLap = this.createNewLap();
-            laps.push(newLap);
 
-            let splitData = lapsToReactRows(laps, this.onLapEdit, LapList.context.props.onLapSubmit);
+            laps.push(newLap);
+    let splitData = lapsToReactRows(laps, this.onLapEdit, LapList.context.props.onLapSubmit);
             return (
                 <div className='lapList'>
                     {splitData}

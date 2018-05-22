@@ -35,11 +35,16 @@ router.use((req, res, next) => {
  */
 router.get('/selectOpts/*', (req, res) => {
     let optionsTypes = req.params[0].split(',');
-    let selectOptions = {};
+    let selectOptions = [];
 
     Promise.all(optionsTypes.map((optionType) => {
         return db.get(optionType, {})
-            .then((data) => selectOptions[optionType] = data);
+            .then((data) => {
+              selectOptions.push({
+                'optType': optionType,
+                'options': data})
+
+            });
     }))
     .then(() => {
         log.debug('Select options retrieved.');

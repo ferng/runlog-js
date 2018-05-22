@@ -74,7 +74,7 @@ const rowsToReact = (rows) => {
  * @return {object} A Lap with the data provided or blanks if none.
  */
 const createLap = (id=0, time='00:00:00', distance=0, unit='--') => {
-    return ({id: id, time: time, distance: distance, unit: unit});
+  return ({id: id, time: time, distance: distance, unit: unit});
 };
 
 

@@ -18,7 +18,6 @@ const getRefData = () => {
     return new Promise((resolve, reject) => {
         get('/api/svcs/selectOpts/' + optionTypes.toString())
         .then((data) => {
-          console.log(data);
                 resolve(data);
             })
             .catch((error) => {
@@ -76,7 +75,8 @@ const postNewItem = (body, dataType) => {
 const prepDistanceMultiplier = (optionRefData) => {
     let multipliers = new Map();
     if (optionRefData !== undefined) {
-        optionRefData['unit'].map((unit) => {
+      var unit = getRefOpts(optionRefData, 'unit');
+      unit.options.map((unit) => {
             multipliers.set(unit['desc'], unit['conversion']);
         });
     }
@@ -91,15 +91,20 @@ const prepDistanceMultiplier = (optionRefData) => {
  * @return {string[]} An array containing the name of the given Select option type.
  */
 const prepSelectOpts = (optionRefData, type) => {
-    let opts = [];
+    let opts = ['--']
     if (optionRefData !== undefined) {
-        optionRefData[type].map((option) => {
+      var unit = getRefOpts(optionRefData, type);
+      unit.options.map((option) => {
             opts.push(option['desc']);
         });
     }
     return opts;
 };
 
+
+const getRefOpts = (refData, type) => {
+  return refData.find((ref) => ref.optType === type);
+}
 
 export {
     getRefData,

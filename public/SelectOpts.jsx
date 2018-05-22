@@ -19,8 +19,6 @@ const SelectOpts = (props) => {
     let value = props['value'];
 
 
-  console.log(options);
-
     if (!(options && options.constructor === Array &&
         onChange && onChange.constructor === Function &&
         value && value.constructor === String)) {
