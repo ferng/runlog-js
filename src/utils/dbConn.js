@@ -1,4 +1,3 @@
-const sqlite3 = require('sqlite3').verbose();
 const config = require('../../config.js');
 const log = require('../utils/logger.js').getLogger();
 const val = require('../validation/common.js');
@@ -14,16 +13,9 @@ function initPool() {
   return new Promise((resolve, reject) => {
     var dbFile = config.sqlite.file;
     log.debug('Attempting connection to DB to:', dbFile);
-    conn = new sqlite3.cached.Database(dbFile, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
-      if (err) {
-        log.error('Error connecting DB: ', err);
-        reject(err);
-        return;
-      }
       log.debug('Connected to DB', conn);
       resolve();
     });
-  });
 }
 
 

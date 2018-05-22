@@ -42,8 +42,7 @@
     "express": "^4.16.3",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "sqlite3": "^4.0.0"
+    "react-dom": "^16.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

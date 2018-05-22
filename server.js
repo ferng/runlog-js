@@ -11,17 +11,6 @@ const app = express();
 
 // initializa database if not already there
 async function init() {
-  try {
-    await db.initPool();
-    await db.get('effort', {});
-  } catch (err) {
-    if (err.message === 'SQLITE_ERROR: no such table: effort') {
-      dbInit.init();
-    } else {
-      log.fatal(err);
-      process.exit(1);
-    }
-  }
 }
 
 // handler
