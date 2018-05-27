@@ -1,5 +1,4 @@
 module.exports = {
-	mode: 'development',
   entry: {
     app: ['./public/index.jsx'],
   },
@@ -26,12 +25,4 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.jsx']
 	},
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        secure: false,
-      },
-    },
-  },
 };
