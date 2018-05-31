@@ -24,38 +24,37 @@ let logger;
  * @return {Logger}
  */
 function getLogger() {
-    if (typeof logger == 'undefined') {
-        init();
-    }
-    return logger;
-};
+  if (typeof logger === 'undefined') {
+    init();
+  }
+  return logger;
+}
 
+
+const streams = [
+  {
+    path: config.logger.file_name,
+    level: config.logger.file_level,
+  },
+  {
+    stream: process.stdout,
+    level: config.logger.console_level,
+  },
+];
 
 /**
  * Configures and creates a bunyan logger which is shared by the app.
  * @private
  */
 function init() {
-    logger = bunyan.createLogger({
-        name: config.logger.appname,
-        src: true,
-        streams: streams,
-    });
-};
-
-
-const streams = [
-    {
-        path: config.logger.file_name,
-        level: config.logger.file_level,
-    },
-    {
-        stream: process.stdout,
-        level: config.logger.console_level,
-    },
-];
+  logger = bunyan.createLogger({
+    name: config.logger.appname,
+    src: true,
+    streams,
+  });
+}
 
 
 module.exports = {
-    getLogger: getLogger,
+  getLogger,
 };

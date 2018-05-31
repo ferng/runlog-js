@@ -9,8 +9,8 @@
  * @return {Boolean} TRUE if it does FALSE otherwise.
  */
 function isFloatExpr(value) {
-    return (/^(\-|\+)?([0-9]+(\.[0-9]+)?)$/.test(value));
-};
+  return (/^(-|\+)?([0-9]+(\.[0-9]+)?)$/.test(value));
+}
 
 
 /**
@@ -19,8 +19,8 @@ function isFloatExpr(value) {
  * @return {Boolean} TRUE if it does FALSE otherwise.
  */
 function isTimeExpr24(value) {
-    return isTimeExpr(value, 24);
-};
+  return isTimeExpr(value, 24);
+}
 
 
 /**
@@ -31,35 +31,34 @@ function isTimeExpr24(value) {
  * @return {Boolean} TRUE if it does FALSE otherwise.
  */
 function isTimeExpr(value, maxhour) {
-    if (!(/^([\d]{2}:)+([\d]{2})$/.test(value))) {
-        return false;
-    };
+  if (!(/^([\d]{2}:)+([\d]{2})$/.test(value))) {
+    return false;
+  }
 
-    let hh = Number.parseInt(value.substr(0, 2));
-    let mm = Number.parseInt(value.substr(3, 2));
-    let ss = Number.parseInt(value.substr(6, 2));
+  const hh = Number.parseInt(value.substr(0, 2), 10);
+  const mm = Number.parseInt(value.substr(3, 2), 10);
+  const ss = Number.parseInt(value.substr(6, 2), 10);
 
-    return ((hh >= 0 && hh < maxhour) &&
+  return ((hh >= 0 && hh < maxhour) &&
         (mm >= 0 && mm <= 59) &&
         (ss >= 0 && ss <= 59)
-    );
-};
+  );
+}
 
 function objEmpty(obj) {
   return obj === undefined ||
     obj === null ||
-    Object.keys(obj).length === 0
-  ;
+    Object.keys(obj).length === 0;
 }
 
 function isDocumentValid(doc) {
-  return ! objEmpty(doc);
+  return !objEmpty(doc);
 }
 
 
 module.exports = {
-  isFloatExpr: isFloatExpr,
-  isTimeExpr24: isTimeExpr24,
-  isDocumentValid: isDocumentValid,
-  objEmpty: objEmpty 
+  isFloatExpr,
+  isTimeExpr24,
+  isDocumentValid,
+  objEmpty,
 };

@@ -19,6 +19,15 @@
         "no-undef": "warn",
         "no-unreachable": "warn",
         "no-unused-vars": "warn",
+        "no-useless-return": "off",
+        "no-plusplus": "off",
+        "radix": "error",
+        "no-use-before-define": [
+          "error",
+          {
+            "functions": false
+          }
+        ],
         "constructor-super": "warn",
         "valid-typeof": "warn",
         "strict": [

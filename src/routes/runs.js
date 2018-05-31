@@ -5,7 +5,7 @@
  */
 
 const express = require('express');
-let log = require('../utils/logger.js').getLogger();
+const log = require('../utils/logger.js').getLogger();
 const db = require('../utils/dbConn.js');
 const runVal = require('../validation/run.js');
 
@@ -19,7 +19,7 @@ const runVal = require('../validation/run.js');
  */
 const router = new express.Router();
 router.use((req, res, next) => {
-    next();
+  next();
 });
 
 
@@ -36,18 +36,18 @@ router.use((req, res, next) => {
  * @private
  */
 router.get('/*', (req, res) => {
-    const dataType = req.path.slice(1);
-    db.get(dataType, {})
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((err) => {
-            log.error(err);
-            res.status(500).send('');
-        });
+  const dataType = req.path.slice(1);
+  db.get(dataType, {})
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      log.error(err);
+      res.status(500).send('');
+    });
 });
 
-//validate should not be a promise, the d stuff should be wrapped up in it
+// validate should not be a promise, the d stuff should be wrapped up in it
 /**
  * POST: Route to write a new inbound lap to the database.
  * @name POST/api/runs
@@ -60,16 +60,16 @@ router.get('/*', (req, res) => {
  * @private
  */
 router.post('/*', (req, res) => {
-    const dataType = req.path.slice(1);
-    runVal.validateRequest(req.body)
-        .then((data) => {
-            db.insertOne(dataType, data[dataType]);
-            res.status(201).send('');
-        })
-        .catch((err) => {
-            log.error(err);
-            res.status(500).send('');
-        });
+  const dataType = req.path.slice(1);
+  runVal.validateRequest(req.body)
+    .then((data) => {
+      db.insertOne(dataType, data[dataType]);
+      res.status(201).send('');
+    })
+    .catch((err) => {
+      log.error(err);
+      res.status(500).send('');
+    });
 });
 
 

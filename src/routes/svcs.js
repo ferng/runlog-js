@@ -5,7 +5,7 @@
  */
 
 const express = require('express');
-let log = require('../utils/logger.js').getLogger();
+const log = require('../utils/logger.js').getLogger();
 const db = require('../utils/dbConn.js');
 
 /**
@@ -17,7 +17,7 @@ const db = require('../utils/dbConn.js');
  */
 const router = new express.Router();
 router.use((req, res, next) => {
-    next();
+  next();
 });
 
 
@@ -34,25 +34,24 @@ router.use((req, res, next) => {
  * @private
  */
 router.get('/selectOpts/*', (req, res) => {
-    let optionsTypes = req.params[0].split(',');
-    let selectOptions = [];
+  const optionsTypes = req.params[0].split(',');
+  const selectOptions = [];
 
-    Promise.all(optionsTypes.map((optionType) => {
-        return db.get(optionType, {})
-            .then((data) => {
-              selectOptions.push({
-                'optType': optionType,
-                'options': data})
-
-            });
-    }))
+  Promise.all(optionsTypes.map(optionType =>
+    db.get(optionType, {})
+      .then((data) => {
+        selectOptions.push({
+          optType: optionType,
+          options: data,
+        });
+      })))
     .then(() => {
-        log.debug('Select options retrieved.');
-        res.json(selectOptions);
+      log.debug('Select options retrieved.');
+      res.json(selectOptions);
     })
     .catch((err) => {
-        log.error(err);
-        res.status(500).send('');
+      log.error(err);
+      res.status(500).send('');
     });
 });
 

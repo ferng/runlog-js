@@ -3,7 +3,7 @@ const config = require('../../config.js');
 const log = require('../utils/logger.js').getLogger();
 const val = require('../validation/common.js');
 
-var conn;
+let conn;
 
 /**
  * Initialises the database connection pool. Should only be called once, possibly from server.js.
@@ -12,9 +12,9 @@ var conn;
  */
 function initPool() {
   return new Promise((resolve, reject) => {
-    var dbFile = config.sqlite.file;
+    const dbFile = config.sqlite.file;
     log.debug('Attempting connection to DB to:', dbFile);
-    conn = new sqlite3.cached.Database(dbFile, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+    conn = new sqlite3.cached.Database(dbFile, sqlite3.OPEN_READWRITE || sqlite3.OPEN_CREATE, (err) => {
       if (err) {
         log.error('Error connecting DB: ', err);
         reject(err);
@@ -30,35 +30,36 @@ function initPool() {
 /**
  * Closes a proviously initialized pool
  */
-function closePool(){
+function closePool() {
   conn.close();
 }
 
-  
+
 /**
  * Retrieve the specified fields (or all fields if no fields are specified) matching the criteria
  * (or all rows if blank criteria is specified).
  * @param {string} table
- * @param {json} criteria - Json doc specifying fields and matcher values, can be emty document to omit criteria 
+ * @param {json} criteria - Json doc specifying fields and matcher values, can be emty document to omit criteria
  * @param {string[]} [fields = all fields] - Retrieve only specified fields, or all fields if this parameter is omitted
  * @return {Promise}
  * resolve returns retrieved documents.<br>
  * reject on Db connection errors.
  */
 function get(table, criteria, fields) {
+  let fieldList = fields;
   return new Promise((resolve, reject) => {
     if (fields === undefined || fields === null || fields.length === 0) {
-      fields = '*';
+      fieldList = '*';
     }
 
-    var statement;
-    if (! val.isDocumentValid(criteria)) {
-      statement = 'SELECT ' + fields + ' FROM ' + table + ';'
+    let statement;
+    if (!val.isDocumentValid(criteria)) {
+      statement = `SELECT ${fieldList} FROM ${table};`;
     } else {
-      var criteriaColumns = Object.keys(criteria);
-      var criteriaValues = Object.values(criteria);
-      var criteriaSub = prepPairs(criteriaColumns, criteriaValues);
-      statement = 'SELECT ' + fields + ' FROM ' + table + ' WHERE ' + criteriaSub + ';';
+      const criteriaColumns = Object.keys(criteria);
+      const criteriaValues = Object.values(criteria);
+      const criteriaSub = prepPairs(criteriaColumns, criteriaValues);
+      statement = `SELECT ${fieldList} FROM ${table} WHERE ${criteriaSub};`;
     }
 
     conn.all(statement, (err, docs) => {
@@ -84,14 +85,14 @@ function get(table, criteria, fields) {
  */
 function insertOne(table, document) {
   return new Promise((resolve, reject) => {
-    if (! val.isDocumentValid(document)) {
+    if (!val.isDocumentValid(document)) {
       reject(new Error('Invalid document'));
       return;
     }
 
-    var columns = prepStatementFields(Object.keys(document));
-    var values = prepStatementFields(Object.values(document));
-    var statement = "INSERT INTO " + table + columns + " VALUES" + values;
+    const columns = prepStatementFields(Object.keys(document));
+    const values = prepStatementFields(Object.values(document));
+    const statement = `INSERT INTO ${table}${columns} VALUES${values}`;
     conn.run(statement, (err) => {
       if (err) {
         reject(err);
@@ -113,20 +114,20 @@ function insertOne(table, document) {
 function insertMany(table, documents) {
   return new Promise((resolve, reject) => {
     if (documents === undefined || documents === null || documents.length === 0 || documents.length === undefined) {
-        log.error('Invalid document', documents);
-        reject(new Error('Invalid document'));
-        return;
+      log.error('Invalid document', documents);
+      reject(new Error('Invalid document'));
+      return;
     }
     documents.forEach((doc) => {
-      if (! val.isDocumentValid(doc)) {
+      if (!val.isDocumentValid(doc)) {
         log.error('Invalid document', doc);
         reject(new Error('Invalid document'));
         return;
       }
     });
-    var columns = prepStatementFields(Object.keys(documents[0]));
-    var data = prepStatementValues(documents);
-    var statement = 'INSERT INTO ' + table + columns + ' VALUES' + data;
+    const columns = prepStatementFields(Object.keys(documents[0]));
+    const data = prepStatementValues(documents);
+    const statement = `INSERT INTO ${table}${columns} VALUES${data}`;
     conn.run(statement, (err) => {
       if (err) {
         reject(err);
@@ -141,32 +142,32 @@ function insertMany(table, documents) {
 /**
  * Inserts the given document into the specified database.
  * @param {string} table
- * @param {json} criteria - Json doc specifying fields and matcher values, can be emty document to omit criteria 
+ * @param {json} criteria - Json doc specifying fields and matcher values, can be emty document to omit criteria
  * @param {json} updates - Json doc specifying fields and values
  * @return {Promise}
  * reject on errors: document, sql or connectivity.
  */
 function update(table, criteria, updates) {
   return new Promise((resolve, reject) => {
-    if (! val.isDocumentValid(criteria)) {
+    if (!val.isDocumentValid(criteria)) {
       reject(new Error('Invalid criteria'));
       return;
     }
-    if (! val.isDocumentValid(updates)) {
+    if (!val.isDocumentValid(updates)) {
       reject(new Error('Invalid update data'));
       return;
     }
 
-    var criteriaColumns = Object.keys(criteria);
-    var criteriaValues = Object.values(criteria);
-    var criteriaSub = prepPairs(criteriaColumns, criteriaValues);
+    const criteriaColumns = Object.keys(criteria);
+    const criteriaValues = Object.values(criteria);
+    const criteriaSub = prepPairs(criteriaColumns, criteriaValues);
 
-    var updateColumns = Object.keys(updates);
-    var updateValues = Object.values(updates);
-    var updateSub = prepPairs(updateColumns, updateValues);
+    const updateColumns = Object.keys(updates);
+    const updateValues = Object.values(updates);
+    const updateSub = prepPairs(updateColumns, updateValues);
 
-    var statement = 'UPDATE ' + table + ' SET ' + updateSub + ' WHERE ' + criteriaSub + ';';
-  
+    const statement = `UPDATE ${table} SET ${updateSub} WHERE ${criteriaSub};`;
+
     conn.run(statement, (err) => {
       if (err) {
         reject(err);
@@ -194,9 +195,9 @@ function execute(statement) {
 
 
 function prepPairs(columns, values) {
-  var paired = ''
-  for(var i=0; i<columns.length; i++) {
-    paired += columns[i] + "='" + values[i] + "', ";
+  let paired = '';
+  for (let i = 0; i < columns.length; i++) {
+    paired += `${columns[i]}='${values[i]}', `;
   }
   paired = paired.slice(0, -2);
   return paired;
@@ -204,10 +205,10 @@ function prepPairs(columns, values) {
 
 
 function prepStatementValues(documents) {
-  var values = "";
-  documents.forEach(function(document) {
-    var parsedDoc = prepStatementFields(Object.values(document));
-    values += parsedDoc + ', ';
+  let values = '';
+  documents.forEach((document) => {
+    const parsedDoc = prepStatementFields(Object.values(document));
+    values += `${parsedDoc}, `;
   });
   values = values.slice(0, -2);
   return values;
@@ -215,19 +216,16 @@ function prepStatementValues(documents) {
 
 
 function prepStatementFields(fields) {
-  var fieldList = '(';
-  var middle = prepFields(fields)
-  fieldList += middle + ')';
-  return fieldList;
+  return `(${prepFields(fields)})`;
 }
 
 
 function prepFields(fields) {
-  var fieldList = '';
+  let fieldList = '';
 
   fields.forEach((field) => {
-    fieldList += "'" + field + "', ";
-  })
+    fieldList += `'${field}', `;
+  });
 
   fieldList = fieldList.slice(0, -2);
   return fieldList;
@@ -235,11 +233,11 @@ function prepFields(fields) {
 
 
 module.exports = {
-  initPool: initPool,
-  closePool: closePool,
-  get: get,
-  insertOne: insertOne,
-  insertMany: insertMany,
-  update: update,
-  execute: execute,
+  initPool,
+  closePool,
+  get,
+  insertOne,
+  insertMany,
+  update,
+  execute,
 };
