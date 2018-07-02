@@ -1,6 +1,7 @@
 import React from 'react';
-import {LapForm} from './LapForm.jsx';
-import {Lap} from './Lap.jsx';
+import PropTypes from 'prop-types';
+import LapForm from './LapForm';
+import Lap from './Lap';
 
 /**
  * A React component to display or enter lap data.
@@ -11,28 +12,47 @@ import {Lap} from './Lap.jsx';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapField extends React.Component {
-    constructor(props) {
-        super(props);
-        LapField.context = this;
-    }
+  constructor(props) {
+    super(props);
+    LapField.context = this;
+  }
 
   render() {
-        let lap = this.props.lap;
-      let editLap = this.props.editLap;
+    const { lap } = this.props;
+    const { editLap } = this.props;
 
-        if (editLap) {
-            return (
-                <LapForm lap={lap} onLapSubmit={LapField.context.props.onLapSubmit} />
-            );
-        } else {
-            return (
-                <Lap lap={lap} onLapEdit={LapField.context.props.onLapEdit} />
-            );
-        }
+    if (editLap) {
+      return (
+        <LapForm lap={lap} onLapSubmit={LapField.context.props.onLapSubmit} />
+      );
+    } else {
+      return (
+        <Lap lap={lap} onLapEdit={LapField.context.props.onLapEdit} />
+      );
     }
+  }
 }
 
 
-export {
-    LapField,
+LapField.propTypes = {
+  editLap: PropTypes.bool,
+  lap: PropTypes.shape({
+    distance: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    time: PropTypes.string.isRequired,
+    unit: PropTypes.string.isRequired,
+
+  }),
 };
+
+LapField.defaultProps = {
+  editLap: false,
+  lap: {
+    distance: 0,
+    id: -1,
+    time: '00:00:00',
+    unit: '--',
+  },
+};
+
+export default LapField;

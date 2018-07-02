@@ -64,6 +64,24 @@ function areMapsEqual(map1, map2) {
     return areEqual;
 }
 
+/**
+ * Parses a map and creates an array of its keys.
+ * @param {Object.<String, Float>} map - A map
+ * @return {string[]} An array containing the keys in the map.
+ */
+const getKeys = (map) => {
+  console.log(map);
+    const keys = [];
+
+    const iter = map.keys();
+    for (let k of iter) {
+        keys.push(k);
+    }
+
+    return keys;
+};
+
+
 
 export {
     areObjectsEqual,

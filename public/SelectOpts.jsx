@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 
 /**
@@ -13,26 +14,32 @@ import React from 'react';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 const SelectOpts = (props) => {
-    let id = props['id'];
-    let options = props['options'];
-    let onChange = props['onChange'];
-    let value = props['value'];
+  const { id } = props;
+  const { options } = props;
+  const { onChange } = props;
+  const { value } = props;
 
 
-    if (!(options && options.constructor === Array &&
+  if (!(options && options.constructor === Array &&
         onChange && onChange.constructor === Function &&
         value && value.constructor === String)) {
-        return null;
-    }
+    return null;
+  }
 
-    let reactOptions = options.map((option, index) => {
-        return <option key={index} value={option}>{option}</option>;
-    });
+  const reactOptions = options.map((option, index) =>
+    <option key={index} value={option}>{option}</option>);
 
-    return (
-        <select id={id} onChange={(e) => onChange(e)} value={value}>{reactOptions}</select>
-    );
+  return (
+    <select id={id} onChange={e => onChange(e)} value={value}>{reactOptions}</select>
+  );
 };
 
+
+SelectOpts.propTypes = {
+  id: PropTypes.string.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 export default SelectOpts;

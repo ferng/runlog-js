@@ -1,7 +1,9 @@
 import React from 'react';
-import {LapEntry} from './LapEntry.jsx';
-import {postNewItem} from './lapDataSvcs.jsx';
-import {createLap} from './lapTools.jsx';
+import PropTypes from 'prop-types';
+import LapEntry from './LapEntry';
+import PopUp from './PopUp';
+import { postNewItem } from './lapDataSvcs';
+import { createLap } from './lapTools';
 
 
 /**
@@ -12,62 +14,92 @@ import {createLap} from './lapTools.jsx';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapForm extends React.Component {
-  constructor(props) {
-        super(props);
-      this.state = props.lap;
-        LapForm.context = this;
+  static handleChange(data) {
+    LapForm.context.setState(data);
+  }
+
+  static toggleModal() {
+    LapForm.context.setState({
+      isOpen: !LapForm.context.state.isOpen,
+    });
+  }
+  static handleSubmit(e) {
+    e.preventDefault();
+    const id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();
+    let { time } = LapForm.context.state;
+    const distance = parseFloat(LapForm.context.state.distance);
+    const { unit } = LapForm.context.state;
+    if (!time || time === '00:00:00' || time === '00:00' || !distance || distance === 0 || Number.isNaN(distance) || !unit || unit === '--') {
+      return;
     }
 
-  handleChange(data) {
-        LapForm.context.setState(data);
-    }
+    time = time.length === 5 ? `${time}:00` : time;
 
-  handleSubmit(e) {
-        e.preventDefault();
-        let id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();
-        let time = LapForm.context.state.time;
-        let distance = parseFloat(LapForm.context.state.distance);
-        let unit = LapForm.context.state.unit;
-      if (!time || time === '00:00:00' || time === '00:00' || !distance || distance === 0 || distance === NaN || !unit || unit === '--') {
-            return;
-      }
+    const newLap = { lap: createLap(id, time, distance, unit) };
 
-      time = time.length === 5 ? time + ':00' : time;
-
-    let newLap = {lap: createLap(id, time, distance, unit)};
-    
+    LapForm.context.setState({ errHead: 'Error', errMsg: 'Error retrieving data, please try later' });
     postNewItem(newLap, 'lap')
-        .catch((error) => {
-          alert('Error saving data, please try later.');
-        });
+      .catch((error) => {
+        LapForm.context.setState({ errHead: 'Error', errMsg: 'Error retrieving data, please try later' });
+        LapForm.toggleModal();
+      });
     LapForm.context.props.onLapSubmit(newLap);
 
-    LapForm.context.setState({'onions': 56});
 
     LapForm.context.setState(createLap());
-    }
+  }
 
-    render() {
-        return (
-            <div className='four columns left'>
-                <form className='LapForm' onSubmit={this.handleSubmit}>
-                    <LapEntry
-                        time={this.state.time}
-                        distance={this.state.distance}
-                        unit={this.state.unit}
-                        onChange={this.handleChange}
-                        format='three columns'/>
 
-                    <div className='three columns'>
-                        <button display="primary" type="submit" >OK</button>
-                    </div>
-                </form>
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit, isOpen: false,
+    };
+    LapForm.context = this;
+  }
+
+  render() {
+    return (
+      <div>
+        <PopUp errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.isOpen} onClose={LapForm.toggleModal} />
+        <div className='four columns left'>
+          <form className='LapForm' onSubmit={LapForm.handleSubmit}>
+            <LapEntry
+              time={this.state.time}
+              distance={this.state.distance}
+              unit={this.state.unit}
+              onChange={LapForm.handleChange}
+              format='three columns'
+            />
+
+            <div className='three columns'>
+              <button display='primary' type='submit' >OK</button>
             </div>
-        );
-    }
+          </form>
+        </div>
+      </div>
+    );
+  }
+}
 
+
+LapForm.propTypes = {
+  lap: PropTypes.shape({
+    distance: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+    time: PropTypes.string.isRequired,
+    unit: PropTypes.string.isRequired,
+
+  }),
 };
 
-export {
-    LapForm,
+LapForm.defaultProps = {
+  lap: {
+    distance: 0,
+    id: -1,
+    time: '00:00:00',
+    unit: '--',
+  },
 };
+
+export default LapForm;

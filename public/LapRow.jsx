@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * A React component to group a set of data within a Row (well a div really).
@@ -6,21 +7,20 @@ import React from 'react';
  * @property {object} data - One or more React Components to be displayed within the row.
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
-class LapRow extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className='row'>
-                {this.props.data}
-            </div>
-        );
-    }
+const LapRow = function LapRow(props) {
+  return (
+    <div className='row'>
+      {props.data}
+    </div>
+  );
 };
 
-
-export {
-    LapRow,
+LapRow.propTypes = {
+  data: PropTypes.instanceOf(Array),
 };
+
+LapRow.defaultProps = {
+  data: [],
+};
+
+export default LapRow;

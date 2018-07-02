@@ -3,7 +3,7 @@
  * @module public/lapDataSvcs
  */
 
-import {get, post} from './ajaxSvcs.jsx';
+import { get, post } from './ajaxSvcs';
 
 const optionTypes = ['unit', 'activity', 'kit', 'weather', 'feels', 'effort'];
 
@@ -14,17 +14,16 @@ const optionTypes = ['unit', 'activity', 'kit', 'weather', 'feels', 'effort'];
  * resolve returns a Map with {@link module:public/types~refData|retrieved data}.<br>
  * reject on connectivity or issues with the server at the endpoint.
  */
-const getRefData = () => {
-    return new Promise((resolve, reject) => {
-        get('/api/svcs/selectOpts/' + optionTypes.toString())
-        .then((data) => {
-                resolve(data);
-            })
-            .catch((error) => {
-                alert('Error retrieving data, please try later.');
-            });
-    });
-};
+const getRefData = () =>
+  new Promise((resolve, reject) => {
+    get(`/api/svcs/selectOpts/${optionTypes.toString()}`)
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject(new Error('Error retrieving data, please try later.'));
+      });
+  });
 
 
 /**
@@ -34,17 +33,16 @@ const getRefData = () => {
  * resolve returns retrieved data.<br>
  * reject on connectivity or issues with the server at the endpoint.
  */
-const getItems = (dataType) => {
-    return new Promise((resolve, reject) => {
-        get('/api/runs/' + dataType)
-            .then((data) => {
-                resolve(data);
-            })
-            .catch((error) => {
-                alert('Error retrieving data, please try later.');
-            });
-    });
-};
+const getItems = dataType =>
+  new Promise((resolve, reject) => {
+    get(`/api/runs/${dataType}`)
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject(new Error('Error retrieving data, please try later.'));
+      });
+  });
 
 
 /**
@@ -54,17 +52,19 @@ const getItems = (dataType) => {
  * @return {Promise}
  * reject on connectivity or issues with the server at the endpoint.
  */
-const postNewItem = (body, dataType) => {
-    return new Promise((resolve, reject) => {
-        post('/api/runs/' + dataType, body)
-            .then(() => {
-                resolve();
-            })
-            .catch((error) => {
-                reject(error);
-            });
-    });
-};
+const postNewItem = (body, dataType) =>
+  new Promise((resolve, reject) => {
+    post(`/api/runs/${dataType}`, body)
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+
+const getRefOpts = (refData, type) =>
+  refData.find(ref => ref.optType === type);
 
 
 /**
@@ -73,14 +73,14 @@ const postNewItem = (body, dataType) => {
  * @return {object.<string, object>} A map containing unit Names and {@link module:public/types~multipliers|corresponding multipliers} (if any are present).
  */
 const prepDistanceMultiplier = (optionRefData) => {
-    let multipliers = new Map();
-    if (optionRefData !== undefined) {
-      var unit = getRefOpts(optionRefData, 'unit');
-      unit.options.map((unit) => {
-            multipliers.set(unit['desc'], unit['conversion']);
-        });
-    }
-    return multipliers;
+  const multipliers = new Map();
+  if (optionRefData !== undefined) {
+    const unitOpts = getRefOpts(optionRefData, 'unit');
+    unitOpts.options.forEach((unit) => {
+      multipliers.set(unit.desc, unit.conversion);
+    });
+  }
+  return multipliers;
 };
 
 
@@ -91,25 +91,21 @@ const prepDistanceMultiplier = (optionRefData) => {
  * @return {string[]} An array containing the name of the given Select option type.
  */
 const prepSelectOpts = (optionRefData, type) => {
-    let opts = ['--']
-    if (optionRefData !== undefined) {
-      var unit = getRefOpts(optionRefData, type);
-      unit.options.map((option) => {
-            opts.push(option['desc']);
-        });
-    }
-    return opts;
+  const opts = ['--'];
+  if (optionRefData !== undefined) {
+    const unit = getRefOpts(optionRefData, type);
+    unit.options.forEach((option) => {
+      opts.push(option.desc);
+    });
+  }
+  return opts;
 };
 
 
-const getRefOpts = (refData, type) => {
-  return refData.find((ref) => ref.optType === type);
-}
-
 export {
-    getRefData,
-    getItems,
-    postNewItem,
-    prepDistanceMultiplier,
-    prepSelectOpts,
+  getRefData,
+  getItems,
+  postNewItem,
+  prepDistanceMultiplier,
+  prepSelectOpts,
 };

@@ -11,22 +11,21 @@
  * resolve returns retrieved data.<br>
  * reject on connectivity or issues with the server at the endpoint.
  */
-const get = (endpoint) => {
-    return new Promise((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', endpoint);
-        let msg;
-        xhr.onload = () => {
-            if (xhr.status === 200) {
-                msg = JSON.parse(xhr.responseText);
-                resolve(msg);
-            } else {
-                reject(xhr.status);
-            }
-        };
-        xhr.send();
-    });
-};
+const get = endpoint =>
+  new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', endpoint);
+    let msg;
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        msg = JSON.parse(xhr.responseText);
+        resolve(msg);
+      } else {
+        reject(xhr.status);
+      }
+    };
+    xhr.send();
+  });
 
 
 /**
@@ -36,24 +35,23 @@ const get = (endpoint) => {
  * @return {Promise}
  * reject on connectivity or issues with the server at the endpoint.
  */
-const post = (endpoint, body) => {
-    return new Promise((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', endpoint);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = () => {
-            if (xhr.status === 201) {
-                resolve();
-            } else {
-                reject(xhr.status);
-            };
-        };
-        xhr.send(JSON.stringify(body));
-    });
-};
+const post = (endpoint, body) =>
+  new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', endpoint);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onload = () => {
+      if (xhr.status === 201) {
+        resolve();
+      } else {
+        reject(xhr.status);
+      }
+    };
+    xhr.send(JSON.stringify(body));
+  });
 
 
 export {
-    get,
-    post,
+  get,
+  post,
 };

@@ -18,9 +18,10 @@
         "no-this-before-super": "warn",
         "no-undef": "warn",
         "no-unreachable": "warn",
-        "no-unused-vars": "warn",
+        "no-unused-vars": "off",
         "no-useless-return": "off",
         "no-plusplus": "off",
+        "no-else-return": "off",
         "radix": "error",
         "no-use-before-define": [
           "error",
@@ -47,7 +48,10 @@
         ],
         "jsx-quotes": ["error", "prefer-single"],
         "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error"
+        "react/jsx-uses-vars": "error",
+        "react/no-unused-state": "off",
+        "react/no-array-index-key": "off",
+        "jsx-a11y/label-has-for": "off"
     },
     "plugins": [
         "react"
