@@ -19,7 +19,7 @@ The application uses mongodb to store data, without it an error will be logged a
 * tape (logging)
 
 ### environment
-* eslint (with google's style)
+* eslint (with airbnb's style)
 * ide (vim): configuration in [github] (https://github.com/ferng/config/tree/master/unixHome)
 
 ### building

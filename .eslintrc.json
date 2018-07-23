@@ -47,7 +47,11 @@
         ],
         "jsx-quotes": ["error", "prefer-single"],
         "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error"
+        "react/jsx-uses-vars": "error",
+        "react/jsx-boolean-value": [
+          "error",
+          "always"
+        ]
     },
     "plugins": [
         "react"

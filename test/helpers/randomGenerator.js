@@ -9,13 +9,15 @@
  * @return {string} String representation of the timestamp.
  */
 function getRandomTime() {
-    let hh = getRandomNumberInclusive(0, 23);
-    let mm = getRandomNumberInclusive(0, 59);
-    let ss = getRandomNumberInclusive(0, 59);
+  let hh = getRandomNumberInclusive(0, 23);
+  let mm = getRandomNumberInclusive(0, 59);
+  let ss = getRandomNumberInclusive(0, 59);
 
-    return (hh < 10 ? '0' + hh : hh) + ':' +
-        (mm < 10 ? '0' + mm : mm) + ':' +
-        (ss < 10 ? '0' + ss : ss);
+  hh = hh < 10 ? `0${hh}` : hh;
+  mm = mm < 10 ? `0${mm}` : mm;
+  ss = ss < 10 ? `0${ss}` : ss;
+
+  return `${hh}:${mm}:${ss}`;
 }
 
 
@@ -26,7 +28,7 @@ function getRandomTime() {
  * @return {Number} The generated number
  */
 function getRandomNumberInclusive(min, max) {
-    return Math.floor(Math.random() * (1 + max - min)) + min;
+  return Math.floor(Math.random() * ((1 + max) - min)) + min;
 }
 
 
@@ -48,20 +50,20 @@ function getRandomNumberInclusive(min, max) {
  * getRandomString(3, 48, 10)
  */
 function getRandomString(len, asciiStart, rangeLen) {
-    let rndStr = '';
-    let offset;
+  let rndStr = '';
+  let offset;
 
-    for (let i = 0; i < len; i++) {
-        offset = (Math.random() * 100) % rangeLen;
-        rndStr += String.fromCharCode(asciiStart + offset);
-    }
+  for (let i = 0; i < len; i++) {
+    offset = (Math.random() * 100) % rangeLen;
+    rndStr += String.fromCharCode(asciiStart + offset);
+  }
 
-    return rndStr;
+  return rndStr;
 }
 
 
 export {
-    getRandomTime,
-    getRandomNumberInclusive,
-    getRandomString,
+  getRandomTime,
+  getRandomNumberInclusive,
+  getRandomString,
 };

@@ -1,15 +1,14 @@
 import React from 'react';
-import Enzyme from 'enzyme';
-import {mount} from 'enzyme';
+import { Enzyme, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import PropTypes from 'prop-types';
 import test from 'tape';
-import {LapField} from '../../public/LapField.jsx';
-import {getRandomLap, getRefData, getDistanceMults} from '../helpers/testData.js';
+import { LapField } from '../../public/LapField';
+import { getRandomLap, getRefData, getDistanceMults } from '../helpers/testData';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const context = {refData: getRefData(), multipliers: getDistanceMults()};
+const context = { refData: getRefData(), multipliers: getDistanceMults() };
 
 
 test('LapField returns a lap if editing (editLap prop) is not defined', (t) => {
@@ -17,7 +16,7 @@ test('LapField returns a lap if editing (editLap prop) is not defined', (t) => {
 
   t.plan(2);
   const wrapper = mount(<LapField lap={lap} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
@@ -33,7 +32,7 @@ test('LapField returns a lap if editing (editLap prop) is false', (t) => {
 
   t.plan(2);
   const wrapper = mount(<LapField lap={lap} editLap={false} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
@@ -49,7 +48,7 @@ test('LapField returns a lap entry form if editing (editLap prop) is true', (t) 
 
   t.plan(2);
   const wrapper = mount(<LapField lap={lap} editLap={true} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,

@@ -1,12 +1,11 @@
 import React from 'react';
-import Enzyme from 'enzyme';
-import {mount} from 'enzyme';
+import { Enzyme, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import PropTypes from 'prop-types';
 import test from 'tape';
 import sinon from 'sinon';
-import {LapForm} from '../../public/LapForm.jsx';
-import {getRandomLap, getNewLap, getRefData} from '../helpers/testData.js';
+import { LapForm } from '../../public/LapForm';
+import { getRandomLap, getNewLap, getRefData } from '../helpers/testData';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -15,39 +14,51 @@ const cleanLap = getNewLap('00:00:00', 0, '--');
 
 
 test('Enter data into LapForm, the onchange events get called causing a new render and update values', (t) => {
-  const tests = [
-    {elementId: 'time', updatedValue: '12:23:22', returnedTime: '12:23:22', returnedDistance: 0, returnedUnit: '--'},
-    {elementId: 'distance', updatedValue: 57.24, returnedTime: '12:23:22', returnedDistance: 57.24, returnedUnit: '--'},
-    {elementId: 'time', updatedValue: '12:56:22', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: '--'},
-    {elementId: 'time', updatedValue: '12:56:22', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: '--'},
-    {elementId: 'unit', updatedValue: 'yard', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: 'yard'},
-    {elementId: 'unit', updatedValue: 'mile', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: 'mile'},
+  const testCases = [
+    {
+      elementId: 'time', updatedValue: '12:23:22', returnedTime: '12:23:22', returnedDistance: 0, returnedUnit: '--',
+    },
+    {
+      elementId: 'distance', updatedValue: 57.24, returnedTime: '12:23:22', returnedDistance: 57.24, returnedUnit: '--',
+    },
+    {
+      elementId: 'time', updatedValue: '12:56:22', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: '--',
+    },
+    {
+      elementId: 'time', updatedValue: '12:56:22', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: '--',
+    },
+    {
+      elementId: 'unit', updatedValue: 'yard', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: 'yard',
+    },
+    {
+      elementId: 'unit', updatedValue: 'mile', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: 'mile',
+    },
   ];
 
-  let context = {refData: getRefData()};
-  const wrapper = mount(<LapForm lap={cleanLap}/>, {
-    context: context,
+  const context = { refData: getRefData() };
+  const wrapper = mount(<LapForm lap={cleanLap} />, {
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
     },
   });
 
-  t.plan(tests.length * 3);
-  for (let test of tests.values()) {
-    wrapper.find({id: test.elementId}).simulate('change', {target: {value: test.updatedValue}});
-    t.equal(wrapper.find('#time').prop('value'), test.returnedTime);
-    t.equal(wrapper.find('#distance').prop('value'), test.returnedDistance);
-    t.equal(wrapper.find('#unit').prop('value'), test.returnedUnit);
-  }
+  t.plan(testCases.length * 3);
+  (Object.values(testCases)).forEach((testCase) => {
+    wrapper.find({ id: testCase.elementId }).simulate('change', { target: { value: testCase.updatedValue } });
+    t.equal(wrapper.find('#time').prop('value'), testCase.returnedTime);
+    t.equal(wrapper.find('#distance').prop('value'), testCase.returnedDistance);
+    t.equal(wrapper.find('#unit').prop('value'), testCase.returnedUnit);
+  });
 });
 
 
 test('LapForm is well formed', (t) => {
   const onLapSubmit = sinon.spy();
-  const context = {refData: getRefData()};
+  const context = { refData: getRefData() };
   const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
@@ -61,15 +72,15 @@ test('LapForm is well formed', (t) => {
   t.equal(wrapper.find('form').length, 1);
 
   const instance = wrapper.instance();
-  t.equal((typeof instance.props['onLapSubmit']), 'function');
+  t.equal((typeof instance.props.onLapSubmit), 'function');
 });
 
 
 test('onLapSubmit returns the lap context state set by front end', (t) => {
   const onLapSubmit = sinon.spy();
-  const context = {refData: getRefData()};
+  const context = { refData: getRefData() };
   const wrapper = mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
@@ -79,26 +90,26 @@ test('onLapSubmit returns the lap context state set by front end', (t) => {
   t.plan(6);
   const instance = wrapper.instance();
   // checking the state has been set
-  t.equal(instance.state['time'], testLap1.time);
+  t.equal(instance.state.time, testLap1.time);
 
   wrapper.find('button').simulate('submit');
   // checking the state has been reset following subnmit
-  t.equal(instance.state['time'], '00:00:00');
+  t.equal(instance.state.time, '00:00:00');
 
   // checking returned lap is what state used to be
-  const actualData = (onLapSubmit.args[0][0])['lap'];
+  const actualData = (onLapSubmit.args[0][0]).lap;
   t.equal(onLapSubmit.calledOnce, true);
-  t.equal(actualData['time'], testLap1.time);
-  t.equal(actualData['distance'], testLap1.distance);
-  t.equal(actualData['unit'], testLap1.unit);
+  t.equal(actualData.time, testLap1.time);
+  t.equal(actualData.distance, testLap1.distance);
+  t.equal(actualData.unit, testLap1.unit);
 });
 
 
 test('onLapSubmit resets lap context state', (t) => {
   const onLapSubmit = sinon.spy();
-  const context = {refData: getRefData()};
+  const context = { refData: getRefData() };
   const wrapper = mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
@@ -108,32 +119,32 @@ test('onLapSubmit resets lap context state', (t) => {
   t.plan(6);
   const instance = wrapper.instance();
   // make sure state is set
-  t.equal(instance.state['time'], testLap1['time']);
-  t.equal(instance.state['distance'], testLap1['distance']);
-  t.equal(instance.state['unit'], testLap1['unit']);
+  t.equal(instance.state.time, testLap1.time);
+  t.equal(instance.state.distance, testLap1.distance);
+  t.equal(instance.state.unit, testLap1.unit);
 
   wrapper.find('button').simulate('submit');
   // make sure state has been reset
-  t.equal(instance.state['time'], cleanLap['time']);
-  t.equal(instance.state['distance'], cleanLap['distance']);
-  t.equal(instance.state['unit'], cleanLap['unit']);
+  t.equal(instance.state.time, cleanLap.time);
+  t.equal(instance.state.distance, cleanLap.distance);
+  t.equal(instance.state.unit, cleanLap.unit);
 });
 
 
 test('onLapSubmit returns early without reseting state or submitting if time is missing from lap data', (t) => {
   const onLapSubmit = sinon.spy();
-  const context = {refData: getRefData()};
+  const context = { refData: getRefData() };
   const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
     },
   });
 
-  const tstLap = getRandomLap();
-  delete tstLap['time'];
-  wrapper.setState(tstLap);
+  const testLap = getRandomLap();
+  delete testLap.time;
+  wrapper.setState(testLap);
   wrapper.find('button').simulate('submit');
 
   t.plan(8);
@@ -142,38 +153,38 @@ test('onLapSubmit returns early without reseting state or submitting if time is 
   t.equal(onLapSubmit.called, false);
 
   // state not reset
-  t.equal(instance.state['time'], cleanLap['time']);
-  t.equal(instance.state['distance'], tstLap['distance']);
-  t.equal(instance.state['unit'], tstLap['unit']);
+  t.equal(instance.state.time, cleanLap.time);
+  t.equal(instance.state.distance, testLap.distance);
+  t.equal(instance.state.unit, testLap.unit);
 
-  tstLap['time'] = '00:00:00';
-  wrapper.setState(tstLap);
+  testLap.time = '00:00:00';
+  wrapper.setState(testLap);
   wrapper.find('button').simulate('submit');
 
   // submit not called
   t.equal(onLapSubmit.called, false);
 
   // state not reset
-  t.equal(instance.state['time'], cleanLap['time']);
-  t.equal(instance.state['distance'], tstLap['distance']);
-  t.equal(instance.state['unit'], tstLap['unit']);
+  t.equal(instance.state.time, cleanLap.time);
+  t.equal(instance.state.distance, testLap.distance);
+  t.equal(instance.state.unit, testLap.unit);
 });
 
 
 test('onLapSubmit returns early without reseting state or submitting if distance is missing from lap data', (t) => {
   const onLapSubmit = sinon.spy();
-  const context = {refData: getRefData()};
+  const context = { refData: getRefData() };
   const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
     },
   });
 
-  const tstLap = getRandomLap();
-  delete tstLap['distance'];
-  wrapper.setState(tstLap);
+  const testLap = getRandomLap();
+  delete testLap.distance;
+  wrapper.setState(testLap);
   wrapper.find('button').simulate('submit');
 
   t.plan(8);
@@ -182,29 +193,29 @@ test('onLapSubmit returns early without reseting state or submitting if distance
   t.equal(onLapSubmit.called, false);
 
   // state not reset
-  t.equal(instance.state['time'], tstLap['time']);
-  t.equal(instance.state['distance'], cleanLap['distance']);
-  t.equal(instance.state['unit'], tstLap['unit']);
+  t.equal(instance.state.time, testLap.time);
+  testLap.equal(instance.state.distance, cleanLap.distance);
+  t.equal(instance.state.unit, testLap.unit);
 
-  tstLap['distance'] = 0;
-  wrapper.setState(tstLap);
+  testLap.distance = 0;
+  wrapper.setState(testLap);
   wrapper.find('button').simulate('submit');
 
   // submit not called
   t.equal(onLapSubmit.called, false);
 
   // state not reset
-  t.equal(instance.state['time'], tstLap['time']);
-  t.equal(instance.state['distance'], cleanLap['distance']);
-  t.equal(instance.state['unit'], tstLap['unit']);
+  t.equal(instance.state.time, testLap.time);
+  t.equal(instance.state.distance, cleanLap.distance);
+  t.equal(instance.state.unit, testLap.unit);
 });
 
 
 test('onLapSubmit returns early without reseting state or submitting if unit is missing from lap data', (t) => {
   const onLapSubmit = sinon.spy();
-  const context = {refData: getRefData()};
+  const context = { refData: getRefData() };
   const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
-    context: context,
+    context,
     childContextTypes: {
       multipliers: PropTypes.object,
       refData: PropTypes.object,
@@ -212,7 +223,7 @@ test('onLapSubmit returns early without reseting state or submitting if unit is 
   });
 
   const tstLap = getRandomLap();
-  delete tstLap['unit'];
+  delete tstLap.unit;
   wrapper.setState(tstLap);
   wrapper.find('button').simulate('submit');
 
@@ -222,11 +233,11 @@ test('onLapSubmit returns early without reseting state or submitting if unit is 
   t.equal(onLapSubmit.called, false);
 
   // state not reset
-  t.equal(instance.state['time'], tstLap['time']);
-  t.equal(instance.state['distance'], tstLap['distance']);
-  t.equal(instance.state['unit'], cleanLap['unit']);
+  t.equal(instance.state.time, tstLap.time);
+  t.equal(instance.state.distance, tstLap.distance);
+  t.equal(instance.state.unit, cleanLap.unit);
 
-  tstLap['unit'] = '--';
+  tstLap.unit = '--';
   wrapper.setState(tstLap);
   wrapper.find('button').simulate('submit');
 
@@ -234,7 +245,7 @@ test('onLapSubmit returns early without reseting state or submitting if unit is 
   t.equal(onLapSubmit.called, false);
 
   // state not reset
-  t.equal(instance.state['time'], tstLap['time']);
-  t.equal(instance.state['distance'], tstLap['distance']);
-  t.equal(instance.state['unit'], cleanLap['unit']);
+  t.equal(instance.state.time, tstLap.time);
+  t.equal(instance.state.distance, tstLap.distance);
+  t.equal(instance.state.unit, cleanLap.unit);
 });

@@ -11,21 +11,21 @@
  * @return {Boolean} true if the two objects match, false otherwise.
  */
 function areObjectsEqual(obj1, obj2) {
-    let obj1Keys = Object.keys(obj1);
-    let obj2Keys = Object.keys(obj2);
+  const obj1Keys = Object.keys(obj1);
+  const obj2Keys = Object.keys(obj2);
 
-    let areEqual = true;
-    if (!areArraysEqual(obj1Keys, obj2Keys)) {
-        areEqual = false;
+  let areEqual = true;
+  if (!areArraysEqual(obj1Keys, obj2Keys)) {
+    areEqual = false;
+  }
+  obj1Keys.forEach((item) => {
+    if (obj1[item] === undefined || obj2[item] === undefined) {
+      areEqual = false;
+    } if (obj1[item] !== obj2[item]) {
+      areEqual = false;
     }
-    obj1Keys.forEach((item, index, array) => {
-        if (obj1[item] === undefined || obj2[item] === undefined) {
-            areEqual = false;
-        } if (obj1[item] != obj2[item]) {
-            areEqual = false;
-        }
-    });
-    return areEqual;
+  });
+  return areEqual;
 }
 
 
@@ -36,14 +36,14 @@ function areObjectsEqual(obj1, obj2) {
  * @return {Boolean} true if if the two arrays match, false otherwise.
  */
 function areArraysEqual(arr1, arr2) {
-    let areEqual = true;
-    const arr1Iter = arr1.values();
-    for (let v of arr1Iter) {
-        if (!arr2.includes(v)) {
-            areEqual = false;
-        }
+  let areEqual = true;
+  const arr1Vals = Object.values(arr1);
+  arr1Vals.forEach((item) => {
+    if (!arr2.includes(item)) {
+      areEqual = false;
     }
-    return areEqual;
+  });
+  return areEqual;
 }
 
 
@@ -54,37 +54,19 @@ function areArraysEqual(arr1, arr2) {
  * @return {Boolean} true if the two maps match, false otherwise.
  */
 function areMapsEqual(map1, map2) {
-    let areEqual = true;
-    const map1Iter = map1.keys();
-    for (let v of map1Iter) {
-        if (!map2.has(v) || map1.get(v) != map2.get(v)) {
-            areEqual = false;
-        }
+  let areEqual = true;
+  const map1Keys = Object.keys(map1);
+  map1Keys.forEach((item) => {
+    if (!map2.has(item) || map1.get(item) !== map2.get(item)) {
+      areEqual = false;
     }
-    return areEqual;
+  });
+  return areEqual;
 }
-
-/**
- * Parses a map and creates an array of its keys.
- * @param {Object.<String, Float>} map - A map
- * @return {string[]} An array containing the keys in the map.
- */
-const getKeys = (map) => {
-  console.log(map);
-    const keys = [];
-
-    const iter = map.keys();
-    for (let k of iter) {
-        keys.push(k);
-    }
-
-    return keys;
-};
-
 
 
 export {
-    areObjectsEqual,
-    areArraysEqual,
-    areMapsEqual,
+  areObjectsEqual,
+  areArraysEqual,
+  areMapsEqual,
 };

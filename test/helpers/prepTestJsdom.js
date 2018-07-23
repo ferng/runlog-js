@@ -1,15 +1,15 @@
-let jsdom = require('jsdom');
+const jsdom = require('jsdom');
 
 const options = {
-    resources: 'usable',
-    runScripts: 'dangerously',
-    beforeParse(window) {
-          window.alert = window.console.log.bind(window.console);
-        },
+  resources: 'usable',
+  runScripts: 'dangerously',
+  beforeParse(window) {
+    window.alert = window.console.log.bind(window.console);
+  },
 };
 
-const {JSDOM} = jsdom;
-const {document} = (new JSDOM('', options)).window;
+const { JSDOM } = jsdom;
+const { document } = (new JSDOM('', options)).window;
 
 global.document = document;
 global.window = document.defaultView;
