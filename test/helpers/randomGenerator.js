@@ -11,7 +11,7 @@
 function getRandomTime() {
   let hh = getRandomNumberInclusive(0, 23);
   let mm = getRandomNumberInclusive(0, 59);
-  let ss = getRandomNumberInclusive(0, 59);
+  let ss = getRandomNumberInclusive(1, 59);
 
   hh = hh < 10 ? `0${hh}` : hh;
   mm = mm < 10 ? `0${mm}` : mm;

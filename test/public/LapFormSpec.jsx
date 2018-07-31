@@ -1,10 +1,10 @@
 import React from 'react';
-import { Enzyme, mount } from 'enzyme';
+import * as Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import PropTypes from 'prop-types';
 import test from 'tape';
 import sinon from 'sinon';
-import { LapForm } from '../../public/LapForm';
+import LapForm from '../../public/LapForm';
 import { getRandomLap, getNewLap, getRefData } from '../helpers/testData';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -16,40 +16,40 @@ const cleanLap = getNewLap('00:00:00', 0, '--');
 test('Enter data into LapForm, the onchange events get called causing a new render and update values', (t) => {
   const testCases = [
     {
-      elementId: 'time', updatedValue: '12:23:22', returnedTime: '12:23:22', returnedDistance: 0, returnedUnit: '--',
+      elementId: 'unit', updatedValue: 'yard', returnedTime: '00:00:00', returnedDistance: 0, returnedUnit: 'yard',
     },
     {
-      elementId: 'distance', updatedValue: 57.24, returnedTime: '12:23:22', returnedDistance: 57.24, returnedUnit: '--',
+      elementId: 'unit', updatedValue: 'mile', returnedTime: '00:00:00', returnedDistance: 0, returnedUnit: 'mile',
     },
     {
-      elementId: 'time', updatedValue: '12:56:22', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: '--',
+      elementId: 'time', updatedValue: '12:56:22', returnedTime: '12:56:22', returnedDistance: 0, returnedUnit: 'mile',
     },
     {
-      elementId: 'time', updatedValue: '12:56:22', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: '--',
+      elementId: 'time', updatedValue: '12:37:38', returnedTime: '12:37:38', returnedDistance: 0, returnedUnit: 'mile',
     },
     {
-      elementId: 'unit', updatedValue: 'yard', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: 'yard',
+      elementId: 'distance', updatedValue: 22, returnedTime: '12:37:38', returnedDistance: 22, returnedUnit: 'mile',
     },
     {
-      elementId: 'unit', updatedValue: 'mile', returnedTime: '12:56:22', returnedDistance: 57.24, returnedUnit: 'mile',
+      elementId: 'distance', updatedValue: 0.76, returnedTime: '12:37:38', returnedDistance: 0.76, returnedUnit: 'mile',
     },
   ];
 
   const context = { refData: getRefData() };
-  const wrapper = mount(<LapForm lap={cleanLap} />, {
+  const wrapper = Enzyme.mount(<LapForm lap={cleanLap} />, {
     context,
     childContextTypes: {
       multipliers: PropTypes.object,
-      refData: PropTypes.object,
+      refData: PropTypes.array,
     },
   });
 
   t.plan(testCases.length * 3);
   (Object.values(testCases)).forEach((testCase) => {
-    wrapper.find({ id: testCase.elementId }).simulate('change', { target: { value: testCase.updatedValue } });
+    wrapper.find({ id: testCase.elementId }).first().simulate('change', { target: { id: testCase.elementId, value: testCase.updatedValue } });
     t.equal(wrapper.find('#time').prop('value'), testCase.returnedTime);
     t.equal(wrapper.find('#distance').prop('value'), testCase.returnedDistance);
-    t.equal(wrapper.find('#unit').prop('value'), testCase.returnedUnit);
+    t.equal(wrapper.find('#unit').first().prop('value'), testCase.returnedUnit);
   });
 });
 
@@ -57,11 +57,11 @@ test('Enter data into LapForm, the onchange events get called causing a new rend
 test('LapForm is well formed', (t) => {
   const onLapSubmit = sinon.spy();
   const context = { refData: getRefData() };
-  const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
+  const wrapper = Enzyme.mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
     context,
     childContextTypes: {
       multipliers: PropTypes.object,
-      refData: PropTypes.object,
+      refData: PropTypes.array,
     },
   });
 
@@ -79,11 +79,11 @@ test('LapForm is well formed', (t) => {
 test('onLapSubmit returns the lap context state set by front end', (t) => {
   const onLapSubmit = sinon.spy();
   const context = { refData: getRefData() };
-  const wrapper = mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {
+  const wrapper = Enzyme.mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {
     context,
     childContextTypes: {
       multipliers: PropTypes.object,
-      refData: PropTypes.object,
+      refData: PropTypes.array,
     },
   });
 
@@ -108,11 +108,11 @@ test('onLapSubmit returns the lap context state set by front end', (t) => {
 test('onLapSubmit resets lap context state', (t) => {
   const onLapSubmit = sinon.spy();
   const context = { refData: getRefData() };
-  const wrapper = mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {
+  const wrapper = Enzyme.mount(<LapForm lap={testLap1} onLapSubmit={onLapSubmit} />, {
     context,
     childContextTypes: {
       multipliers: PropTypes.object,
-      refData: PropTypes.object,
+      refData: PropTypes.array,
     },
   });
 
@@ -134,11 +134,11 @@ test('onLapSubmit resets lap context state', (t) => {
 test('onLapSubmit returns early without reseting state or submitting if time is missing from lap data', (t) => {
   const onLapSubmit = sinon.spy();
   const context = { refData: getRefData() };
-  const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
+  const wrapper = Enzyme.mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
     context,
     childContextTypes: {
       multipliers: PropTypes.object,
-      refData: PropTypes.object,
+      refData: PropTypes.array,
     },
   });
 
@@ -174,11 +174,11 @@ test('onLapSubmit returns early without reseting state or submitting if time is 
 test('onLapSubmit returns early without reseting state or submitting if distance is missing from lap data', (t) => {
   const onLapSubmit = sinon.spy();
   const context = { refData: getRefData() };
-  const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
+  const wrapper = Enzyme.mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
     context,
     childContextTypes: {
       multipliers: PropTypes.object,
-      refData: PropTypes.object,
+      refData: PropTypes.array,
     },
   });
 
@@ -194,7 +194,7 @@ test('onLapSubmit returns early without reseting state or submitting if distance
 
   // state not reset
   t.equal(instance.state.time, testLap.time);
-  testLap.equal(instance.state.distance, cleanLap.distance);
+  t.equal(instance.state.distance, cleanLap.distance);
   t.equal(instance.state.unit, testLap.unit);
 
   testLap.distance = 0;
@@ -214,11 +214,11 @@ test('onLapSubmit returns early without reseting state or submitting if distance
 test('onLapSubmit returns early without reseting state or submitting if unit is missing from lap data', (t) => {
   const onLapSubmit = sinon.spy();
   const context = { refData: getRefData() };
-  const wrapper = mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
+  const wrapper = Enzyme.mount(<LapForm lap={cleanLap} onLapSubmit={onLapSubmit} />, {
     context,
     childContextTypes: {
       multipliers: PropTypes.object,
-      refData: PropTypes.object,
+      refData: PropTypes.array,
     },
   });
 

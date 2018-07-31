@@ -250,7 +250,7 @@ const getRandomLap = () =>
  * @return {number} distance.
  */
 function getRandomDist() {
-  return getRandomNumberInclusive(0, 26) +
+  return getRandomNumberInclusive(1, 26) +
         (Math.round(Math.random() * 100) / 100);
 }
 
@@ -261,7 +261,7 @@ function getRandomDist() {
  */
 function getRandomUnit() {
   const unit = getUnits();
-  return unit[getRandomNumberInclusive(0, unit.length - 1)];
+  return unit[getRandomNumberInclusive(1, unit.length - 1)];
 }
 
 

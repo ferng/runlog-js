@@ -1,8 +1,8 @@
 import React from 'react';
-import { Enzyme, shallow } from 'enzyme';
+import * as Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import test from 'tape';
-import { Lap } from '../../public/Lap';
+import Lap from '../../public/Lap';
 import { getRandomLap, getRefData, getDistanceMults } from '../helpers/testData';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -12,7 +12,7 @@ test('Lap is well formed and speed items are where they should be', (t) => {
   const context = { refData: getRefData(), multipliers: getDistanceMults() };
 
   t.plan(11);
-  const wrapper = shallow(<Lap lap={lap} />, { context });
+  const wrapper = Enzyme.shallow(<Lap lap={lap} />, { context });
   t.equal(wrapper.find('.four.columns.left').length, 1);
   t.equal(wrapper.find('.lap').length, 1);
   t.equal(wrapper.find('.three.columns').length, 4);

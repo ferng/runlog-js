@@ -1,6 +1,6 @@
 import test from 'tape';
 import { areObjectsEqual } from '../helpers/tools';
-import { lapsToReactRows, createLap, lapArrayToMap, calcTimes, getKeys, getValues } from '../../public/lapTools';
+import { lapsToReactRows, createLap, lapArrayToMap, calcTimes, getValues } from '../../public/lapTools';
 import { getDistanceMults, splitRowData, getRandomLap } from '../helpers/testData';
 
 
@@ -53,14 +53,12 @@ test('lapArrayToMap returns a map produced from the laps in the given array, key
   const lap2 = getRandomLap();
   const lap3 = getRandomLap();
   const laps = [lap1, lap2, lap3];
-
   const lapMap = lapArrayToMap(laps);
-  const ids = getKeys(lapMap);
 
   t.plan(4);
-  t.equal(ids.length, laps.length);
-  ids.forEach((id, index) => {
-    t.equal(areObjectsEqual(lapMap.get(id), laps[index]), true);
+  t.equal(lapMap.size, laps.length);
+  laps.forEach((lap) => {
+    t.equal(areObjectsEqual(lapMap.get(lap.id), lap), true);
   });
 });
 
@@ -118,20 +116,20 @@ test('calcTimes calculates mph and min per mile', (t) => {
 });
 
 
-test('getKeys returns an array with all the keys from a map, getValues does the same but for the values in a map', (t) => {
+test('getValues returns an array with all the values in a map', (t) => {
   const dataMap = new Map();
   dataMap.set('a', 1);
   dataMap.set('b', 17);
   dataMap.set('f', 265);
   dataMap.set('onions', 88);
 
-  const keys = getKeys(dataMap);
   const vals = getValues(dataMap);
 
-  t.plan(6);
-  t.equal(keys.length, dataMap.size);
+  t.plan(5);
   t.equal(vals.length, dataMap.size);
-  for (let i = 0; i < 4; i++) {
-    t.equal(dataMap.get(keys[i]), vals[i]);
-  }
+
+  let valCtr = 0;
+  dataMap.forEach((val) => {
+    t.equal(vals[valCtr++], val);
+  });
 });

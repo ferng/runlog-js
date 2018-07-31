@@ -23,6 +23,7 @@ class LapForm extends React.Component {
       isOpen: !LapForm.context.state.isOpen,
     });
   }
+
   static handleSubmit(e) {
     e.preventDefault();
     const id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();

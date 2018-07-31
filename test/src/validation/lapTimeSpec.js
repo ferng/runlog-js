@@ -2,7 +2,8 @@ const test = require('tape');
 const target = require('../../../src/validation/run.js');
 const helper = require('../../helpers/tools.js');
 
-const expectedBad = 'bad';
+const expectedFailName = 'Error';
+const expectedFailMsg = 'failed lap validation';
 
 
 test('Valid time data in request', (t) => {
@@ -33,11 +34,12 @@ test('Invalid time data in request', (t) => {
     },
   };
 
-  t.plan(1);
+  t.plan(2);
 
   target.validateRequest(reqBody)
     .catch((actual) => {
-      t.equal(actual, expectedBad);
+      t.equal(actual.name, expectedFailName);
+      t.equal(actual.message, expectedFailMsg);
     });
 });
 
@@ -54,7 +56,7 @@ test('Invalid time data', (t) => {
     { time: '12:42:60' },
   ];
 
-  t.plan(tests.length);
+  t.plan(tests.length * 2);
 
   Object.values(tests).forEach(async (testCase) => {
     target.validateLap({
@@ -63,7 +65,8 @@ test('Invalid time data', (t) => {
       },
     })
       .catch((actual) => {
-        t.equal(actual, expectedBad);
+        t.equal(actual.name, expectedFailName);
+        t.equal(actual.message, expectedFailMsg);
       });
   });
 });
