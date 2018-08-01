@@ -47,6 +47,7 @@ router.get('/*', (req, res) => {
     });
 });
 
+
 // validate should not be a promise, the d stuff should be wrapped up in it
 /**
  * POST: Route to write a new inbound lap to the database.

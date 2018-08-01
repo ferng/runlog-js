@@ -11,7 +11,7 @@ import { lapArrayToMap } from './lapTools';
 class TopLevel extends React.Component {
   static toggleModal() {
     TopLevel.context.setState({
-      isOpen: !TopLevel.context.state.isOpen,
+      showModal: !TopLevel.context.state.showModal,
     });
   }
 
@@ -24,7 +24,7 @@ class TopLevel extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { laps: [], refData: [], isOpen: false };
+    this.state = { laps: [], refData: [], showModal: false };
     TopLevel.context = this;
   }
 
@@ -58,7 +58,7 @@ class TopLevel extends React.Component {
       );
     } else {
       return (
-        <PopUp errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.isOpen} onClose={TopLevel.toggleModal} />
+        <PopUp errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={TopLevel.toggleModal} />
       );
     }
   }

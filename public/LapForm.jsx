@@ -20,7 +20,7 @@ class LapForm extends React.Component {
 
   static toggleModal() {
     LapForm.context.setState({
-      isOpen: !LapForm.context.state.isOpen,
+      showModal: !LapForm.context.state.showModal,
     });
   }
 
@@ -40,7 +40,7 @@ class LapForm extends React.Component {
 
     LapForm.context.setState({ errHead: 'Error', errMsg: 'Error retrieving data, please try later' });
     postNewItem(newLap, 'lap')
-      .catch((error) => {
+      .catch(() => {
         LapForm.context.setState({ errHead: 'Error', errMsg: 'Error retrieving data, please try later' });
         LapForm.toggleModal();
       });
@@ -54,7 +54,7 @@ class LapForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit, isOpen: false,
+      id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit, showModal: false,
     };
     LapForm.context = this;
   }
@@ -62,7 +62,7 @@ class LapForm extends React.Component {
   render() {
     return (
       <div>
-        <PopUp errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.isOpen} onClose={LapForm.toggleModal} />
+        <PopUp errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={LapForm.toggleModal} />
         <div className='four columns left'>
           <form className='LapForm' onSubmit={LapForm.handleSubmit}>
             <LapEntry
