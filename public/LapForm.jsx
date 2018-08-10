@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LapEntry from './LapEntry';
-import PopUp from './PopUp';
+import Modal from './Modal';
 import { postNewItem } from './lapDataSvcs';
 import { createLap } from './lapTools';
 
@@ -33,19 +33,15 @@ class LapForm extends React.Component {
     if (!time || time === '00:00:00' || time === '00:00' || !distance || distance === 0 || Number.isNaN(distance) || !unit || unit === '--') {
       return;
     }
-
     time = time.length === 5 ? `${time}:00` : time;
 
     const newLap = { lap: createLap(id, time, distance, unit) };
-
-    LapForm.context.setState({ errHead: 'Error', errMsg: 'Error retrieving data, please try later' });
     postNewItem(newLap, 'lap')
       .catch(() => {
-        LapForm.context.setState({ errHead: 'Error', errMsg: 'Error retrieving data, please try later' });
+        LapForm.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
         LapForm.toggleModal();
       });
     LapForm.context.props.onLapSubmit(newLap);
-
 
     LapForm.context.setState(createLap());
   }
@@ -62,7 +58,7 @@ class LapForm extends React.Component {
   render() {
     return (
       <div>
-        <PopUp errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={LapForm.toggleModal} />
+        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={LapForm.toggleModal} />
         <div className='four columns left'>
           <form className='LapForm' onSubmit={LapForm.handleSubmit}>
             <LapEntry

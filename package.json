@@ -1,6 +1,6 @@
 {
   "name": "runlogjs",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "license": "see LICENSE file",
   "description": "An activity log, mostly for exercise, mostly for running, mostly for fern",

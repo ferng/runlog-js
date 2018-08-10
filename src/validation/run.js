@@ -19,6 +19,8 @@ function validateRequest(data) {
   switch (dataType) {
     case 'lap':
       return validateLap(data);
+    case 'session':
+      return validateSession(data.session);
     default:
       return null;
   }
@@ -43,46 +45,30 @@ function validateLap(lap) {
 }
 
 
-/**
- * Parses a request with activity data to see whether that data is valid or not.
- * @param {number} id - Activity id
- * @param {string} activity - The activity the set of Laps will define
- * @param {string} kit - The kit I relied on for this activity
- * @param {string} weather - What was the weather like
- * @param {string} feels - What did the temperature feel like
- * @param {string} effort - And what was the perceived effort
- * @return {Promise}
- * resolve returns parsed and validated data as a {@link module:public/types~lap|lap}.<br>
- * reject if the validation failed somehow.
- */
-function validateActivity(id, activity, kit, weather, feels, effort) {
-  log.debug('Parsing activity id:[%s] activity:[%s]kit:[%s] weather:[%s] feels:[%s] effort:[%s]', id, activity, kit, weather, feels, effort);
+function validateSession(session) {
   return new Promise((resolve, reject) => {
-    if (isValidActivity(id, activity, kit, weather, feels, effort)) {
-      const payload = {
-        id,
-        activity,
-        kit,
-        weather,
-        feels,
-        effort,
-      };
-      resolve(payload);
+    if (isValidSession(session)) {
+      resolve(session);
     } else {
-      reject(new Error('failed activity validation'));
+      reject(new Error('failed session validation'));
     }
   });
+}
+
+
+
+/**
+ * Parses a request with activity data to see whether that data is valid or not.
+ * @param {string} activity - The activity the set of Laps will define
+ */
+function isValidSession(session) {
+  return true;
 }
 
 
 function isValidLap(lap) {
   return (isValidDistance(lap.lap.distance) &&
         isValidTime24(lap.lap.time));
-}
-
-
-function isValidActivity(id, unit, distance, time) {
-  return true;
 }
 
 

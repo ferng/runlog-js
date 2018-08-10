@@ -84,7 +84,7 @@ const createLap = (id = 0, time = '00:00:00', distance = 0, unit = '--') =>
  * @param {string} effort - And what was the perceived effort
  * @return {object} An Activity with the data provided or blanks if none.
  */
-const createActivity = (id = 0, activity = '--', kit = '--', weather = '--', feels = '--', effort = '--') =>
+const createSession = (id = 0, activity = '--', kit = '--', weather = '--', feels = '--', effort = '--') =>
   ({
     id, activity, kit, weather, feels, effort,
   });
@@ -152,7 +152,7 @@ const getValues = (map) => {
 export {
   lapsToReactRows,
   createLap,
-  createActivity,
+  createSession,
   lapArrayToMap,
   calcTimes,
   getValues,

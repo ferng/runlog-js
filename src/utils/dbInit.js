@@ -73,7 +73,12 @@ const lap = {
   create: 'CREATE TABLE lap (id INTEGER PRIMARY KEY AUTOINCREMENT, time INTEGER NOT NULL, distance REAL NOT NULL, unit INTEGER NOT NULL)',
 };
 
-const definitions = [unit, activity, kit, weather, feels, effort, lap];
+const session = {
+  table: 'session',
+  create: 'CREATE TABLE session (id INTEGER PRIMARY KEY AUTOINCREMENT, activity INTEGER NOT NULL, kit INTEGER NOT NULL, weather INTEGER NOT NULL, feels INTEGER NOT NULL, effort INTEGER NOT NULL)'
+}
+
+const definitions = [unit, activity, kit, weather, feels, effort, lap, session];
 
 
 function init() {

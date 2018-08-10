@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import PopUp from './PopUp';
+import Modal from './Modal';
 import LapList from './LapList';
-// import {ActivityForm} from './ActivityForm';
+import SessionForm from './SessionForm';
 import { getItems, getRefData } from './lapDataSvcs';
 import { lapArrayToMap } from './lapTools';
 
@@ -52,13 +52,18 @@ class TopLevel extends React.Component {
   render() {
     if (this.state.dataLoaded) {
       return (
+        <div className='twelve columns'>
+        <div className='topLevel'>
+          <SessionForm />
+        </div>
         <div className='topLevel'>
           <LapList laps={this.state.laps} onLapSubmit={TopLevel.handleLapSubmit} />
         </div>
+      </div>
       );
     } else {
       return (
-        <PopUp errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={TopLevel.toggleModal} />
+        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={TopLevel.toggleModal} />
       );
     }
   }

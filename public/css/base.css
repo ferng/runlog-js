@@ -3,7 +3,7 @@ body {
 }
 
 input[type='number'] {
-    width: 3.3rem;
+  width: 3.3rem;
 }
 
 input[type=number]::-webkit-inner-spin-button { 
@@ -15,33 +15,36 @@ input[type=time]::-webkit-inner-spin-button {
 }
 
 .left {
-    border-left: 0.125rem solid #33C3F0;
+  border-left: 0.125rem solid #33C3F0;
 }
 
 .row {
-    border: 0.125rem solid #33C3F0;
+  border: 0.125rem solid #33C3F0;
 }
 
 label {
-    font-size: 1.25rem;
-    color: red;
-    font-weight: normal;
-    display: inline;
+  font-size: 1.25rem;
+  color: red;
+  font-weight: normal;
+  display: inline;
 }
 
 .data {
-    font-size: 1.25rem;
-    color: darkblue;
-    font-weight: normal;
-    display: inline;
+  font-size: 1.25rem;
+  color: darkblue;
+  font-weight: normal;
+  display: inline;
 }
 
 .lapList {
-    height: 120px;
-    overflow-x: hidden;
-    overflow-y: scroll;
+  height: 120px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
+.sessionForm {
+  height: 40px;
+}
 
 
 .modal-popup{

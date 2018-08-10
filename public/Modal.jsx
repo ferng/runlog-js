@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class PopUp extends React.Component {
+class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = props;
-    PopUp.context = this;
+    Modal.context = this;
   }
 
   render() {
@@ -32,17 +32,17 @@ class PopUp extends React.Component {
 }
 
 
-PopUp.propTypes = {
+Modal.propTypes = {
   show: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   errHead: PropTypes.string,
   errMsg: PropTypes.string,
 };
 
-PopUp.defaultProps = {
+Modal.defaultProps = {
   show: false,
   errHead: 'Error',
   errMsg: 'Unknow Error',
 };
 
-export default PopUp;
+export default Modal;
