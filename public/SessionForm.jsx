@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import SelectOpts from './SelectOpts';
+import Lap from './Lap';
 import { prepSelectOpts, postNewItem } from './lapDataSvcs';
 import { createSession } from './lapTools';
 
@@ -33,6 +34,9 @@ class SessionForm extends React.Component {
     SessionForm.context.setState({ effort: e.target.value });
   }
 
+  static onLapEdit(id) {
+  }
+  
   static handleSubmit(e) {
     e.preventDefault();
     let id = SessionForm.context.state.id !== 0 ? SessionForm.context.state.id : Date.now();
@@ -63,8 +67,14 @@ class SessionForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {showModal: false,}
+    this.state = {showModal: false}
     SessionForm.context = this;
+  }
+
+  getChildContext() {
+    return { 
+      multipliers: this.state.multipliers
+    };
   }
 
   componentWillMount() {
@@ -74,14 +84,18 @@ class SessionForm extends React.Component {
     SessionForm.context.setState({ weatherOpts: prepSelectOpts(this.context.refData, 'weather') });
     SessionForm.context.setState({ feelsOpts: prepSelectOpts(this.context.refData, 'feels') });
     SessionForm.context.setState({ effortOpts: prepSelectOpts(this.context.refData, 'effort') });
+    SessionForm.context.setState({ multipliers: this.context.multipliers});
   }
 
   render() {
+    const { lap } = this.props;
     return (
-      <div>
+      <div className='twelve columns'>
+      <div className='eight columns'>
         <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={SessionForm.toggleModal} />
-        <div className='twelve six columns left'>
+        <div className='twelve ecolumns left'>
           <form className='sessionForm' onSubmit={SessionForm.handleSubmit}>
+
             <div className='two columns'>
               <label id='newActivityLabel' htmlFor='newActivity'>Activity: </label>
               <SelectOpts
@@ -92,7 +106,6 @@ class SessionForm extends React.Component {
                 onChange={ SessionForm.handleActivityChange }
               />
             </div>
-
             <div className='two columns'>
               <label id='newKitLabel' htmlFor='newKit'>Kit: </label>
               <SelectOpts
@@ -113,7 +126,6 @@ class SessionForm extends React.Component {
                 onChange={ SessionForm.handleWeatherChange }
               />
             </div>
-
             <div className='two columns'>
               <label id='newFeelsLabel' htmlFor='newFeels'>Feels: </label>
               <SelectOpts
@@ -124,7 +136,6 @@ class SessionForm extends React.Component {
                 onChange={ SessionForm.handleFeelsChange }
               />
             </div>
-
             <div className='two columns'>
               <label id='newEffortLabel' htmlFor='newEffort'>Effort: </label>
               <SelectOpts
@@ -139,17 +150,26 @@ class SessionForm extends React.Component {
             <div className='one column'>
               <button display="primary" type="submit" >OK</button>
             </div>
-
           </form>
         </div>
       </div>
-    )
+      
+        <div className='twelve ecolumns left'>
+        <Lap lap={lap}/>
+      </div>
+      </div>
+    );
   }
 }
 
 
 SessionForm.contextTypes = {
   refData: PropTypes.any.isRequired,
+  multipliers: PropTypes.any.isRequired,
+};
+
+SessionForm.childContextTypes = {
+  multipliers: PropTypes.any.isRequired,
 };
 
 export default SessionForm;

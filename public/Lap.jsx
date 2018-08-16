@@ -13,7 +13,9 @@ import { calcTimes } from './lapTools';
  */
 class Lap extends React.Component {
   static onLapEdit(id) {
-    Lap.context.props.onLapEdit(id);
+    if (Lap.context.props.onLapEdit !== undefined) {
+      Lap.context.props.onLapEdit(id);
+    }
   }
 
   constructor(props) {
