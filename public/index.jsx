@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import LapList from './LapList';
-import SessionForm from './SessionForm';
+import SessionInfo from './SessionInfo';
 import { getItems, getRefData, prepDistanceMultiplier } from './lapDataSvcs';
 import { lapArrayToMap } from './lapTools';
 
@@ -54,11 +54,12 @@ class TopLevel extends React.Component {
   }
 
   render() {
+    const session = {activity: 'fartlek', kit: 'fast', weather: 'rainy', feels: 'muggy', effort: 'ok'};
     if (this.state.dataLoaded) {
       return (
         <div className='twelve columns'>
           <div className='topLevel'>
-            <SessionForm />
+            <SessionInfo session={session}/>
           </div>
         </div>
       );
@@ -69,6 +70,7 @@ class TopLevel extends React.Component {
     }
   }
 }
+
 
 TopLevel.childContextTypes = {
   refData: PropTypes.any.isRequired,
