@@ -84,6 +84,7 @@ function get(table, criteria, fields) {
  * reject on errors: document, sql or connectivity.
  */
 function insertOne(table, document) {
+  log.info('document', document);
   return new Promise((resolve, reject) => {
     if (!val.isDocumentValid(document)) {
       reject(new Error('Invalid document'));

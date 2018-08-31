@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import SelectOpts from './SelectOpts';
-import Lap from './Lap';
 import { prepSelectOpts, postNewItem } from './lapDataSvcs';
 import { createSession } from './lapTools';
 
@@ -38,6 +37,7 @@ class SessionForm extends React.Component {
   }
   
   static handleSubmit(e) {
+    console.log(SessionForm.context);
     e.preventDefault();
     let id = SessionForm.context.state.id !== 0 ? SessionForm.context.state.id : Date.now();
     let activity = SessionForm.context.state.activity;
@@ -53,6 +53,7 @@ class SessionForm extends React.Component {
         return;
     }
 
+    console.log(SessionForm.context);
     let newSession = {session: createSession(id, activity, kit, weather, feels, effort)};
     postNewItem(newSession, 'session')
       .catch((err) => {
@@ -91,7 +92,6 @@ class SessionForm extends React.Component {
     const { lap } = this.props;
     return (
       <div className='twelve columns'>
-      <div className='eight columns'>
         <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={SessionForm.toggleModal} />
         <div className='twelve ecolumns left'>
           <form className='sessionForm' onSubmit={SessionForm.handleSubmit}>
@@ -154,10 +154,6 @@ class SessionForm extends React.Component {
         </div>
       </div>
       
-        <div className='twelve ecolumns left'>
-        <Lap lap={lap}/>
-      </div>
-      </div>
     );
   }
 }

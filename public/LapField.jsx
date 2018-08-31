@@ -23,11 +23,15 @@ class LapField extends React.Component {
 
     if (editLap) {
       return (
-        <LapForm lap={lap} onLapSubmit={LapField.context.props.onLapSubmit} />
+        <div className='four columns'>
+          <LapForm lap={lap} onLapSubmit={LapField.context.props.onLapSubmit} />
+        </div>
       );
     } else {
       return (
-        <Lap lap={lap} onLapEdit={LapField.context.props.onLapEdit} />
+        <div className='four columns'>
+          <Lap lap={lap} onLapEdit={LapField.context.props.onLapEdit} borderOn={true}/>
+        </div>
       );
     }
   }

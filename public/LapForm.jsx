@@ -59,7 +59,10 @@ class LapForm extends React.Component {
     return (
       <div>
         <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={LapForm.toggleModal} />
-        <div className='four columns left'>
+      <div
+        className='twelve columns left'
+        role='presentation'
+      >
           <form className='LapForm' onSubmit={LapForm.handleSubmit}>
             <LapEntry
               time={this.state.time}

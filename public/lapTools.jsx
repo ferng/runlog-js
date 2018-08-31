@@ -41,6 +41,7 @@ const rowsToReact = rows =>
  * @return {LapRow[]} An array containing of rows each one containing an array of three laps each.
  */
 const lapsToReactRows = (laps, editCallback, submitCallback) => {
+  console.log(laps);
   const rows = [];
   let thisRow = [];
 

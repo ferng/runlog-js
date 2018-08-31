@@ -9,7 +9,10 @@ import { createSession } from './lapTools';
 
 class SessionInfo extends React.Component {
   static onEdit(id) {
-    console.log('edit session');
+    if (SessionInfo.context.props.onEdit !== undefined) {
+      SessionInfo.context.props.onEdit(id);
+    }
+    console.log('edit session: ' + id);
   }
 
   constructor(props) {
@@ -21,8 +24,8 @@ class SessionInfo extends React.Component {
     const { session } = this.props;
     return (
       <div
-        className='twelve ecolumns left'
-        onClick={() => Session.onEdit(session.id)}
+        className='twelve columns'
+        onClick={() => SessionInfo.onEdit(session.id)}
         role='presentation'
       >
 

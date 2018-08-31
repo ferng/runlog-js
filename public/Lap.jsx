@@ -29,10 +29,15 @@ class Lap extends React.Component {
     const speed = calcTimes(multiplier, lap.distance, lap.time);
     const { mph } = speed;
     const mins = `mins: ${speed.mins}`;
+    const {borderOn} = this.props;
+    let borderClass = 'twelve columns';
+    if (borderOn) {
+      borderClass = 'twelve columns left';
+    }
 
     return (
       <div
-        className='four columns left'
+        className={borderClass}
         onClick={() => Lap.onLapEdit(lap.id)}
         role='presentation'
       >
