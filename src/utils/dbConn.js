@@ -84,22 +84,20 @@ function get(table, criteria, fields) {
  * reject on errors: document, sql or connectivity.
  */
 function insertOne(table, document) {
-  log.info('document', document);
   return new Promise((resolve, reject) => {
     if (!val.isDocumentValid(document)) {
       reject(new Error('Invalid document'));
       return;
     }
-
     const columns = prepStatementFields(Object.keys(document));
     const values = prepStatementFields(Object.values(document));
     const statement = `INSERT INTO ${table}${columns} VALUES${values}`;
-    conn.run(statement, (err) => {
+    conn.run(statement, function (err) {
       if (err) {
         reject(err);
         return;
       }
-      resolve(conn.last_insert_rowid);
+      resolve(this.lastID);
     });
   });
 }
@@ -223,9 +221,12 @@ function prepStatementFields(fields) {
 
 function prepFields(fields) {
   let fieldList = '';
-
   fields.forEach((field) => {
-    fieldList += `'${field}', `;
+    if (field === null) {
+      fieldList += `${field}, `;
+    } else {
+      fieldList += `'${field}', `;
+    }
   });
 
   fieldList = fieldList.slice(0, -2);

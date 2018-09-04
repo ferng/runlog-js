@@ -34,7 +34,6 @@ class LapList extends React.Component {
   }
 
   constructor(props) {
-    console.log(props);
     super(props);
     LapList.context = this;
   }

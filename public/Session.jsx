@@ -6,17 +6,6 @@ import LapList from './LapList';
 import Lap from './Lap';
 import { lapArrayToMap, lapsToReactRows, createLap } from './lapTools';
 
-  function EditSession(props) {
-    return (
-      <SessionForm session={props.session} onSubmit={Session.onSubmit} />
-    );
-  }
-
-  function DisplaySession(props) {
-    return (
-      <SessionInfo session={props.session} onEdit={Session.onEdit} />
-    );
-  }
 class Session extends React.Component {
   
   static onSubmit(id) {
@@ -44,22 +33,19 @@ class Session extends React.Component {
   
   }
 
-
-
   render() {
     const { editSession } = Session.context.state;
     const { laps1 } = Session.context.state;
     const reactLaps = lapsToReactRows(laps1);
-    console.log(reactLaps);
     const session = { activity: 'fartlek', kit: 'fast', weather: 'rainy', feels: 'muggy', effort: 'ok' };
     const { dispLap } = Session.context.state
     const laps = lapArrayToMap(laps1);
 
     let sessionAction;
     if ( editSession ) {
-      sessionAction = <EditSession session={session} />;
+      sessionAction = <SessionForm session={session} onSubmit={Session.onSubmit} />;
     } else {
-      sessionAction = <DisplaySession session={session} />;
+      sessionAction = <SessionInfo session={session} onEdit={Session.onEdit} />;
     }
       
     return (

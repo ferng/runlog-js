@@ -41,7 +41,6 @@ const rowsToReact = rows =>
  * @return {LapRow[]} An array containing of rows each one containing an array of three laps each.
  */
 const lapsToReactRows = (laps, editCallback, submitCallback) => {
-  console.log(laps);
   const rows = [];
   let thisRow = [];
 
@@ -85,7 +84,7 @@ const createLap = (id = 0, time = '00:00:00', distance = 0, unit = '--') =>
  * @param {string} effort - And what was the perceived effort
  * @return {object} An Activity with the data provided or blanks if none.
  */
-const createSession = (id = 0, activity = '--', kit = '--', weather = '--', feels = '--', effort = '--') =>
+const createSession = (id = null, activity = '--', kit = '--', weather = '--', feels = '--', effort = '--') =>
   ({
     id, activity, kit, weather, feels, effort,
   });

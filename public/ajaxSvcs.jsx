@@ -42,7 +42,7 @@ const post = (endpoint, body) =>
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = () => {
       if (xhr.status === 201) {
-        resolve();
+        resolve(xhr.response);
       } else {
         reject(xhr.status);
       }

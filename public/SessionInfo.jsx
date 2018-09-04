@@ -12,7 +12,6 @@ class SessionInfo extends React.Component {
     if (SessionInfo.context.props.onEdit !== undefined) {
       SessionInfo.context.props.onEdit(id);
     }
-    console.log('edit session: ' + id);
   }
 
   constructor(props) {

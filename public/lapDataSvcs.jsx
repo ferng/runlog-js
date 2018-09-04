@@ -55,8 +55,8 @@ const getItems = dataType =>
 const postNewItem = (body, dataType) =>
   new Promise((resolve, reject) => {
     post(`/api/runs/${dataType}`, body)
-      .then(() => {
-        resolve();
+      .then((response) => {
+        resolve(response);
       })
       .catch((error) => {
         reject(error);
