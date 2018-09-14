@@ -90,6 +90,16 @@ const createSession = (id = 0, activity = '--', kit = '--', weather = '--', feel
   });
 
 
+const cloneData = (source) => {
+  const keys = Object.keys(source);
+  let dest = {};
+  keys.forEach((key) => {
+    dest[key] = source[key];
+  })
+  return dest;
+}
+
+
 /**
  * Converts an array of lap data into a Map for quicker lap access
  * @param {object[]} laps - An array of {@link module:public/types~lap|laps}
@@ -156,4 +166,5 @@ export {
   lapArrayToMap,
   calcTimes,
   getValues,
+  cloneData,
 };

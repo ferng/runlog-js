@@ -5,8 +5,7 @@ import SessionInfo from './SessionInfo';
 import LapList from './LapList';
 import Lap from './Lap';
 import Modal from './Modal';
-import { getItemsByParent } from './lapDataSvcs';
-import { prepSelectOpts, postNewItem } from './lapDataSvcs';
+import { getItemsByParent, prepSelectOpts, postNewItem } from './lapDataSvcs';
 import { lapArrayToMap, lapsToReactRows, createLap, createSession } from './lapTools';
 
 class Session extends React.Component {
@@ -18,7 +17,6 @@ class Session extends React.Component {
 
   
   static onSubmit(sessionData) {
-    console.log(sessionData);
     sessionData.parentId=Session.context.state.myParentId;
     postNewItem(sessionData, 'session')
       .then((response) => {
@@ -46,13 +44,15 @@ class Session extends React.Component {
   }
 
 //   static getDerivedStateFromProps() {
-  componentWillMount() {
+  componentDidMount() {
     const {myParentId} = Session.context.state
     let session;
     getItemsByParent('session', myParentId)
       .then((data) => {
-        session = data;
-      });
+        session = data[0];
+
+
+
 
     let editSession = true;
     if (session === undefined) {
@@ -60,8 +60,13 @@ class Session extends React.Component {
     } else {
       editSession = false;
     }
+    console.log(session);
     const lapTotals = createLap(3, '03:10:10', 23, 'yard');
     Session.context.setState({editSession, session, lapTotals});
+
+
+
+      });
     
 
     //get session data with id (0) is default for non loaded
@@ -74,22 +79,25 @@ class Session extends React.Component {
     //    display lap
     //  else
     //    blank lap
-    const lap1 = createLap(1, '01:10:10', 21, 'yard');
-    const lap2 = createLap(2, '02:10:10', 22, 'yard');
-    const laps1= new Array();
-    laps1.push(lap1);
-    laps1.push(lap2);
-    Session.context.setState({ laps1});
+//     const lap1 = createLap(1, '01:10:10', 21, 'yard');
+//     const lap2 = createLap(2, '02:10:10', 22, 'yard');
+//     const laps1= new Array();
+//     laps1.push(lap1);
+//     laps1.push(lap2);
+//     Session.context.setState({ laps1});
   
   }
 
   render() {
+    if (Session.context.state.session === undefined) {
+      return null;
+    }
     const { editSession } = Session.context.state;
-    const { laps1 } = Session.context.state;
-    const reactLaps = lapsToReactRows(laps1);
+//     const { laps1 } = Session.context.state;
+//     const reactLaps = lapsToReactRows(laps1);
+//     const laps = lapArrayToMap(laps1);
     const { session } = Session.context.state;
     const { lapTotals } = Session.context.state
-    const laps = lapArrayToMap(laps1);
     const sessionId = Session.context.state.session.id;
 
     let sessionAction;
@@ -101,18 +109,15 @@ class Session extends React.Component {
       
     return (
       <div>
-      <div className='twelve columns'>
-        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={Session.toggleModal} />
-        <div className='eight columns'>
-          {sessionAction}
+        <div className='twelve columns'>
+          <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={Session.toggleModal} />
+          <div className='eight columns'>
+            {sessionAction}
+          </div>
+          <div className='four columns'>
+            <Lap lap={lapTotals}/>
+          </div>
         </div>
-        <div className='four columns'>
-          <Lap lap={lapTotals}/>
-        </div>
-      </div>
-      <div className='twelve columns'>
-        <LapList parentId={sessionId} laps={laps} onLapSubmit={Session.onSubmit} /> 
-      </div>
       </div>
     );
   }

@@ -61,7 +61,7 @@ class SessionForm extends React.Component {
   }
 
   componentWillMount() {
-    SessionForm.context.setState(createSession());
+    SessionForm.context.setState(this.props.session);
     SessionForm.context.setState({ activityOpts: prepSelectOpts(this.context.refData, 'activity') });
     SessionForm.context.setState({ kitOpts: prepSelectOpts(this.context.refData, 'kit') });
     SessionForm.context.setState({ weatherOpts: prepSelectOpts(this.context.refData, 'weather') });

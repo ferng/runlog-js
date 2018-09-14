@@ -60,7 +60,6 @@ function get(table, criteria, fields) {
       const criteriaValues = Object.values(criteria);
       const criteriaSub = prepPairs(criteriaColumns, criteriaValues);
       statement = `SELECT ${fieldList} FROM ${table} WHERE ${criteriaSub};`;
-  console.log(statement);
     }
 
     conn.all(statement, (err, docs) => {
@@ -91,9 +90,14 @@ function insertOne(table, document) {
       reject(new Error('Invalid document'));
       return;
     }
-    const columns = prepStatementFields(Object.keys(document));
-    const values = prepStatementFields(Object.values(document));
-    const statement = `INSERT INTO ${table}${columns} VALUES${values}`;
+    const columns = Object.keys(document);
+    const values = Object.values(document);
+    
+    const insertColumns = prepStatementFields(columns);
+    const insertValues = prepStatementFields(values);
+    const updateSub = prepPairs(columns, values);
+    const statement = `INSERT INTO ${table} ${insertColumns} VALUES ${insertValues} on CONFLICT(id) DO UPDATE SET ${updateSub}`;
+    console.log(statement);
     conn.run(statement, function (err) {
       if (err) {
         reject(err);
