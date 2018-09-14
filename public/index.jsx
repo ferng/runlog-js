@@ -57,7 +57,7 @@ class TopLevel extends React.Component {
       return (
         <div className='twelve columns'>
           <div className='topLevel'>
-            <Session/>
+            <Session parentId='1'/>
           </div>
         </div>
       );

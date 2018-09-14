@@ -14,13 +14,12 @@ const log = require('../utils/logger.js').getLogger();
  * resolve returns parsed and validated data as a {@link module:public/types~lap|lap}.<br>
  * reject if the validation failed somehow.
  */
-function validateRequest(data) {
-  const dataType = Object.keys(data)[0];
-  switch (dataType) {
+function validateRequest(type, data) {
+  switch (type) {
     case 'lap':
       return validateLap(data);
     case 'session':
-      return validateSession(data.session);
+      return validateSession(data);
     default:
       return null;
   }
@@ -46,6 +45,7 @@ function validateLap(lap) {
 
 
 function validateSession(session) {
+  console.log(session);
   return new Promise((resolve, reject) => {
     if (isValidSession(session)) {
       resolve(session);

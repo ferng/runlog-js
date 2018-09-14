@@ -70,12 +70,12 @@ const effort = {
 
 const lap = {
   table: 'lap',
-  create: 'CREATE TABLE lap (id INTEGER PRIMARY KEY AUTOINCREMENT, time INTEGER NOT NULL, distance REAL NOT NULL, unit INTEGER NOT NULL)',
+  create: 'CREATE TABLE lap (id INTEGER PRIMARY KEY AUTOINCREMENT, parentId INTEGER NOT NULL, time INTEGER NOT NULL, distance REAL NOT NULL, unit INTEGER NOT NULL)',
 };
 
 const session = {
   table: 'session',
-  create: 'CREATE TABLE session (id INTEGER PRIMARY KEY AUTOINCREMENT, activity INTEGER NOT NULL, kit INTEGER NOT NULL, weather INTEGER NOT NULL, feels INTEGER NOT NULL, effort INTEGER NOT NULL)'
+  create: 'CREATE TABLE session (id INTEGER PRIMARY KEY AUTOINCREMENT, parentId INTEGER NOT NULL, activity INTEGER NOT NULL, kit INTEGER NOT NULL, weather INTEGER NOT NULL, feels INTEGER NOT NULL, effort INTEGER NOT NULL)'
 }
 
 const definitions = [unit, activity, kit, weather, feels, effort, lap, session];

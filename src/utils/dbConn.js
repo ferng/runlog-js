@@ -60,6 +60,7 @@ function get(table, criteria, fields) {
       const criteriaValues = Object.values(criteria);
       const criteriaSub = prepPairs(criteriaColumns, criteriaValues);
       statement = `SELECT ${fieldList} FROM ${table} WHERE ${criteriaSub};`;
+  console.log(statement);
     }
 
     conn.all(statement, (err, docs) => {
@@ -85,6 +86,7 @@ function get(table, criteria, fields) {
  */
 function insertOne(table, document) {
   return new Promise((resolve, reject) => {
+    console.log(document);
     if (!val.isDocumentValid(document)) {
       reject(new Error('Invalid document'));
       return;

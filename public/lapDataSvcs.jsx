@@ -29,13 +29,33 @@ const getRefData = () =>
 /**
  * Uses an ajax call to retrieve runlog entry data from the backend server.
  * @return {Promise}
- * @param {string} dataType - Specify the running log data type we are requesting (laps, activities, etc)
+ * @param {string} dataType - Specify the running log data type we are requesting (laps, sessions, etc)
  * resolve returns retrieved data.<br>
  * reject on connectivity or issues with the server at the endpoint.
  */
 const getItems = dataType =>
   new Promise((resolve, reject) => {
     get(`/api/runs/${dataType}`)
+      .then((data) => {
+        resolve(data);
+      })
+      .catch(() => {
+        reject(new Error('Error retrieving data, please try later.'));
+      });
+  });
+
+
+/**
+ * Uses an ajax call to retrieve runlog entry data from the backend server.
+ * @return {Promise}
+ * @param {string} dataType - Specify the running log data type we are requesting (laps, sessions, etc)
+ * resolve returns retrieved data.<br>
+ * @param {Number} parentId - the id of the parent so we know what children to get
+ * reject on connectivity or issues with the server at the endpoint.
+ */
+const getItemsByParent = (dataType, parentId) =>
+  new Promise((resolve, reject) => {
+    get(`/api/runs/${dataType}?parentId=${parentId}`)
       .then((data) => {
         resolve(data);
       })
@@ -105,6 +125,7 @@ const prepSelectOpts = (optionRefData, type) => {
 export {
   getRefData,
   getItems,
+  getItemsByParent,
   postNewItem,
   prepDistanceMultiplier,
   prepSelectOpts,

@@ -37,7 +37,7 @@ router.use((req, res, next) => {
  */
 router.get('/*', (req, res) => {
   const dataType = req.path.slice(1);
-  db.get(dataType, {})
+  db.get(dataType, req.query)
     .then((data) => {
       res.json(data);
     })
@@ -62,12 +62,17 @@ router.get('/*', (req, res) => {
  */
 router.post('/*', (req, res) => {
   const dataType = req.path.slice(1);
-  runVal.validateRequest(req.body)
+  runVal.validateRequest(dataType, req.body)
     .then((data) => {
+    console.log(data);
       db.insertOne(dataType, data)
       .then ((id) => {
         res.status(201).send({id});
       })
+      .catch((err) => {
+        log.error(err);
+        res.status(500).send('');
+      });
     })
     .catch((err) => {
       log.error(err);

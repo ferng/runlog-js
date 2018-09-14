@@ -4,12 +4,35 @@ import SessionForm from './SessionForm';
 import SessionInfo from './SessionInfo';
 import LapList from './LapList';
 import Lap from './Lap';
-import { lapArrayToMap, lapsToReactRows, createLap } from './lapTools';
+import Modal from './Modal';
+import { getItemsByParent } from './lapDataSvcs';
+import { prepSelectOpts, postNewItem } from './lapDataSvcs';
+import { lapArrayToMap, lapsToReactRows, createLap, createSession } from './lapTools';
 
 class Session extends React.Component {
+  static toggleModal() {
+    Session.context.setState({
+      showModal: !Session.context.state.showModal,
+    });
+  }
+
   
-  static onSubmit(id) {
-    Session.context.setState({ editSession: false });
+  static onSubmit(sessionData) {
+    console.log(sessionData);
+    sessionData.parentId=Session.context.state.myParentId;
+    postNewItem(sessionData, 'session')
+      .then((response) => {
+        Session.context.setState({ editSession: false });
+        Session.context.setState({ session: sessionData });
+      })
+      .catch((err) => {
+        Session.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
+        Session.toggleModal();
+      });
+
+//     ActivityForm.context.props.onLapSubmit(newActivity);
+
+//     ActivityForm.context.setState(createActivity());
   }
 
   static onEdit(id) {
@@ -18,18 +41,45 @@ class Session extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {showModal: false, myParentId: props.parentId};
     Session.context = this;
   }
 
+//   static getDerivedStateFromProps() {
   componentWillMount() {
-    Session.context.setState({ editSession: false });
+    const {myParentId} = Session.context.state
+    let session;
+    getItemsByParent('session', myParentId)
+      .then((data) => {
+        session = data;
+      });
+
+    let editSession = true;
+    if (session === undefined) {
+      session = createSession();
+    } else {
+      editSession = false;
+    }
+    const lapTotals = createLap(3, '03:10:10', 23, 'yard');
+    Session.context.setState({editSession, session, lapTotals});
+    
+
+    //get session data with id (0) is default for non loaded
+    //if 0 === not present
+    //  blank session ready for entry
+    //  blank lap
+    //else 
+    //  get it and display it
+    //  if available
+    //    display lap
+    //  else
+    //    blank lap
     const lap1 = createLap(1, '01:10:10', 21, 'yard');
     const lap2 = createLap(2, '02:10:10', 22, 'yard');
-    const dispLap = createLap(3, '03:10:10', 23, 'yard');
     const laps1= new Array();
     laps1.push(lap1);
     laps1.push(lap2);
-    Session.context.setState({ laps1, dispLap });
+    Session.context.setState({ laps1});
   
   }
 
@@ -37,9 +87,10 @@ class Session extends React.Component {
     const { editSession } = Session.context.state;
     const { laps1 } = Session.context.state;
     const reactLaps = lapsToReactRows(laps1);
-    const session = { activity: 'fartlek', kit: 'fast', weather: 'rainy', feels: 'muggy', effort: 'ok' };
-    const { dispLap } = Session.context.state
+    const { session } = Session.context.state;
+    const { lapTotals } = Session.context.state
     const laps = lapArrayToMap(laps1);
+    const sessionId = Session.context.state.session.id;
 
     let sessionAction;
     if ( editSession ) {
@@ -51,15 +102,16 @@ class Session extends React.Component {
     return (
       <div>
       <div className='twelve columns'>
+        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={Session.toggleModal} />
         <div className='eight columns'>
           {sessionAction}
         </div>
         <div className='four columns'>
-          <Lap lap={dispLap}/>
+          <Lap lap={lapTotals}/>
         </div>
       </div>
       <div className='twelve columns'>
-        <LapList laps={laps} onLapSubmit={Session.onSubmit} /> 
+        <LapList parentId={sessionId} laps={laps} onLapSubmit={Session.onSubmit} /> 
       </div>
       </div>
     );

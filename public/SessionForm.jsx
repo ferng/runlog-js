@@ -1,18 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from './Modal';
 import SelectOpts from './SelectOpts';
 import { prepSelectOpts, postNewItem } from './lapDataSvcs';
 import { createSession } from './lapTools';
 
 
 class SessionForm extends React.Component {
-  static toggleModal() {
-    SessionForm.context.setState({
-      showModal: !SessionForm.context.state.showModal,
-    });
-  }
-
   static handleActivityChange(e) {
     SessionForm.context.setState({ activity: e.target.value });
   }
@@ -51,24 +44,13 @@ class SessionForm extends React.Component {
       !effort || effort === '--') {
         return;
     }
-
-    let newSession = {session: createSession(id, activity, kit, weather, feels, effort)};
-    postNewItem(newSession, 'session')
-      .then((response) => {
-      })
-      .catch((err) => {
-        SessionForm.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
-        SessionForm.toggleModal();
-      });
-//     ActivityForm.context.props.onLapSubmit(newActivity);
-
-//     ActivityForm.context.setState(createActivity());
+    let newSession = createSession(id, activity, kit, weather, feels, effort);
+    SessionForm.context.props.onSubmit(newSession);
   }
 
 
   constructor(props) {
     super(props);
-    this.state = {showModal: false}
     SessionForm.context = this;
   }
 
@@ -92,7 +74,6 @@ class SessionForm extends React.Component {
     const { lap } = this.props;
     return (
       <div className='twelve columns'>
-        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={SessionForm.toggleModal} />
         <div className='twelve ecolumns left'>
           <form className='sessionForm' onSubmit={SessionForm.handleSubmit}>
 

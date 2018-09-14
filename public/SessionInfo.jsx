@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from './Modal';
 import SelectOpts from './SelectOpts';
 import Lap from './Lap';
 import { prepSelectOpts, postNewItem } from './lapDataSvcs';
