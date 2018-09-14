@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SessionForm from './SessionForm';
 import SessionInfo from './SessionInfo';
 import LapList from './LapList';
-import Lap from './Lap';
+import LapInfo from './LapInfo';
 import Modal from './Modal';
 import { getItemsByParent, prepSelectOpts, postNewItem } from './lapDataSvcs';
 import { lapArrayToMap, lapsToReactRows, createLap, createSession } from './lapTools';
@@ -51,20 +51,15 @@ class Session extends React.Component {
       .then((data) => {
         session = data[0];
 
-
-
-
-    let editSession = true;
-    if (session === undefined) {
-      session = createSession();
-    } else {
-      editSession = false;
-    }
-    console.log(session);
-    const lapTotals = createLap(3, '03:10:10', 23, 'yard');
-    Session.context.setState({editSession, session, lapTotals});
-
-
+        let editSession = true;
+        if (session === undefined) {
+          session = createSession();
+        } else {
+          editSession = false;
+        }
+        console.log(session);
+        const lapTotals = createLap(3, '03:10:10', 23, 'yard');
+        Session.context.setState({editSession, session, lapTotals});
 
       });
     
@@ -115,7 +110,7 @@ class Session extends React.Component {
             {sessionAction}
           </div>
           <div className='four columns'>
-            <Lap lap={lapTotals}/>
+            <LapInfo lap={lapTotals}/>
           </div>
         </div>
       </div>

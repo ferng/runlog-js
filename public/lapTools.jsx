@@ -4,27 +4,27 @@
  */
 
 import React from 'react';
-import LapField from './LapField';
+import Lap from './Lap';
 import LapRow from './LapRow';
 
 
 /**
- * Rendering utility which converts a data lap into a React LapField for display.
+ * Rendering utility which converts a data lap into a React Lap for display.
  * @param  {object} lap - The {@link module:public/types~lap|lap} to convert
  * @param {Function} editCallback - callBack function when a lap is clicked for editing
  * @param {Function} submitCallback - callBack function when lap being edited is submitted for saving
- * @return {LapField} A LapField React component.
+ * @return {Lap} A Lap React component.
  * @private
  */
 const lapToReact = (lap, editCallback, submitCallback) =>
-  React.createElement(LapField, {
+  React.createElement(Lap, {
     lap, key: lap.id, editLap: lap.editLap, onLapEdit: editCallback, onLapSubmit: submitCallback,
   });
 
 
 /**
- * Rendering utility which converts an array of LapField arrays into an array of React LapRows for display.
- * @param {Object[]} rows - An array of LapField arrays (one for each row)
+ * Rendering utility which converts an array of Lap arrays into an array of React LapRows for display.
+ * @param {Object[]} rows - An array of Lap arrays (one for each row)
  * @return {LapRow[]} An array containing of rows each one containing an array of three laps each.
  * @private
  */
