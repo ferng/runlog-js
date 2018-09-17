@@ -17,7 +17,7 @@ class Session extends React.Component {
 
   
   static onSubmit(sessionData) {
-    sessionData.parentId=Session.context.state.myParentId;
+    sessionData.parentId=Session.context.state.parentId;
     postNewItem(sessionData, 'session')
       .then((response) => {
         Session.context.setState({ editSession: false });
@@ -27,10 +27,6 @@ class Session extends React.Component {
         Session.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
         Session.toggleModal();
       });
-
-//     ActivityForm.context.props.onLapSubmit(newActivity);
-
-//     ActivityForm.context.setState(createActivity());
   }
 
   static onEdit(id) {
@@ -39,15 +35,14 @@ class Session extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {showModal: false, myParentId: props.parentId};
+    this.state = {showModal: false, parentId: props.parentId};
     Session.context = this;
   }
 
-//   static getDerivedStateFromProps() {
   componentDidMount() {
-    const {myParentId} = Session.context.state
+    const {parentId} = Session.context.state
     let session;
-    getItemsByParent('session', myParentId)
+    getItemsByParent('session', parentId)
       .then((data) => {
         session = data[0];
 
@@ -112,6 +107,10 @@ class Session extends React.Component {
           <div className='four columns'>
             <LapInfo lap={lapTotals}/>
           </div>
+        </div>
+
+        <div className='twelve columns'>
+          <LapList parentId={sessionId}/>
         </div>
       </div>
     );

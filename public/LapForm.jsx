@@ -55,8 +55,8 @@ class LapForm extends React.Component {
         LapForm.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
         LapForm.toggleModal();
       });
-    LapForm.context.props.onLapSubmit(newLap);
 
+    // what if we're just editing'
     LapForm.context.setState(createLap());
   }
 

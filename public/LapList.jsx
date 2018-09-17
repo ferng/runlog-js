@@ -14,6 +14,7 @@ import { lapsToReactRows, getValues, createLap } from './lapTools';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapList extends React.Component {
+
   static onLapEdit(id) {
     const prevEditLap = LapList.context.state.laps.get(LapList.context.state.lapToEdit);
     if (prevEditLap !== undefined) {
@@ -43,16 +44,35 @@ class LapList extends React.Component {
   }
 
   // Logically this should be set in Lap as that's the only place it's used. But then it would be recalculated for each Lap.
-  componentWillMount() {
+  componentDidMount() {
     LapList.context.setState({ multipliers: prepDistanceMultiplier(this.context.refData) });
     LapList.context.setState({ lapToEdit: 0 });
     LapList.context.setState({ laps: this.props.laps });
+    const parentId = this.props.parentId;
+
+    getItemsByParent('laps', parentId)
+      .then((data) => {
+        let laps;
+        if (data !== undefined) {
+          laps = data;
+        } else {
+          laps = [];
+          laps.push(createLap());
+          const reactLap = lapToreact(lap);
+          session = createSession();
+        }
+        const loadedLaps = lapsToReactRows (laps);
+        LapList.context.setState({ loadedLaps });
+
+      });
+
+    console.log(LapList.context);
   }
 
   render() {
     let laps = [];
     if (this.state.laps.size > 0) {
-      laps = getValues(LapList.context.state.laps); // gets an array of all laps in the lap map
+      laps = getValues(LapList.context.state.loadedLaps); // gets an array of all laps in the lap map
     }
     const newLap = LapList.createNewLap();
 

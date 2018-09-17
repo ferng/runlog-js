@@ -58,10 +58,10 @@ function get(table, criteria, fields) {
     } else {
       const criteriaColumns = Object.keys(criteria);
       const criteriaValues = Object.values(criteria);
-      const criteriaSub = prepPairs(criteriaColumns, criteriaValues);
+      const criteriaSub = prepCriteriaPairs(criteriaColumns, criteriaValues);
       statement = `SELECT ${fieldList} FROM ${table} WHERE ${criteriaSub};`;
     }
-
+console.log(statement);
     conn.all(statement, (err, docs) => {
       if (err) {
         log.error('Error retrieving rows: ', err);
@@ -95,7 +95,7 @@ function insertOne(table, document) {
     
     const insertColumns = prepStatementFields(columns);
     const insertValues = prepStatementFields(values);
-    const updateSub = prepPairs(columns, values);
+    const updateSub = prepValuePairs(columns, values);
     const statement = `INSERT INTO ${table} ${insertColumns} VALUES ${insertValues} on CONFLICT(id) DO UPDATE SET ${updateSub}`;
     console.log(statement);
     conn.run(statement, function (err) {
@@ -165,11 +165,11 @@ function update(table, criteria, updates) {
 
     const criteriaColumns = Object.keys(criteria);
     const criteriaValues = Object.values(criteria);
-    const criteriaSub = prepPairs(criteriaColumns, criteriaValues);
+    const criteriaSub = prepValuePairs(criteriaColumns, criteriaValues);
 
     const updateColumns = Object.keys(updates);
     const updateValues = Object.values(updates);
-    const updateSub = prepPairs(updateColumns, updateValues);
+    const updateSub = prepValuePairs(updateColumns, updateValues);
 
     const statement = `UPDATE ${table} SET ${updateSub} WHERE ${criteriaSub};`;
 
@@ -199,7 +199,17 @@ function execute(statement) {
 }
 
 
-function prepPairs(columns, values) {
+function prepCriteriaPairs(columns, values) {
+  let paired = '';
+  for (let i = 0; i < columns.length; i++) {
+    paired += `${columns[i]}='${values[i]}' AND `;
+  }
+  paired = paired.slice(0, -5);
+  return paired;
+}
+
+
+function prepValuePairs(columns, values) {
   let paired = '';
   for (let i = 0; i < columns.length; i++) {
     paired += `${columns[i]}='${values[i]}', `;

@@ -24,7 +24,7 @@ class Lap extends React.Component {
     if (editLap) {
       return (
         <div className='four columns'>
-          <LapForm lap={lap} onLapSubmit={Lap.context.props.onLapSubmit} />
+          <LapForm lap={lap} />
         </div>
       );
     } else {

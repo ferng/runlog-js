@@ -40,7 +40,7 @@ const rowsToReact = rows =>
  * @param {Function} submitCallback - CallBack function when lap being edited is submitted for saving
  * @return {LapRow[]} An array containing of rows each one containing an array of three laps each.
  */
-const lapsToReactRows = (laps, editCallback, submitCallback) => {
+const lapsToReactRows = (laps) => {
   const rows = [];
   let thisRow = [];
 

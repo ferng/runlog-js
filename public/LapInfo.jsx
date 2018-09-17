@@ -12,10 +12,9 @@ import { calcTimes } from './lapTools';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapInfo extends React.Component {
-  static onLapEdit(id) {
-    if (LapInfo.context.props.onLapEdit !== undefined) {
-      LapInfo.context.props.onLapEdit(id);
-    }
+  static onLapEdit() {
+    console.logi(this);
+//       LapInfo.context.props.onLapEdit(id);
   }
 
   constructor(props) {
@@ -38,7 +37,7 @@ class LapInfo extends React.Component {
     return (
       <div
         className={borderClass}
-        onClick={() => LapInfo.onLapEdit(lap.id)}
+        onClick={() => LapInfo.onLapEdit()}
         role='presentation'
       >
         <div className='lap'>

@@ -13,14 +13,14 @@ const app = express();
 async function init() {
   try {
     await db.initPool();
-    await db.get('effort', {});
-  } catch (err) {
-    if (err.message === 'SQLITE_ERROR: no such table: effort') {
+    const result = await db.get('sqlite_master', {'type': 'table', 'name': 'effort'});
+    if (result.length === 0) {
+      log.debug('New system, initialising schema');
       dbInit.init();
-    } else {
-      log.fatal(err);
-      process.exit(1);
     }
+  } catch (err) {
+    log.fatal(err);
+    process.exit(1);
   }
 }
 
