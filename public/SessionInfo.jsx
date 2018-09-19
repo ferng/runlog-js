@@ -69,9 +69,4 @@ class SessionInfo extends React.Component {
 }
 
 
-SessionInfo.contextTypes = {
-  refData: PropTypes.any.isRequired,
-  multipliers: PropTypes.any.isRequired,
-};
-
 export default SessionInfo;

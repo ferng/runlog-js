@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { prepDistanceMultiplier } from './lapDataSvcs';
-import { lapsToReactRows, getValues, createLap } from './lapTools';
+import { prepDistanceMultiplier,  getItemsByParent } from './lapDataSvcs';
+import { lapToReact, lapsToReactRows, getValues, createLap, calcLapsTotals } from './lapTools';
 
 /**
  * A React component to display data for a number of laps.
@@ -14,7 +14,6 @@ import { lapsToReactRows, getValues, createLap } from './lapTools';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapList extends React.Component {
-
   static onLapEdit(id) {
     const prevEditLap = LapList.context.state.laps.get(LapList.context.state.lapToEdit);
     if (prevEditLap !== undefined) {
@@ -26,6 +25,12 @@ class LapList extends React.Component {
     }
     LapList.context.setState({ lapToEdit: id });
   }
+
+  static onLapSubmit() {
+    const totals = calcAllLapsTimes(LapList.context.state.laps);
+    const totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
+    LapList.context.setState({totalLap, totals});
+  }  
 
   static createNewLap() {
     const newLap = createLap();
@@ -39,45 +44,42 @@ class LapList extends React.Component {
     LapList.context = this;
   }
 
-  getChildContext() {
-    return { multipliers: this.state.multipliers };
-  }
 
   // Logically this should be set in Lap as that's the only place it's used. But then it would be recalculated for each Lap.
   componentDidMount() {
-    LapList.context.setState({ multipliers: prepDistanceMultiplier(this.context.refData) });
-    LapList.context.setState({ lapToEdit: 0 });
-    LapList.context.setState({ laps: this.props.laps });
     const parentId = this.props.parentId;
 
-    getItemsByParent('laps', parentId)
+    getItemsByParent('lap', parentId)
       .then((data) => {
         let laps;
-        if (data !== undefined) {
+        let totalLap;
+        if (data.length > 0) {
           laps = data;
+          totalLap = createNewLap();
         } else {
           laps = [];
           laps.push(createLap());
-          const reactLap = lapToreact(lap);
-          session = createSession();
+          totalLap = {time: '12:00:01', distance: 52, unit: 'mile'};
+//           totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
         }
-        const loadedLaps = lapsToReactRows (laps);
-        LapList.context.setState({ loadedLaps });
-
+      LapList.context.setState({ lapToEdit: 0, laps, totalLap });
       });
-
-    console.log(LapList.context);
   }
 
   render() {
-    let laps = [];
+    if (LapList.context.state === null) 
+    {
+      return null;
+    }
+
+    let displayLaps =  [];
     if (this.state.laps.size > 0) {
-      laps = getValues(LapList.context.state.loadedLaps); // gets an array of all laps in the lap map
+      displayLaps = LapList.context.state.loadedLaps; 
     }
     const newLap = LapList.createNewLap();
 
-    laps.push(newLap);
-    const splitData = lapsToReactRows(laps, LapList.onLapEdit, LapList.context.props.onLapSubmit);
+    displayLaps.push(newLap);
+    const splitData = lapsToReactRows(displayLaps, LapList.onLapEdit, LapList.context.props.onLapSubmit);
     return (
       <div className='lapList'>
         {splitData}
@@ -86,16 +88,8 @@ class LapList extends React.Component {
   }
 }
 
-LapList.contextTypes = {
-  refData: PropTypes.any.isRequired,
-};
-
-LapList.childContextTypes = {
-  multipliers: PropTypes.any.isRequired,
-};
-
 LapList.propTypes = {
-  laps: PropTypes.instanceOf(Map).isRequired,
+  parentId: PropTypes.number,
 };
 
 export default LapList;

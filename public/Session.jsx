@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import SessionForm from './SessionForm';
 import SessionInfo from './SessionInfo';
 import LapList from './LapList';
@@ -7,6 +6,7 @@ import LapInfo from './LapInfo';
 import Modal from './Modal';
 import { getItemsByParent, prepSelectOpts, postNewItem } from './lapDataSvcs';
 import { lapArrayToMap, lapsToReactRows, createLap, createSession } from './lapTools';
+import { RefDataContext } from './refData-context';
 
 class Session extends React.Component {
   static toggleModal() {
@@ -52,7 +52,6 @@ class Session extends React.Component {
         } else {
           editSession = false;
         }
-        console.log(session);
         const lapTotals = createLap(3, '03:10:10', 23, 'yard');
         Session.context.setState({editSession, session, lapTotals});
 
@@ -89,10 +88,16 @@ class Session extends React.Component {
     const { session } = Session.context.state;
     const { lapTotals } = Session.context.state
     const sessionId = Session.context.state.session.id;
+    const lap = lapTotals;
 
     let sessionAction;
     if ( editSession ) {
-      sessionAction = <SessionForm session={session} onSubmit={Session.onSubmit} />;
+      sessionAction = 
+        <RefDataContext.Consumer>
+          {globalRef => (
+            <SessionForm session={session} onSubmit={Session.onSubmit} refData={globalRef.refData} />)
+          }
+        </RefDataContext.Consumer> ;
     } else {
       sessionAction = <SessionInfo session={session} onEdit={Session.onEdit} />;
     }
@@ -105,7 +110,9 @@ class Session extends React.Component {
             {sessionAction}
           </div>
           <div className='four columns'>
-            <LapInfo lap={lapTotals}/>
+            <RefDataContext.Consumer>
+              {globalRef => (<LapInfo lap={lap} borderOn={true} multipliers={globalRef.multipliers} />)}
+            </RefDataContext.Consumer>
           </div>
         </div>
 

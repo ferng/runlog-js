@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
+import SelectOpts from './SelectOpts';
 import { postNewItem } from './lapDataSvcs';
+import { prepSelectOpts } from './lapDataSvcs';
 import { createLap } from './lapTools';
 
 
@@ -60,14 +62,12 @@ class LapForm extends React.Component {
     LapForm.context.setState(createLap());
   }
 
-  componentDidMount() {
-    LapForm.context.setState({ options: prepSelectOpts(this.context.refData, 'unit') });
-  }
-
 
   constructor(props) {
     super(props);
+    const options = prepSelectOpts(props.refData, 'unit');
     this.state = {
+      options,
       id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit, showModal: false,
     };
     LapForm.context = this;
@@ -119,12 +119,6 @@ class LapForm extends React.Component {
           />
         </div>
 
-
-
-
-
-
-
             <div className='three columns'>
               <button display='primary' type='submit' >OK</button>
             </div>
@@ -142,7 +136,6 @@ LapForm.propTypes = {
     id: PropTypes.number.isRequired,
     time: PropTypes.string.isRequired,
     unit: PropTypes.string.isRequired,
-
   }),
 };
 

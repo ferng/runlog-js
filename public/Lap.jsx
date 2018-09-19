@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LapForm from './LapForm';
 import LapInfo from './LapInfo';
+import { RefDataContext } from './refData-context';
 
 /**
  * A React component to display or enter lap data.
@@ -24,13 +25,17 @@ class Lap extends React.Component {
     if (editLap) {
       return (
         <div className='four columns'>
-          <LapForm lap={lap} />
+          <RefDataContext.Consumer>
+            {globalRef => (<LapForm lap={lap} refData={globalRef.refData} />)}
+          </RefDataContext.Consumer>
         </div>
       );
     } else {
       return (
         <div className='four columns'>
-          <LapInfo lap={lap} onLapEdit={Lap.context.props.onLapEdit} borderOn={true}/>
+          <RefDataContext.Consumer>
+            {globalRef => (<LapInfo lap={lap} borderOn={Lap.context.props.onLapEdit} multipliers={globalRef.multipliers}/>)}
+          </RefDataContext.Consumer>
         </div>
       );
     }

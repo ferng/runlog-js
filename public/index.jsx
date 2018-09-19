@@ -5,6 +5,7 @@ import Modal from './Modal';
 import Session from './Session';
 import { getItems, getRefData, prepDistanceMultiplier } from './lapDataSvcs';
 import { lapArrayToMap } from './lapTools';
+import { RefDataContext } from './refData-context';
 
 
 class TopLevel extends React.Component {
@@ -27,13 +28,6 @@ class TopLevel extends React.Component {
     TopLevel.context = this;
   }
 
-  getChildContext() {
-    return { 
-      refData: TopLevel.context.state.refData,
-      multipliers: TopLevel.context.state.multipliers
-    };
-  }
-
   componentDidMount() {
     getRefData()
       .then((data) => {
@@ -54,12 +48,15 @@ class TopLevel extends React.Component {
 
   render() {
     if (this.state.dataLoaded) {
+      const globalRef = { refData: this.state.refData, multipliers: this.state.multipliers };
       return (
-        <div className='twelve columns'>
-          <div className='topLevel'>
-            <Session parentId='1'/>
+        <RefDataContext.Provider value={globalRef}> 
+          <div className='twelve columns'>
+            <div className='topLevel'>
+              <Session parentId='1'/>
+            </div>
           </div>
-        </div>
+        </RefDataContext.Provider>
       );
     } else {
       return (
@@ -68,12 +65,6 @@ class TopLevel extends React.Component {
     }
   }
 }
-
-
-TopLevel.childContextTypes = {
-  refData: PropTypes.any.isRequired,
-  multipliers: PropTypes.any.isRequired,
-};
 
 
 ReactDOM.render(

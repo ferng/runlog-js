@@ -40,7 +40,7 @@ const rowsToReact = rows =>
  * @param {Function} submitCallback - CallBack function when lap being edited is submitted for saving
  * @return {LapRow[]} An array containing of rows each one containing an array of three laps each.
  */
-const lapsToReactRows = (laps) => {
+const lapsToReactRows = (laps, editCallback, submitCallback) => {
   const rows = [];
   let thisRow = [];
 
@@ -114,6 +114,38 @@ const lapArrayToMap = (laps) => {
 };
 
 
+const calcLapsTotals = (laps) => {
+  let distance = 0;
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
+  laps.forEach((lap) => {
+    distance += lap.distance;
+    hours += getHours(lap.time);
+    minutes += getMins(lap.time);
+    seconds += getSecs(lap.time);
+  })
+  const date = new Date(0,0,0,0,0,0,0);
+  date.setHours(hours);
+  date.setMinutes(minutes);
+  date.setSeconds(seconds);
+  const time = date.toTimeString().substring(0,8);
+
+  return {distance, time};
+}
+
+const getHours = (time) => {
+  return Number.parseInt(time.substr(0, 2), 10) * 60 * 60;
+}
+
+const getMins = (time) => {
+  return Number.parseInt(time.substr(3, 2), 10) * 60;
+}
+
+const getSecs = (time) => {
+  return Number.parseInt(time.substr(6, 2), 10);
+}
+
 /**
  * Works out miles per hour and minutes per mile for a given distance/time using the appropriate distance conversion unit.
  * @param {string|float} unitMult - Multiplier to convert to Miles
@@ -122,9 +154,9 @@ const lapArrayToMap = (laps) => {
  * @return {object} An object containing mph (mile per hour) and mins (minutes per mile).
  */
 const calcTimes = (unitMult, distance, time) => {
-  const hh = Number.parseInt(time.substr(0, 2), 10) * 60 * 60;
-  const mm = Number.parseInt(time.substr(3, 2), 10) * 60;
-  const ss = Number.parseInt(time.substr(6, 2), 10);
+  const hh = getHours(time);
+  const mm = getMins(time);
+  const ss = getSecs(time);
   const miles = parseFloat(distance) * parseFloat(unitMult);
 
   let mph = 0;
@@ -167,4 +199,5 @@ export {
   calcTimes,
   getValues,
   cloneData,
+  calcLapsTotals,
 };

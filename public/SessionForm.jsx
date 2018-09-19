@@ -52,23 +52,21 @@ class SessionForm extends React.Component {
   constructor(props) {
     super(props);
     SessionForm.context = this;
-  }
-
-  getChildContext() {
-    return { 
-      multipliers: this.state.multipliers
-    };
-  }
-
-  componentWillMount() {
-    SessionForm.context.setState(this.props.session);
-    SessionForm.context.setState({ activityOpts: prepSelectOpts(this.context.refData, 'activity') });
-    SessionForm.context.setState({ kitOpts: prepSelectOpts(this.context.refData, 'kit') });
-    SessionForm.context.setState({ weatherOpts: prepSelectOpts(this.context.refData, 'weather') });
-    SessionForm.context.setState({ feelsOpts: prepSelectOpts(this.context.refData, 'feels') });
-    SessionForm.context.setState({ effortOpts: prepSelectOpts(this.context.refData, 'effort') });
-    SessionForm.context.setState({ multipliers: this.context.multipliers});
-  }
+    this.state = {
+      session: props.session,
+      activity: this.props.session.activity, 
+      activityOpts: prepSelectOpts(this.props.refData, 'activity'),
+      kit: this.props.session.kit,
+      kitOpts: prepSelectOpts(this.props.refData, 'kit'), 
+      weather: this.props.session.weather,
+      weatherOpts: prepSelectOpts(this.props.refData, 'weather'),
+      feels: this.props.session.feels,
+      feelsOpts: prepSelectOpts(this.props.refData, 'feels'),
+      effort: this.props.session.effort,
+      effortOpts: prepSelectOpts(this.props.refData, 'effort'),
+      }
+    }
+  
 
   render() {
     const { lap } = this.props;
@@ -139,14 +137,5 @@ class SessionForm extends React.Component {
   }
 }
 
-
-SessionForm.contextTypes = {
-  refData: PropTypes.any.isRequired,
-  multipliers: PropTypes.any.isRequired,
-};
-
-SessionForm.childContextTypes = {
-  multipliers: PropTypes.any.isRequired,
-};
 
 export default SessionForm;

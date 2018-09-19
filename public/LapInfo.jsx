@@ -13,7 +13,6 @@ import { calcTimes } from './lapTools';
  */
 class LapInfo extends React.Component {
   static onLapEdit() {
-    console.logi(this);
 //       LapInfo.context.props.onLapEdit(id);
   }
 
@@ -24,7 +23,7 @@ class LapInfo extends React.Component {
 
   render() {
     const { lap } = this.props;
-    const multiplier = lap.unit === '--' ? 0 : this.context.multipliers.get(lap.unit);
+    const multiplier = lap.unit === '--' ? 0 : this.props.multipliers.get(lap.unit);
     const speed = calcTimes(multiplier, lap.distance, lap.time);
     const { mph } = speed;
     const mins = `mins: ${speed.mins}`;
@@ -70,10 +69,6 @@ class LapInfo extends React.Component {
     );
   }
 }
-
-LapInfo.contextTypes = {
-  multipliers: PropTypes.any.isRequired,
-};
 
 LapInfo.propTypes = {
   lap: PropTypes.shape({
