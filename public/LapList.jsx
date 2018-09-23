@@ -79,7 +79,7 @@ class LapList extends React.Component {
     const newLap = LapList.createNewLap();
 
     displayLaps.push(newLap);
-    const splitData = lapsToReactRows(displayLaps, LapList.onLapEdit, LapList.context.props.onLapSubmit);
+    const splitData = lapsToReactRows(displayLaps, LapList.onLapEdit, LapList.onLapSubmit);
     return (
       <div className='lapList'>
         {splitData}

@@ -20,13 +20,15 @@ class Lap extends React.Component {
 
   render() {
     const { lap } = this.props;
-    const { editLap } = this.props;
+    const { editLap } = this.props; 
+    const { onLapSubmit } = this.props;
+    const { onLapEdit } = this.props;
 
     if (editLap) {
       return (
         <div className='four columns'>
           <RefDataContext.Consumer>
-            {globalRef => (<LapForm lap={lap} refData={globalRef.refData} />)}
+            {globalRef => (<LapForm lap={lap} refData={globalRef.refData} onLapSubmit={onLapSubmit}/>)}
           </RefDataContext.Consumer>
         </div>
       );
@@ -34,7 +36,7 @@ class Lap extends React.Component {
       return (
         <div className='four columns'>
           <RefDataContext.Consumer>
-            {globalRef => (<LapInfo lap={lap} borderOn={Lap.context.props.onLapEdit} multipliers={globalRef.multipliers}/>)}
+            {globalRef => (<LapInfo lap={lap} borderOn={true} multipliers={globalRef.multipliers} onLapEdit={onLapEdit}/>)}
           </RefDataContext.Consumer>
         </div>
       );

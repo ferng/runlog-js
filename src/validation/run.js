@@ -67,8 +67,8 @@ function isValidSession(session) {
 
 
 function isValidLap(lap) {
-  return (isValidDistance(lap.lap.distance) &&
-        isValidTime24(lap.lap.time));
+  return (isValidDistance(lap.distance) &&
+        isValidTime24(lap.time));
 }
 
 

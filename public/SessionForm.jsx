@@ -72,7 +72,6 @@ class SessionForm extends React.Component {
     const { lap } = this.props;
     return (
       <div className='twelve columns'>
-        <div className='twelve ecolumns left'>
           <form className='sessionForm' onSubmit={SessionForm.handleSubmit}>
 
             <div className='two columns'>
@@ -130,7 +129,6 @@ class SessionForm extends React.Component {
               <button display="primary" type="submit" >OK</button>
             </div>
           </form>
-        </div>
       </div>
       
     );

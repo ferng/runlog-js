@@ -74,6 +74,7 @@ const getItemsByParent = (dataType, parentId) =>
  */
 const postNewItem = (body, dataType) =>
   new Promise((resolve, reject) => {
+    console.log(body);
     post(`/api/runs/${dataType}`, body)
       .then((response) => {
         resolve(response);

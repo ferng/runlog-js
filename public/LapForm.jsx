@@ -51,7 +51,7 @@ class LapForm extends React.Component {
     }
     time = time.length === 5 ? `${time}:00` : time;
 
-    const newLap = { lap: createLap(id, time, distance, unit) };
+    const newLap = createLap(id, time, distance, unit);
     postNewItem(newLap, 'lap')
       .catch(() => {
         LapForm.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
@@ -64,6 +64,7 @@ class LapForm extends React.Component {
 
 
   constructor(props) {
+    console.log(props);
     super(props);
     const options = prepSelectOpts(props.refData, 'unit');
     this.state = {
