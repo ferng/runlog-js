@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
 import SelectOpts from './SelectOpts';
+import TimeEntry from './TimeEntry';
 import { postNewItem } from './lapDataSvcs';
 import { prepSelectOpts } from './lapDataSvcs';
 import { createLap } from './lapTools';
@@ -15,8 +16,8 @@ import { createLap } from './lapTools';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapForm extends React.Component {
-  static handleTimeChange(e) {
-    LapForm.context.setState({ time: e.target.value });
+  handleTimeChange(time) {
+    LapForm.context.setState({ time: time});
   }
 
   static handleDistanceChange(e) {
@@ -64,7 +65,6 @@ class LapForm extends React.Component {
 
 
   constructor(props) {
-    console.log(props);
     super(props);
     const options = prepSelectOpts(props.refData, 'unit');
     this.state = {
@@ -82,43 +82,37 @@ class LapForm extends React.Component {
         className='twelve columns left'
         role='presentation'
       >
-          <form className='LapForm' onSubmit={LapForm.handleSubmit}>
+         <form className='LapForm' onSubmit={LapForm.handleSubmit}>
 
-        <div className='three columns'>
-          <label id='timeLabel' htmlFor='time'>Time: </label>
-          <input
-            type='time'
-            id='time'
-            placeholder='Time'
-            value={this.state.time}
-            step='1'
-            onChange={LapForm.handleTimeChange}
-            onBlur={LapForm.handleChange}
-          />
-        </div>
-
-        <div className='three columns'>
-          <label id='distanceLabel' htmlFor='distance'>Distance: </label>
-          <input
-            type='number'
-            id='distance'
-            placeholder='Distance'
-            value={this.state.distance}
-            onChange={LapForm.handleDistanceChange}
-            onBlur={LapForm.handleChange}
-          />
-        </div>
-
-        <div className='three columns'>
-          <label id='unitLabel' htmlFor='unit'>Unit: </label>
-          <SelectOpts
-            id='unit'
-            value={this.state.unit}
-            defaultValue={this.state.unit}
-            options={this.state.options}
-            onChange={LapForm.handleUnitChange}
-          />
-        </div>
+           <div className='three columns'>
+             <TimeEntry
+               time={this.state.time}
+               onUpdate={this.handleTimeChange}
+             />
+            </div>
+    
+            <div className='three columns'>
+              <label id='distanceLabel' htmlFor='distance'>Distance: </label>
+              <input
+                type='number'
+                id='distance'
+                placeholder='Distance'
+                value={this.state.distance}
+                onChange={LapForm.handleDistanceChange}
+                onBlur={LapForm.handleChange}
+              />
+            </div>
+    
+            <div className='three columns'>
+              <label id='unitLabel' htmlFor='unit'>Unit: </label>
+              <SelectOpts
+                id='unit'
+                value={this.state.unit}
+                defaultValue={this.state.unit}
+                options={this.state.options}
+                onChange={LapForm.handleUnitChange}
+              />
+            </div>
 
             <div className='three columns'>
               <button display='primary' type='submit' >OK</button>
