@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from './Modal';
 import SelectOpts from './SelectOpts';
 import { postNewItem } from './lapDataSvcs';
 import { prepSelectOpts } from './lapDataSvcs';
@@ -34,12 +33,6 @@ class LapForm extends React.Component {
     LapForm.context.setState(data);
   }
 
-  static toggleModal() {
-    LapForm.context.setState({
-      showModal: !LapForm.context.state.showModal,
-    });
-  }
-
   static handleSubmit(e) {
     e.preventDefault();
     const id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();
@@ -52,37 +45,23 @@ class LapForm extends React.Component {
     time = time.length === 5 ? `${time}:00` : time;
 
     const newLap = createLap(id, time, distance, unit);
-    postNewItem(newLap, 'lap')
-      .catch(() => {
-        LapForm.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
-        LapForm.toggleModal();
-      });
-
-    // what if we're just editing'
-    LapForm.context.setState(createLap());
+    this.context.props.onSubmit(newLap);
   }
 
 
   constructor(props) {
-    console.log(props);
     super(props);
     const options = prepSelectOpts(props.refData, 'unit');
     this.state = {
       options,
-      id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit, showModal: false,
+      id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit,
     };
     LapForm.context = this;
   }
 
   render() {
     return (
-      <div>
-        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={LapForm.toggleModal} />
-      <div
-        className='twelve columns left'
-        role='presentation'
-      >
-          <form className='LapForm' onSubmit={LapForm.handleSubmit}>
+      <form className='LapForm' onSubmit={LapForm.handleSubmit}>
 
         <div className='three columns'>
           <label id='timeLabel' htmlFor='time'>Time: </label>
@@ -120,12 +99,10 @@ class LapForm extends React.Component {
           />
         </div>
 
-            <div className='three columns'>
-              <button display='primary' type='submit' >OK</button>
-            </div>
-          </form>
+        <div className='three columns'>
+          <button display='primary' type='submit' >OK</button>
         </div>
-      </div>
+      </form>
     );
   }
 }

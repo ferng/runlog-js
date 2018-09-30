@@ -14,23 +14,15 @@ import { lapToReact, lapsToReactRows, getValues, createLap, calcLapsTotals } fro
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapList extends React.Component {
-  static onLapEdit(id) {
-    const prevEditLap = LapList.context.state.laps.get(LapList.context.state.lapToEdit);
-    if (prevEditLap !== undefined) {
-      prevEditLap.editLap = false;
-    }
-    const lapToEdit = LapList.context.state.laps.get(id);
-    if (lapToEdit !== undefined) {
-      lapToEdit.editLap = true;
-    }
-    LapList.context.setState({ lapToEdit: id });
-  }
+  static calcTotals(laps) {
+    const totals = calcLapsTotals(laps);
+    const totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
+    return totalLap;
+  }  
 
   static onLapSubmit() {
-    const totals = calcAllLapsTimes(LapList.context.state.laps);
-    const totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
-    LapList.context.setState({totalLap, totals});
-  }  
+    LapList.calcTotals(LapList.context.state.laps);
+  }
 
   static createNewLap() {
     const newLap = createLap();
@@ -58,20 +50,18 @@ class LapList extends React.Component {
           totalLap = createNewLap();
         } else {
           laps = [];
-          laps.push(createLap());
-          totalLap = {time: '12:00:01', distance: 52, unit: 'mile'};
-//           totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
+          totalLap = LapList.calcTotals( laps );
         }
       LapList.context.setState({ lapToEdit: 0, laps, totalLap });
       });
   }
 
   render() {
+    console.log(LapList.context);
     if (LapList.context.state === null) 
     {
       return null;
     }
-
     let displayLaps =  [];
     if (this.state.laps.size > 0) {
       displayLaps = LapList.context.state.loadedLaps; 

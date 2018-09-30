@@ -35,7 +35,10 @@ class Session extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {showModal: false, parentId: props.parentId};
+    this.state = {
+      showModal: false,
+      parentId: props.parentId
+    };
     Session.context = this;
   }
 
@@ -54,27 +57,7 @@ class Session extends React.Component {
         }
         const lapTotals = createLap(3, '03:10:10', 23, 'yard');
         Session.context.setState({editSession, session, lapTotals});
-
       });
-    
-
-    //get session data with id (0) is default for non loaded
-    //if 0 === not present
-    //  blank session ready for entry
-    //  blank lap
-    //else 
-    //  get it and display it
-    //  if available
-    //    display lap
-    //  else
-    //    blank lap
-//     const lap1 = createLap(1, '01:10:10', 21, 'yard');
-//     const lap2 = createLap(2, '02:10:10', 22, 'yard');
-//     const laps1= new Array();
-//     laps1.push(lap1);
-//     laps1.push(lap2);
-//     Session.context.setState({ laps1});
-  
   }
 
   render() {
@@ -89,6 +72,7 @@ class Session extends React.Component {
     const { lapTotals } = Session.context.state
     const sessionId = Session.context.state.session.id;
     const lap = lapTotals;
+    const {parentId} = Session.context.state
 
     let sessionAction;
     if ( editSession ) {
