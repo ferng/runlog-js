@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SelectOpts from './SelectOpts';
-import { postNewItem } from './lapDataSvcs';
 import { prepSelectOpts } from './lapDataSvcs';
 import { createLap } from './lapTools';
 
@@ -14,38 +13,43 @@ import { createLap } from './lapTools';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapForm extends React.Component {
-  static handleTimeChange(e) {
-    LapForm.context.setState({ time: e.target.value });
+  handleTimeChange(e) {
+    this.setState({ time: e.target.value });
   }
 
-  static handleDistanceChange(e) {
-    LapForm.context.setState({ distance: e.target.value });
+  handleDistanceChange(e) {
+    this.setState({ distance: e.target.value });
   }
 
-  static handleUnitChange(e) {
-    LapForm.context.setState({ unit: e.target.value });
-    LapForm.handleChange(e);
+  handleUnitChange(e) {
+    this.setState({ unit: e.target.value });
+    this.handleChange(e);
   }
 
-  static handleChange(e) {
+  handleChange(e) {
     const data = {};
     data[e.target.id] = e.target.value;
-    LapForm.context.setState(data);
+    this.setState(data);
   }
 
-  static handleSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
-    const id = LapForm.context.state.id !== 0 ? LapForm.context.state.id : Date.now();
-    let { time } = LapForm.context.state;
-    const distance = parseFloat(LapForm.context.state.distance);
-    const { unit } = LapForm.context.state;
+    const { id } = this.state;
+    let { time } = this.state;
+    let { parentId }= this.state;
+    const distance = parseFloat(this.state.distance);
+    const { unit } = this.state;
     if (!time || time === '00:00:00' || time === '00:00' || !distance || distance === 0 || Number.isNaN(distance) || !unit || unit === '--') {
       return;
     }
     time = time.length === 5 ? `${time}:00` : time;
-
-    const newLap = createLap(id, time, distance, unit);
-    this.context.props.onSubmit(newLap);
+    let newLap = {};
+    if (id === -1) {
+      newLap = {parentId, time, distance, unit};
+    } else {
+      newLap = {parentId, id, time, distance, unit};
+    }
+    this.props.onSubmit(newLap);
   }
 
 
@@ -54,14 +58,19 @@ class LapForm extends React.Component {
     const options = prepSelectOpts(props.refData, 'unit');
     this.state = {
       options,
-      id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit,
+      id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit, parentId: props.lap.parentId,
     };
     LapForm.context = this;
+    this.handleTimeChange = this.handleTimeChange.bind(this); 
+    this.handleDistanceChange = this.handleDistanceChange.bind(this); 
+    this.handleUnitChange = this.handleUnitChange.bind(this); 
+    this.handleChange = this.handleChange.bind(this); 
+    this.handleSubmit = this.handleSubmit.bind(this); 
   }
 
   render() {
     return (
-      <form className='LapForm' onSubmit={LapForm.handleSubmit}>
+      <form className='LapForm' onSubmit={this.handleSubmit}>
 
         <div className='three columns'>
           <label id='timeLabel' htmlFor='time'>Time: </label>
@@ -71,8 +80,8 @@ class LapForm extends React.Component {
             placeholder='Time'
             value={this.state.time}
             step='1'
-            onChange={LapForm.handleTimeChange}
-            onBlur={LapForm.handleChange}
+            onChange={this.handleTimeChange}
+            onBlur={this.handleChange}
           />
         </div>
 
@@ -83,8 +92,8 @@ class LapForm extends React.Component {
             id='distance'
             placeholder='Distance'
             value={this.state.distance}
-            onChange={LapForm.handleDistanceChange}
-            onBlur={LapForm.handleChange}
+            onChange={this.handleDistanceChange}
+            onBlur={this.handleChange}
           />
         </div>
 
@@ -95,7 +104,7 @@ class LapForm extends React.Component {
             value={this.state.unit}
             defaultValue={this.state.unit}
             options={this.state.options}
-            onChange={LapForm.handleUnitChange}
+            onChange={this.handleUnitChange}
           />
         </div>
 
@@ -110,6 +119,7 @@ class LapForm extends React.Component {
 
 LapForm.propTypes = {
   lap: PropTypes.shape({
+    parentId: PropTypes.number.isRequired,
     distance: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     time: PropTypes.string.isRequired,
@@ -119,6 +129,7 @@ LapForm.propTypes = {
 
 LapForm.defaultProps = {
   lap: {
+    parentId: 0,
     distance: 0,
     id: -1,
     time: '00:00:00',

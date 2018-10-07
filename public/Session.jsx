@@ -16,12 +16,12 @@ class Session extends React.Component {
   }
 
   
-  static onSubmit(sessionData) {
-    sessionData.parentId=Session.context.state.parentId;
+  onSubmit(sessionData) {
+    sessionData.parentId=this.state.parentId;
     postNewItem(sessionData, 'session')
       .then((response) => {
-        Session.context.setState({ editSession: false });
-        Session.context.setState({ session: sessionData });
+        this.setState({ editSession: false });
+        this.setState({ session: sessionData });
       })
       .catch((err) => {
         Session.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
@@ -29,8 +29,8 @@ class Session extends React.Component {
       });
   }
 
-  static onEdit(id) {
-    Session.context.setState({ editSession: true });
+  onEdit(id) {
+    this.setState({ editSession: true });
   }
 
   constructor(props) {
@@ -40,6 +40,8 @@ class Session extends React.Component {
       parentId: props.parentId
     };
     Session.context = this;
+    this.onSubmit= this.onSubmit.bind(this); 
+    this.onEdit= this.onEdit.bind(this); 
   }
 
   componentDidMount() {
@@ -55,35 +57,35 @@ class Session extends React.Component {
         } else {
           editSession = false;
         }
-        const lapTotals = createLap(3, '03:10:10', 23, 'yard');
+        const lapTotals = createLap(0, 3, '03:10:10', 23, 'yard');
         Session.context.setState({editSession, session, lapTotals});
       });
   }
 
   render() {
-    if (Session.context.state.session === undefined) {
+    if (this.state.session === undefined) {
       return null;
     }
-    const { editSession } = Session.context.state;
+    const { editSession } = this.state;
 //     const { laps1 } = Session.context.state;
 //     const reactLaps = lapsToReactRows(laps1);
 //     const laps = lapArrayToMap(laps1);
-    const { session } = Session.context.state;
-    const { lapTotals } = Session.context.state
-    const sessionId = Session.context.state.session.id;
+    const { session } = this.state;
+    const { lapTotals } = this.state
+    const sessionId = this.state.session.id;
     const lap = lapTotals;
-    const {parentId} = Session.context.state
+    const {parentId} = this.state
 
     let sessionAction;
     if ( editSession ) {
       sessionAction = 
         <RefDataContext.Consumer>
           {globalRef => (
-            <SessionForm session={session} onSubmit={Session.onSubmit} refData={globalRef.refData} />)
+            <SessionForm session={session} onSubmit={this.onSubmit} refData={globalRef.refData} />)
           }
         </RefDataContext.Consumer> ;
     } else {
-      sessionAction = <SessionInfo session={session} onEdit={Session.onEdit} />;
+      sessionAction = <SessionInfo session={session} onEdit={this.onEdit} />;
     }
       
     return (

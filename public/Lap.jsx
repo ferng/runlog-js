@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LapForm from './LapForm';
 import LapInfo from './LapInfo';
+import { postNewItem } from './lapDataSvcs';
 import Modal from './Modal';
 import { RefDataContext } from './refData-context';
 
@@ -20,30 +21,34 @@ class Lap extends React.Component {
     });
   }
 
-  static onSubmit(lapData) {
-   lapData.parentId=Lap.context.state.parentId;
+  onSubmit(lapData) {
+   lapData.parentId=this.state.parentId;
    postNewItem(lapData, 'lap')
       .then((response) => {
-        Lap.context.setState({ editLap: false });
-        Lap.context.setState({ lap: lapData });
+        lapData.id = response.id;
+        this.setState({ editLap: false });
+        this.props.onLapSubmit(lapData);
       })
-        .catch(() => {
-        Lap.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
+      .catch((err) => {
+        this.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
         Lap.toggleModal();
       });
   }
   
-  static onEdit(id) {
-    Lap.context.setState({ editLap: true });
+  onEdit(id) {
+    this.setState({ editLap: true });
   }
 
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
-      parentId: props.parentId
+      parentId: props.parentId,
+      lap: props.lap
     };
     Lap.context = this;
+    this.onSubmit = this.onSubmit.bind(this); 
+    this.onEdit = this.onEdit.bind(this); 
   }
 
   componentDidMount() {
@@ -51,37 +56,38 @@ class Lap extends React.Component {
   }
 
   render() {
-    const { lap } = this.props;
+    const { lap } = this.state;
     const { editLap } = this.state; 
 
     let lapAction;
     if (editLap) {
       lapAction = 
         <RefDataContext.Consumer>
-          {globalRef => (<LapForm lap={lap} refData={globalRef.refData} onSubmit={Lap.onSubmit}/>)}
+          {globalRef => (<LapForm lap={lap} refData={globalRef.refData} onSubmit={this.onSubmit}/>)}
         </RefDataContext.Consumer>
     } else {
       lapAction = 
         <RefDataContext.Consumer>
-          {globalRef => (<LapInfo lap={lap} borderOn={true} multipliers={globalRef.multipliers} onLapEdit={Lap.onEdit}/>)}
+          {globalRef => (<LapInfo lap={lap} borderOn={true} multipliers={globalRef.multipliers} onEdit={this.onEdit}/>)}
         </RefDataContext.Consumer>
     }
 
     return (
-      <div>
+      <div className='four columns'>
         <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={Lap.toggleModal} />
         <div className='twelve columns left'>
-          {lapAction};      
+          {lapAction}      
         </div>
       </div>
     );
   }
 }
 
-
+  
 Lap.propTypes = {
   editLap: PropTypes.bool,
   lap: PropTypes.shape({
+    parentId: PropTypes.number.isRequired,
     distance: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     time: PropTypes.string.isRequired,
@@ -93,6 +99,7 @@ Lap.propTypes = {
 Lap.defaultProps = {
   editLap: false,
   lap: {
+    parentId: 0,
     distance: 0,
     id: -1,
     time: '00:00:00',

@@ -85,7 +85,6 @@ console.log(statement);
  */
 function insertOne(table, document) {
   return new Promise((resolve, reject) => {
-    console.log(document);
     if (!val.isDocumentValid(document)) {
       reject(new Error('Invalid document'));
       return;
@@ -97,7 +96,6 @@ function insertOne(table, document) {
     const insertValues = prepStatementFields(values);
     const updateSub = prepValuePairs(columns, values);
     const statement = `INSERT INTO ${table} ${insertColumns} VALUES ${insertValues} on CONFLICT(id) DO UPDATE SET ${updateSub}`;
-    console.log(statement);
     conn.run(statement, function (err) {
       if (err) {
         reject(err);

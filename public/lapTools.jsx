@@ -68,11 +68,15 @@ const lapsToReactRows = (laps, editCallback, submitCallback, parentId) => {
  * @param {string} unit - What was the distance unit: mile, metre, etc
  * @return {object} A Lap with the data provided or blanks if none.
  */
-const createLap = (id = 0, time = '00:00:00', distance = 0, unit = '--') =>
-  ({
-    id, time, distance, unit,
-  });
-
+const createLap = (parentId, id, time = '00:00:00', distance = 0, unit = '--') => {
+  let lap = {};
+  if (id === undefined) {
+    lap = { parentId, id: -1, time, distance, unit, }; 
+  } else {
+    lap = { parentId, id, time, distance, unit, }; 
+  }
+  return lap;  
+}
 
 /**
  * Creates a brand new activity object with the provided data or with blank default data if none is provided.
@@ -84,11 +88,15 @@ const createLap = (id = 0, time = '00:00:00', distance = 0, unit = '--') =>
  * @param {string} effort - And what was the perceived effort
  * @return {object} An Activity with the data provided or blanks if none.
  */
-const createSession = (id = 0, activity = '--', kit = '--', weather = '--', feels = '--', effort = '--') =>
-  ({
-    id, activity, kit, weather, feels, effort,
-  });
-
+const createSession = (id = 0, activity = '--', kit = '--', weather = '--', feels = '--', effort = '--') => {
+  let session = {};
+  if (id === undefined) {
+    session = { activity, kit, weather, feels, effort, };
+  } else {
+    session = { id, activity, kit, weather, feels, effort, };
+  }
+  return session;
+}
 
 const cloneData = (source) => {
   const keys = Object.keys(source);

@@ -6,37 +6,37 @@ import { createSession } from './lapTools';
 
 
 class SessionForm extends React.Component {
-  static handleActivityChange(e) {
-    SessionForm.context.setState({ activity: e.target.value });
+  handleActivityChange(e) {
+    this.setState({ activity: e.target.value });
   }
   
-  static handleKitChange(e) {
-    SessionForm.context.setState({ kit: e.target.value });
+  handleKitChange(e) {
+    this.setState({ kit: e.target.value });
   }
 
-  static handleWeatherChange(e) {
-    SessionForm.context.setState({ weather: e.target.value });
+  handleWeatherChange(e) {
+    this.setState({ weather: e.target.value });
   }
 
-  static handleFeelsChange(e) {
-    SessionForm.context.setState({ feels: e.target.value });
+  handleFeelsChange(e) {
+    this.setState({ feels: e.target.value });
   }
 
-  static handleEffortChange(e) {
-    SessionForm.context.setState({ effort: e.target.value });
+  handleEffortChange(e) {
+    this.setState({ effort: e.target.value });
   }
 
   static onLapEdit(id) {
   }
   
-  static handleSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
-    let id = SessionForm.context.state.id !== 0 ? SessionForm.context.state.id : Date.now();
-    let activity = SessionForm.context.state.activity;
-    let kit = SessionForm.context.state.kit;
-    let weather = SessionForm.context.state.weather;
-    let feels = SessionForm.context.state.feels;
-    let effort = SessionForm.context.state.effort;
+    let id = this.state.id !== 0 ? this.state.id : Date.now();
+    let activity = this.state.activity;
+    let kit = this.state.kit;
+    let weather = this.state.weather;
+    let feels = this.state.feels;
+    let effort = this.state.effort;
     if (!activity || activity === '--' ||
       !kit || kit === '--' ||
       !weather || weather === '--' ||
@@ -45,7 +45,7 @@ class SessionForm extends React.Component {
         return;
     }
     let newSession = createSession(id, activity, kit, weather, feels, effort);
-    SessionForm.context.props.onSubmit(newSession);
+    this.props.onSubmit(newSession);
   }
 
 
@@ -65,14 +65,20 @@ class SessionForm extends React.Component {
       effort: this.props.session.effort,
       effortOpts: prepSelectOpts(this.props.refData, 'effort'),
       }
-    }
+    this.handleActivityChange = this.handleActivityChange.bind(this); 
+    this.handleKitChange = this.handleKitChange.bind(this); 
+    this.handleWeatherChange = this.handleWeatherChange.bind(this); 
+    this.handleFeelsChange = this.handleFeelsChange.bind(this); 
+    this.handleEffortChange = this.handleEffortChange.bind(this); 
+    this.handleSubmit = this.handleSubmit.bind(this); 
+  }
   
 
   render() {
     const { lap } = this.props;
     return (
       <div className='twelve columns'>
-          <form className='sessionForm' onSubmit={SessionForm.handleSubmit}>
+          <form className='sessionForm' onSubmit={this.handleSubmit}>
 
             <div className='two columns'>
               <label id='newActivityLabel' htmlFor='newActivity'>Activity: </label>
@@ -81,7 +87,7 @@ class SessionForm extends React.Component {
                 value={ this.state.activity }
                 defaultValue={ this.state.activity }
                 options={ this.state.activityOpts }
-                onChange={ SessionForm.handleActivityChange }
+                onChange={ this.handleActivityChange }
               />
             </div>
             <div className='two columns'>
@@ -91,7 +97,7 @@ class SessionForm extends React.Component {
                 value={ this.state.kit }
                 defaultValue={ this.state.kit }
                 options={ this.state.kitOpts }
-                onChange={ SessionForm.handleKitChange }
+                onChange={ this.handleKitChange }
               />
             </div>
             <div className='two columns'>
@@ -101,7 +107,7 @@ class SessionForm extends React.Component {
                 value={ this.state.weather }
                 defaultValue={ this.state.weather }
                 options={ this.state.weatherOpts }
-                onChange={ SessionForm.handleWeatherChange }
+                onChange={ this.handleWeatherChange }
               />
             </div>
             <div className='two columns'>
@@ -111,7 +117,7 @@ class SessionForm extends React.Component {
                 value={ this.state.feels }
                 defaultValue={ this.state.feels }
                 options={ this.state.feelsOpts }
-                onChange={ SessionForm.handleFeelsChange }
+                onChange={ this.handleFeelsChange }
               />
             </div>
             <div className='two columns'>
@@ -121,7 +127,7 @@ class SessionForm extends React.Component {
                 value={ this.state.effort }
                 defaultValue={ this.state.effort }
                 options={ this.state.effortOpts }
-                onChange={ SessionForm.handleEffortChange }
+                onChange={ this.handleEffortChange }
               />
             </div>
 

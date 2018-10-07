@@ -20,21 +20,31 @@ class LapList extends React.Component {
     return totalLap;
   }  
 
-  static onLapSubmit() {
-    LapList.calcTotals(LapList.context.state.laps);
+  static createNewLap(parentId) {
+    const newLap = createLap(parentId);
+    return newLap;
   }
 
-  static createNewLap() {
-    const newLap = createLap();
-    const editNewlap = LapList.context.state.lapToEdit === 0;
-    newLap.editLap = editNewlap;
-    return newLap;
+  onLapSubmit(updatedLap) {
+    let laps = LapList.context.state.laps; 
+    laps.forEach((lap) => {
+      if (lap.id === -1 || lap.id === updatedLap.id) {
+        laps.pop(lap);
+      }
+    })
+    laps.push(updatedLap);
+        const newLap = LapList.createNewLap(updatedLap.parentId);
+    laps.push(newLap);
+    this.setState({laps: laps});
   }
 
   constructor(props) {
     super(props);
     LapList.context = this;
+    this.onLapSubmit = this.onLapSubmit.bind(this); 
   }
+
+
 
 
   // Logically this should be set in Lap as that's the only place it's used. But then it would be recalculated for each Lap.
@@ -47,29 +57,27 @@ class LapList extends React.Component {
         let totalLap;
         if (data.length > 0) {
           laps = data;
-          totalLap = createNewLap();
+          totalLap = LapList.createNewLap(0);
         } else {
           laps = [];
           totalLap = LapList.calcTotals( laps );
         }
-      LapList.context.setState({ lapToEdit: 0, laps, totalLap });
+        
+        const newLap = LapList.createNewLap(parentId);
+        laps.push(newLap);
+        LapList.context.setState({ lapToEdit: 0, laps, totalLap });
       });
   }
 
   render() {
-    console.log(LapList.context);
     if (LapList.context.state === null) 
     {
       return null;
     }
-    let displayLaps =  [];
-    if (this.state.laps.size > 0) {
-      displayLaps = LapList.context.state.loadedLaps; 
-    }
-    const newLap = LapList.createNewLap();
-
-    displayLaps.push(newLap);
-    const splitData = lapsToReactRows(displayLaps, LapList.onLapEdit, LapList.onLapSubmit);
+    
+    let laps = LapList.context.state.laps; 
+    
+    const splitData = lapsToReactRows(laps, LapList.onLapEdit, this.onLapSubmit, this.props.parentId);
     return (
       <div className='lapList'>
         {splitData}

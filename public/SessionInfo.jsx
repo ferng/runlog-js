@@ -7,15 +7,16 @@ import { createSession } from './lapTools';
 
 
 class SessionInfo extends React.Component {
-  static onEdit(id) {
-    if (SessionInfo.context.props.onEdit !== undefined) {
-      SessionInfo.context.props.onEdit(id);
+  onEdit() {
+    if (this.props.onEdit !== undefined) {
+      this.props.onEdit(this.props.id);
     }
   }
 
   constructor(props) {
     super(props);
     SessionInfo.context = this;
+    this.onEdit= this.onEdit.bind(this); 
   }
 
   render() {
@@ -23,7 +24,7 @@ class SessionInfo extends React.Component {
     return (
       <div
         className='twelve columns'
-        onClick={() => SessionInfo.onEdit(session.id)}
+        onClick={() => this.onEdit()}
         role='presentation'
       >
 
