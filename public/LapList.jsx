@@ -26,16 +26,19 @@ class LapList extends React.Component {
   }
 
   onLapSubmit(updatedLap) {
-    let laps = LapList.context.state.laps; 
+    let laps = this.state.laps;
+    let newLaps = [];
     laps.forEach((lap) => {
-      if (lap.id === -1 || lap.id === updatedLap.id) {
-        laps.pop(lap);
+      console.log(lap);
+      if (lap.id !== -1 && lap.id !== updatedLap.id) {
+        console.log(lap.id);
+        newLaps.push(lap);
       }
     })
-    laps.push(updatedLap);
+    newLaps.push(updatedLap);
         const newLap = LapList.createNewLap(updatedLap.parentId);
-    laps.push(newLap);
-    this.setState({laps: laps});
+    newLaps.push(newLap);
+    this.setState({laps: newLaps});
   }
 
   constructor(props) {

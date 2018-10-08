@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SelectOpts from './SelectOpts';
+import TimeEntry from './TimeEntry';
 import { prepSelectOpts } from './lapDataSvcs';
 import { createLap } from './lapTools';
 
@@ -13,8 +14,8 @@ import { createLap } from './lapTools';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapForm extends React.Component {
-  handleTimeChange(e) {
-    this.setState({ time: e.target.value });
+  handleTimeChange(time) {
+    LapForm.context.setState({ time: time});
   }
 
   handleDistanceChange(e) {
@@ -72,18 +73,13 @@ class LapForm extends React.Component {
     return (
       <form className='LapForm' onSubmit={this.handleSubmit}>
 
-        <div className='three columns'>
-          <label id='timeLabel' htmlFor='time'>Time: </label>
-          <input
-            type='time'
-            id='time'
-            placeholder='Time'
-            value={this.state.time}
-            step='1'
-            onChange={this.handleTimeChange}
-            onBlur={this.handleChange}
-          />
-        </div>
+      <div className='three columns'>
+        <TimeEntry
+          time={this.state.time}
+          onUpdate={this.handleTimeChange}
+          onBlur={this.handleChange}
+        />
+      </div>
 
         <div className='three columns'>
           <label id='distanceLabel' htmlFor='distance'>Distance: </label>
