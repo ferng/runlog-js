@@ -101,7 +101,12 @@ function insertOne(table, document) {
         reject(err);
         return;
       }
-      resolve(this.lastID);
+      if (document.id === undefined) {
+        resolve(this.lastID);
+      } else {
+        resolve(document.id);
+      }
+
     });
   });
 }

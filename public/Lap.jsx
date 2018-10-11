@@ -26,7 +26,6 @@ class Lap extends React.Component {
    postNewItem(lapData, 'lap')
       .then((response) => {
         lapData.id = response.id;
-        this.setState({ editLap: false });
         this.props.onLapSubmit(lapData);
       })
       .catch((err) => {
@@ -35,8 +34,8 @@ class Lap extends React.Component {
       });
   }
   
-  onEdit(id) {
-    this.setState({ editLap: true });
+  onEdit() {
+    this.props.onLapEdit(this.props.lap.id);
   }
 
   constructor(props) {
@@ -56,9 +55,8 @@ class Lap extends React.Component {
   }
 
   render() {
-    const { lap } = this.state;
-    const { editLap } = this.state; 
-
+    const { lap } = this.props;
+    const { editLap } = lap; 
     let lapAction;
     if (editLap) {
       lapAction = 
@@ -97,7 +95,6 @@ Lap.propTypes = {
 };
 
 Lap.defaultProps = {
-  editLap: false,
   lap: {
     parentId: 0,
     distance: 0,

@@ -18,7 +18,7 @@ import LapRow from './LapRow';
  */
 const lapToReact = (lap, editCallback, submitCallback, parentId) =>
   React.createElement(Lap, {
-    lap, key: lap.id, editLap: lap.editLap, onLapEdit: editCallback, onLapSubmit: submitCallback, parentId,
+    lap, key: lap.id, onLapEdit: editCallback, onLapSubmit: submitCallback, parentId,
   });
 
 
@@ -43,7 +43,6 @@ const rowsToReact = rows =>
 const lapsToReactRows = (laps, editCallback, submitCallback, parentId) => {
   const rows = [];
   let thisRow = [];
-
   for (let i = 0; i < laps.length; i++) {
     const lap = lapToReact(laps[i], editCallback, submitCallback, parentId);
     thisRow.push(lap);
