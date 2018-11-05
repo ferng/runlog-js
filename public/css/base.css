@@ -10,10 +10,6 @@ input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none; 
 }
 
-input[type=time]::-webkit-inner-spin-button { 
-  -webkit-appearance: none; 
-}
-
 .left {
   border-left: 0.125rem solid #33C3F0;
 }
@@ -34,6 +30,10 @@ label {
   color: darkblue;
   font-weight: normal;
   display: inline;
+}
+
+.time-entry {
+  width: 6.7rem;
 }
 
 .lapList {

@@ -73,8 +73,11 @@ class LapForm extends React.Component {
     return (
       <form className='LapForm' onSubmit={this.handleSubmit}>
 
+      <div className='twelve columns'>
       <div className='three columns'>
-        <TimeEntry
+      <label id='timeLabel' htmlFor='time'>Time: </label>
+      <TimeEntry
+          id='time'
           time={this.state.time}
           onUpdate={this.handleTimeChange}
           onBlur={this.handleChange}
@@ -106,7 +109,8 @@ class LapForm extends React.Component {
 
         <div className='three columns'>
           <button display='primary' type='submit' >OK</button>
-        </div>
+      </div>
+      </div>
       </form>
     );
   }

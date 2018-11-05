@@ -97,11 +97,10 @@ class TimeEntry extends React.Component {
 
   render() {
     return (
-    <div>
-      <label id='timeLabel' htmlFor='time'>Time: </label>
       <input
+        className='time-entry'
         type='text'
-        id='time'
+        id='timeEntry'
         ref={this.myRef}
         placeholder='Time'
         value={this.state.time}
@@ -109,7 +108,6 @@ class TimeEntry extends React.Component {
         onKeyDown={TimeEntry.registerKey}
         onBlur={TimeEntry.handleBlur}
       />
-    </div>
     )
   }
 }
