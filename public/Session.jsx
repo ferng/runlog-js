@@ -18,7 +18,6 @@ class Session extends React.Component {
 
   static updateTotals(lapTotals) {
     console.log(lapTotals);
-    lapTotals.id = -1;
     Session.context.setState({ lapTotals });
 //     this.setState({lapTotals});
   }

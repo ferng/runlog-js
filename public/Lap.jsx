@@ -29,7 +29,6 @@ class Lap extends React.Component {
         this.props.onLapSubmit(lapData);
       })
       .catch((err) => {
-        console.log(err);
         this.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
         Lap.toggleModal();
       });

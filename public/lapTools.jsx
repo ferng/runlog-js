@@ -134,6 +134,7 @@ const calcLapsTotals = (laps, multipliers) => {
       seconds += getSecs(lap.time);
     }
   })
+  distance = (Math.round(distance * 100) / 100) ;
   const date = new Date(0,0,0,0,0,0,0);
   date.setHours(hours);
   date.setMinutes(minutes);
@@ -172,7 +173,7 @@ const calcTimes = (unitMult, distance, time) => {
   let mins = '00:00';
 
   if (miles > 0) {
-    mph = Math.round(((miles / (hh + mm + ss)) * 60 * 60) * 100) / 100;
+    mph = (Math.round((miles / (hh + mm + ss)) * 100) / 100) ;
     if (mph > 0) {
       const minsPM = 60 / mph;
       let secsPM = Math.round((((minsPM) - Number.parseInt(minsPM, 10)) * 60));
