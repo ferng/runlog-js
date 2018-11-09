@@ -75,7 +75,6 @@ class LapInfo extends React.Component {
 
 LapInfo.propTypes = {
   lap: PropTypes.shape({
-    parentId: PropTypes.number.isRequired,
     distance: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     time: PropTypes.string.isRequired,
@@ -85,7 +84,7 @@ LapInfo.propTypes = {
 
 LapInfo.defaultProps = {
   lap: {
-    parentId: 0,
+    parentId: -1,
     distance: 0,
     id: -1,
     time: '00:00:00',

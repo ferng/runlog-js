@@ -121,16 +121,18 @@ const lapArrayToMap = (laps) => {
 };
 
 
-const calcLapsTotals = (laps) => {
+const calcLapsTotals = (laps, multipliers) => {
   let distance = 0;
   let hours = 0;
   let minutes = 0;
   let seconds = 0;
   laps.forEach((lap) => {
-    distance += lap.distance;
-    hours += getHours(lap.time);
-    minutes += getMins(lap.time);
-    seconds += getSecs(lap.time);
+    if (lap.id != -1) {
+      distance += lap.distance * multipliers.get(lap.unit);
+      hours += getHours(lap.time);
+      minutes += getMins(lap.time);
+      seconds += getSecs(lap.time);
+    }
   })
   const date = new Date(0,0,0,0,0,0,0);
   date.setHours(hours);
@@ -142,11 +144,11 @@ const calcLapsTotals = (laps) => {
 }
 
 const getHours = (time) => {
-  return Number.parseInt(time.substr(0, 2), 10) * 60 * 60;
+  return Number.parseInt(time.substr(0, 2), 10);
 }
 
 const getMins = (time) => {
-  return Number.parseInt(time.substr(3, 2), 10) * 60;
+  return Number.parseInt(time.substr(3, 2), 10);
 }
 
 const getSecs = (time) => {

@@ -14,8 +14,8 @@ import { lapToReact, lapsToReactRows, getValues, createLap, calcLapsTotals } fro
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapList extends React.Component {
-  static calcTotals(laps) {
-    const totals = calcLapsTotals(laps);
+  static calcTotals(laps, multipliers) {
+    const totals = calcLapsTotals(laps, multipliers);
     const totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
     return totalLap;
   }  
@@ -59,6 +59,10 @@ class LapList extends React.Component {
         const newEntry = LapList.createNewLap(this.props.parentId);
         laps.push(newEntry);
     this.setState(laps);
+    
+    let totalLap = LapList.calcTotals(laps, this.props.multipliers);
+        this.props.updateTotals(totalLap)
+
   }
 
   constructor(props) {
@@ -74,22 +78,20 @@ class LapList extends React.Component {
   // Logically this should be set in Lap as that's the only place it's used. But then it would be recalculated for each Lap.
   componentDidMount() {
     const parentId = this.props.parentId;
-
     getItemsByParent('lap', parentId)
       .then((data) => {
         let laps;
-        let totalLap;
         if (data.length > 0) {
           laps = data;
-          totalLap = LapList.createNewLap(0);
         } else {
           laps = [];
-          totalLap = LapList.calcTotals( laps );
         }
-        
         const newEntry = LapList.createNewLap(this.props.parentId);
         laps.push(newEntry);
-        LapList.context.setState({ lapToEdit: 0, laps, totalLap });
+        LapList.context.setState({ lapToEdit: 0, laps });
+        
+        let totalLap = LapList.calcTotals(laps, this.props.multipliers);
+        this.props.updateTotals(totalLap)
       });
   }
 

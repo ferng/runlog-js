@@ -15,7 +15,14 @@ class Session extends React.Component {
     });
   }
 
-  
+
+  static updateTotals(lapTotals) {
+    console.log(lapTotals);
+    lapTotals.id = -1;
+    Session.context.setState({ lapTotals });
+//     this.setState({lapTotals});
+  }
+
   onSubmit(sessionData) {
     sessionData.parentId=this.state.parentId;
     postNewItem(sessionData, 'session')
@@ -57,7 +64,9 @@ class Session extends React.Component {
         } else {
           editSession = false;
         }
-        const lapTotals = createLap(0, 3, '03:10:10', 23, 'yard');
+        //RENOVE LAPTOTALS FROM THIS BIT SHOULD BE CALCUALTED ON RENDER
+        const lapTotals = createLap();
+        lapTotals.parentId = -1;
         Session.context.setState({editSession, session, lapTotals});
       });
   }
@@ -87,7 +96,8 @@ class Session extends React.Component {
     } else {
       sessionAction = <SessionInfo session={session} onEdit={this.onEdit} />;
     }
-      
+
+
     return (
       <div>
         <div className='twelve columns'>
@@ -103,7 +113,9 @@ class Session extends React.Component {
         </div>
 
         <div className='twelve columns'>
-          <LapList parentId={sessionId}/>
+            <RefDataContext.Consumer>
+              {globalRef => (<LapList parentId={sessionId} updateTotals={Session.updateTotals} multipliers={globalRef.multipliers}/>)}
+            </RefDataContext.Consumer>
         </div>
       </div>
     );
