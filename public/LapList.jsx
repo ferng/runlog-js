@@ -15,8 +15,13 @@ import { lapToReact, lapsToReactRows, getValues, createLap, calcLapsTotals } fro
  */
 class LapList extends React.Component {
   static calcTotals(laps, multipliers) {
-    const totals = calcLapsTotals(laps, multipliers);
-    const totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
+    let totalLap;
+    if (laps.length === 0) {
+      totalLap = createLap();
+    } else {
+      const totals = calcLapsTotals(laps, multipliers);
+      totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
+    }
     return totalLap;
   }  
 
@@ -56,8 +61,8 @@ class LapList extends React.Component {
       updatedLap.editLap = false;
       laps.push (updatedLap);
     }
-        const newEntry = LapList.createNewLap(this.props.parentId);
-        laps.push(newEntry);
+    const newEntry = LapList.createNewLap(this.props.parentId);
+    laps.push(newEntry);
     this.setState(laps);
     
     let totalLap = LapList.calcTotals(laps, this.props.multipliers);

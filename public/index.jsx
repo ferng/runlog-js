@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Modal from './Modal';
-import Session from './Session';
+import SessionList from './SessionList';
 import { getItems, getRefData, prepDistanceMultiplier } from './lapDataSvcs';
 import { lapArrayToMap } from './lapTools';
 import { RefDataContext } from './refData-context';
@@ -49,11 +49,12 @@ class TopLevel extends React.Component {
   render() {
     if (this.state.dataLoaded) {
       const globalRef = { refData: this.state.refData, multipliers: this.state.multipliers };
+      const id = -1;
       return (
         <RefDataContext.Provider value={globalRef}> 
           <div className='twelve columns'>
             <div className='topLevel'>
-              <Session parentId='1'/>
+              <SessionList parentId={id}/>
             </div>
           </div>
         </RefDataContext.Provider>

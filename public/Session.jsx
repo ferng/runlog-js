@@ -16,16 +16,17 @@ class Session extends React.Component {
   }
 
 
-  static updateTotals(lapTotals) {
-    console.log(lapTotals);
-    Session.context.setState({ lapTotals });
-//     this.setState({lapTotals});
+  static updateTotals(totalLap) {
+    Session.context.setState({ totalLap });
   }
 
   onSubmit(sessionData) {
+    console.log(sessionData);
     sessionData.parentId=this.state.parentId;
+    console.log(sessionData);
     postNewItem(sessionData, 'session')
       .then((response) => {
+        sessionData.id = response.id;
         this.setState({ editSession: false });
         this.setState({ session: sessionData });
       })
@@ -43,7 +44,8 @@ class Session extends React.Component {
     super(props);
     this.state = {
       showModal: false,
-      parentId: props.parentId
+      parentId: props.parentId,
+      session: props.session
     };
     Session.context = this;
     this.onSubmit= this.onSubmit.bind(this); 
@@ -51,23 +53,6 @@ class Session extends React.Component {
   }
 
   componentDidMount() {
-    const {parentId} = Session.context.state
-    let session;
-    getItemsByParent('session', parentId)
-      .then((data) => {
-        session = data[0];
-
-        let editSession = true;
-        if (session === undefined) {
-          session = createSession();
-        } else {
-          editSession = false;
-        }
-        //RENOVE LAPTOTALS FROM THIS BIT SHOULD BE CALCUALTED ON RENDER
-        const lapTotals = createLap();
-        lapTotals.parentId = -1;
-        Session.context.setState({editSession, session, lapTotals});
-      });
   }
 
   render() {
@@ -79,9 +64,8 @@ class Session extends React.Component {
 //     const reactLaps = lapsToReactRows(laps1);
 //     const laps = lapArrayToMap(laps1);
     const { session } = this.state;
-    const { lapTotals } = this.state
     const sessionId = this.state.session.id;
-    const lap = lapTotals;
+    const {totalLap} = this.state;
     const {parentId} = this.state
 
     let sessionAction;
@@ -106,7 +90,7 @@ class Session extends React.Component {
           </div>
           <div className='four columns'>
             <RefDataContext.Consumer>
-              {globalRef => (<LapInfo lap={lap} borderOn={true} multipliers={globalRef.multipliers} />)}
+              {globalRef => (<LapInfo lap={totalLap} borderOn={true} multipliers={globalRef.multipliers} />)}
             </RefDataContext.Consumer>
           </div>
         </div>

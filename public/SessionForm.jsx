@@ -30,6 +30,7 @@ class SessionForm extends React.Component {
   }
   
   handleSubmit(e) {
+    console.log(this.state);
     e.preventDefault();
     let id = this.state.id !== 0 ? this.state.id : Date.now();
     let activity = this.state.activity;
@@ -37,6 +38,7 @@ class SessionForm extends React.Component {
     let weather = this.state.weather;
     let feels = this.state.feels;
     let effort = this.state.effort;
+    let parentId = this.state.session.parentId;
     if (!activity || activity === '--' ||
       !kit || kit === '--' ||
       !weather || weather === '--' ||
@@ -44,7 +46,7 @@ class SessionForm extends React.Component {
       !effort || effort === '--') {
         return;
     }
-    let newSession = createSession(id, activity, kit, weather, feels, effort);
+    let newSession = createSession(parentId, id, activity, kit, weather, feels, effort);
     this.props.onSubmit(newSession);
   }
 
