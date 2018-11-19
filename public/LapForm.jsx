@@ -44,7 +44,7 @@ class LapForm extends React.Component {
       return;
     }
     time = time.length === 5 ? `${time}:00` : time;
-    let newLap = {};
+    let newLap;
     if (id === -1) {
       newLap = {parentId, time, distance, unit};
     } else {

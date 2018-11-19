@@ -41,7 +41,7 @@ class SessionList extends React.Component {
           sessions = [];
         }
         const newEntry = SessionList.createNewSession(this.props.parentId);
-//         sessions.push(newEntry);
+        sessions.push(newEntry);
         SessionList.context.setState({ sessionToEdit: 0, sessions });
 
       });
@@ -56,7 +56,7 @@ class SessionList extends React.Component {
     
     let {sessions} = SessionList.context.state; 
     let sessionRows = sessions.map((session, index) => 
-              <Session session={session} key={index} parentId={this.props.parentId}/>
+              <Session session={session} key={session.id} parentId={this.props.parentId}/>
     );
 
     return (

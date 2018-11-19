@@ -14,7 +14,7 @@ import { lapToReact, lapsToReactRows, getValues, createLap, calcLapsTotals } fro
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapList extends React.Component {
-  static calcTotals(laps, multipliers) {
+  calcTotals(laps, multipliers) {
     let totalLap;
     if (laps.length === 0) {
       totalLap = createLap();
@@ -65,7 +65,7 @@ class LapList extends React.Component {
     laps.push(newEntry);
     this.setState(laps);
     
-    let totalLap = LapList.calcTotals(laps, this.props.multipliers);
+    let totalLap = this.calcTotals(laps, this.props.multipliers);
         this.props.updateTotals(totalLap)
 
   }
@@ -95,7 +95,7 @@ class LapList extends React.Component {
         laps.push(newEntry);
         LapList.context.setState({ lapToEdit: 0, laps });
         
-        let totalLap = LapList.calcTotals(laps, this.props.multipliers);
+        let totalLap = this.calcTotals(laps, this.props.multipliers);
         this.props.updateTotals(totalLap)
       });
   }

@@ -16,14 +16,13 @@ class Session extends React.Component {
   }
 
 
-  static updateTotals(totalLap) {
-    Session.context.setState({ totalLap });
+  updateTotals(totalLap) {
+    console.log(this.state);
+    this.setState({ totalLap });
   }
 
   onSubmit(sessionData) {
-    console.log(sessionData);
     sessionData.parentId=this.state.parentId;
-    console.log(sessionData);
     postNewItem(sessionData, 'session')
       .then((response) => {
         sessionData.id = response.id;
@@ -49,7 +48,8 @@ class Session extends React.Component {
     };
     Session.context = this;
     this.onSubmit= this.onSubmit.bind(this); 
-    this.onEdit= this.onEdit.bind(this); 
+    this.onEdit= this.onEdit.bind(this);
+    this.updateTotals = this.updateTotals.bind(this);
   }
 
   componentDidMount() {
@@ -67,6 +67,7 @@ class Session extends React.Component {
     const sessionId = this.state.session.id;
     const {totalLap} = this.state;
     const {parentId} = this.state
+    console.log(sessionId);
 
     let sessionAction;
     if ( editSession ) {
@@ -80,6 +81,16 @@ class Session extends React.Component {
       sessionAction = <SessionInfo session={session} onEdit={this.onEdit} />;
     }
 
+    let sessionLaps;
+    if(sessionId !== -1) {
+      sessionLaps =
+        <div className='twelve columns'>
+            <RefDataContext.Consumer>
+              {globalRef => (<LapList parentId={sessionId} updateTotals={this.updateTotals} multipliers={globalRef.multipliers}/>)}
+            </RefDataContext.Consumer>
+        </div>
+    }
+
 
     return (
       <div>
@@ -90,16 +101,12 @@ class Session extends React.Component {
           </div>
           <div className='four columns'>
             <RefDataContext.Consumer>
-              {globalRef => (<LapInfo lap={totalLap} borderOn={true} multipliers={globalRef.multipliers} />)}
+              {globalRef => (<LapInfo oi={this.props.parentId} lap={totalLap} borderOn={true} multipliers={globalRef.multipliers} />)}
             </RefDataContext.Consumer>
           </div>
         </div>
 
-        <div className='twelve columns'>
-            <RefDataContext.Consumer>
-              {globalRef => (<LapList parentId={sessionId} updateTotals={Session.updateTotals} multipliers={globalRef.multipliers}/>)}
-            </RefDataContext.Consumer>
-        </div>
+        {sessionLaps}
       </div>
     );
   }
