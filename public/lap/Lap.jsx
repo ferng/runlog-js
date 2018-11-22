@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LapForm from './LapForm';
 import LapInfo from './LapInfo';
-import { postNewItem } from './lapDataSvcs';
-import Modal from './Modal';
-import { RefDataContext } from './refData-context';
+import { postNewItem } from '../lapDataSvcs';
+import { RefDataContext } from '../refData-context';
+import Modal from '../general/Modal';
 
 /**
  * A React component to display or enter lap data.
@@ -48,10 +48,6 @@ class Lap extends React.Component {
     Lap.context = this;
     this.onSubmit = this.onSubmit.bind(this); 
     this.onEdit = this.onEdit.bind(this); 
-  }
-
-  componentDidMount() {
-    const {parentId} = Lap.context.state
   }
 
   render() {

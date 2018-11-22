@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SelectOpts from './SelectOpts';
-import TimeEntry from './TimeEntry';
-import { prepSelectOpts } from './lapDataSvcs';
-import { createLap } from './lapTools';
+import SelectOpts from '../general/SelectOpts';
+import TimeEntry from '../general/TimeEntry';
+import { prepSelectOpts } from '../lapDataSvcs';
+import { createLap } from '../lapTools';
 
 
 /**
@@ -58,8 +58,12 @@ class LapForm extends React.Component {
     super(props);
     const options = prepSelectOpts(props.refData, 'unit');
     this.state = {
+      id: props.lap.id,
+      parentId: props.lap.parentId,
+      distance: props.lap.distance,
+      time: props.lap.time,
+      unit: props.lap.unit,
       options,
-      id: props.lap.id, distance: props.lap.distance, time: props.lap.time, unit: props.lap.unit, parentId: props.lap.parentId,
     };
     LapForm.context = this;
     this.handleTimeChange = this.handleTimeChange.bind(this); 

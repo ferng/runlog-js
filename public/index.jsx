@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import Modal from './Modal';
-import SessionList from './SessionList';
+import Modal from './general/Modal';
+import SessionList from './session/SessionList';
 import { getItems, getRefData, prepDistanceMultiplier } from './lapDataSvcs';
 import { lapArrayToMap } from './lapTools';
 import { RefDataContext } from './refData-context';

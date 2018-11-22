@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { calcTimes } from './lapTools';
+import { calcTimes } from '../lapTools';
 
 /**
  * A React component to display lap data.

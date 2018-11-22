@@ -4,8 +4,8 @@
  */
 
 import React from 'react';
-import Lap from './Lap';
-import LapRow from './LapRow';
+import Lap from './lap/Lap';
+import LapRow from './lap/LapRow';
 
 
 /**

@@ -1,12 +1,12 @@
 import React from 'react';
 import SessionForm from './SessionForm';
 import SessionInfo from './SessionInfo';
-import LapList from './LapList';
-import LapInfo from './LapInfo';
-import Modal from './Modal';
-import { getItemsByParent, prepSelectOpts, postNewItem } from './lapDataSvcs';
-import { lapArrayToMap, lapsToReactRows, createLap, createSession } from './lapTools';
-import { RefDataContext } from './refData-context';
+import LapList from '../lap/LapList';
+import LapInfo from '../lap/LapInfo';
+import Modal from '../general/Modal';
+import { getItemsByParent, prepSelectOpts, postNewItem } from '../lapDataSvcs';
+import { lapArrayToMap, lapsToReactRows, createLap, createSession } from '../lapTools';
+import { RefDataContext } from '../refData-context';
 
 class Session extends React.Component {
   static toggleModal() {
@@ -17,7 +17,6 @@ class Session extends React.Component {
 
 
   updateTotals(totalLap) {
-    console.log(this.state);
     this.setState({ totalLap });
   }
 
@@ -26,17 +25,16 @@ class Session extends React.Component {
     postNewItem(sessionData, 'session')
       .then((response) => {
         sessionData.id = response.id;
-        this.setState({ editSession: false });
-        this.setState({ session: sessionData });
+        this.props.onSessionSubmit(sessionData);
       })
       .catch((err) => {
-        Session.context.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
+        this.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
         Session.toggleModal();
       });
   }
 
-  onEdit(id) {
-    this.setState({ editSession: true });
+  onEdit() {
+    this.props.onSessionEdit(this.props.session.id);
   }
 
   constructor(props) {
@@ -52,23 +50,20 @@ class Session extends React.Component {
     this.updateTotals = this.updateTotals.bind(this);
   }
 
-  componentDidMount() {
-  }
 
   render() {
     if (this.state.session === undefined) {
       return null;
     }
-    const { editSession } = this.state;
 //     const { laps1 } = Session.context.state;
 //     const reactLaps = lapsToReactRows(laps1);
 //     const laps = lapArrayToMap(laps1);
     const { session } = this.state;
+//      console.log(JSON.stringify(this.state));
+    const { editSession } = this.props.session;
     const sessionId = this.state.session.id;
     const {totalLap} = this.state;
     const {parentId} = this.state
-    console.log(sessionId);
-
     let sessionAction;
     if ( editSession ) {
       sessionAction = 

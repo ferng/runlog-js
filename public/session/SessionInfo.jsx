@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SelectOpts from './SelectOpts';
-import Lap from './Lap';
-import { prepSelectOpts, postNewItem } from './lapDataSvcs';
-import { createSession } from './lapTools';
+import SelectOpts from '../general/SelectOpts';
+import Lap from '../lap/Lap';
+import { prepSelectOpts, postNewItem } from '../lapDataSvcs';
+import { createSession } from '../lapTools';
 
 
 class SessionInfo extends React.Component {

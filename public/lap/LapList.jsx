@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { prepDistanceMultiplier,  getItemsByParent } from './lapDataSvcs';
-import { lapToReact, lapsToReactRows, getValues, createLap, calcLapsTotals } from './lapTools';
+import { prepDistanceMultiplier,  getItemsByParent } from '../lapDataSvcs';
+import { lapToReact, lapsToReactRows, getValues, createLap, calcLapsTotals } from '../lapTools';
 
 /**
  * A React component to display data for a number of laps.
@@ -44,7 +44,7 @@ class LapList extends React.Component {
   
   onLapSubmit(updatedLap) {
     let laps = this.state.laps;
-      let newLap = true;
+    let newLap = true;
     laps.forEach((lap) => {
       if (lap.id === -1) {
         laps.pop(lap);
@@ -55,7 +55,7 @@ class LapList extends React.Component {
         lap.unit = updatedLap.unit;
         newLap = false;
       }
-        lap.editLap = false;
+      lap.editLap = false;
     })
     if (newLap) {
       updatedLap.editLap = false;
@@ -66,7 +66,7 @@ class LapList extends React.Component {
     this.setState(laps);
     
     let totalLap = this.calcTotals(laps, this.props.multipliers);
-        this.props.updateTotals(totalLap)
+    this.props.updateTotals(totalLap);
 
   }
 
@@ -93,7 +93,7 @@ class LapList extends React.Component {
         }
         const newEntry = LapList.createNewLap(this.props.parentId);
         laps.push(newEntry);
-        LapList.context.setState({ lapToEdit: 0, laps });
+        LapList.context.setState({ laps });
         
         let totalLap = this.calcTotals(laps, this.props.multipliers);
         this.props.updateTotals(totalLap)

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SelectOpts from './SelectOpts';
-import { prepSelectOpts, postNewItem } from './lapDataSvcs';
-import { createSession } from './lapTools';
+import SelectOpts from '../general/SelectOpts';
+import { prepSelectOpts, postNewItem } from '../lapDataSvcs';
+import { createSession } from '../lapTools';
 
 
 class SessionForm extends React.Component {
@@ -26,9 +26,6 @@ class SessionForm extends React.Component {
     this.setState({ effort: e.target.value });
   }
 
-  static onLapEdit(id) {
-  }
-  
   handleSubmit(e) {
     e.preventDefault();
     let id = this.state.id;
@@ -37,7 +34,7 @@ class SessionForm extends React.Component {
     let weather = this.state.weather;
     let feels = this.state.feels;
     let effort = this.state.effort;
-    let parentId = this.state.session.parentId;
+    let parentId = this.state.parentId;
     if (!activity || activity === '--' ||
       !kit || kit === '--' ||
       !weather || weather === '--' ||
@@ -45,34 +42,34 @@ class SessionForm extends React.Component {
       !effort || effort === '--') {
         return;
     }
-
     let newSession;
     if (id === -1) {
       newSession = {parentId, activity, kit, weather, feels, effort};
     } else {
       newSession = {parentId, id, activity, kit, weather, feels, effort};
     }
-
     this.props.onSubmit(newSession);
   }
 
 
   constructor(props) {
     super(props);
-    SessionForm.context = this;
     this.state = {
-      session: props.session,
-      activity: this.props.session.activity, 
-      activityOpts: prepSelectOpts(this.props.refData, 'activity'),
-      kit: this.props.session.kit,
-      kitOpts: prepSelectOpts(this.props.refData, 'kit'), 
-      weather: this.props.session.weather,
-      weatherOpts: prepSelectOpts(this.props.refData, 'weather'),
-      feels: this.props.session.feels,
-      feelsOpts: prepSelectOpts(this.props.refData, 'feels'),
-      effort: this.props.session.effort,
-      effortOpts: prepSelectOpts(this.props.refData, 'effort'),
+//       session: props.session,
+      id: props.session.id,
+      parentIf: props.session.parentId,
+      activity: props.session.activity, 
+      activityOpts: prepSelectOpts(props.refData, 'activity'),
+      kit: props.session.kit,
+      kitOpts: prepSelectOpts(props.refData, 'kit'), 
+      weather: props.session.weather,
+      weatherOpts: prepSelectOpts(props.refData, 'weather'),
+      feels: props.session.feels,
+      feelsOpts: prepSelectOpts(props.refData, 'feels'),
+      effort: props.session.effort,
+      effortOpts: prepSelectOpts(props.refData, 'effort'),
       }
+    SessionForm.context = this;
     this.handleActivityChange = this.handleActivityChange.bind(this); 
     this.handleKitChange = this.handleKitChange.bind(this); 
     this.handleWeatherChange = this.handleWeatherChange.bind(this); 
