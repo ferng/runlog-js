@@ -55,11 +55,7 @@ class Session extends React.Component {
     if (this.state.session === undefined) {
       return null;
     }
-//     const { laps1 } = Session.context.state;
-//     const reactLaps = lapsToReactRows(laps1);
-//     const laps = lapArrayToMap(laps1);
     const { session } = this.state;
-//      console.log(JSON.stringify(this.state));
     const { editSession } = this.props.session;
     const sessionId = this.state.session.id;
     const {totalLap} = this.state;

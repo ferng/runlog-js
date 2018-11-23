@@ -6,7 +6,7 @@ import { createSession } from '../lapTools';
 
 class SessionList extends React.Component {
 
-  static createNewSession(parentId) {
+  createNewSession(parentId) {
     const newSess = createSession(parentId);
     return newSess;
   }
@@ -46,7 +46,7 @@ class SessionList extends React.Component {
       updatedSess.editSession = false;
       sessions.push(updatedSess);
     }
-    const newEntry = SessionList.createNewSession(this.props.parentId);
+    const newEntry = this.createNewSession(this.props.parentId);
     sessions.push(newEntry);
     this.setState(sessions);
   }
@@ -69,7 +69,7 @@ class SessionList extends React.Component {
         } else {
           sessions = [];
         }
-        const newEntry = SessionList.createNewSession(this.props.parentId);
+        const newEntry = this.createNewSession(this.props.parentId);
         sessions.push(newEntry);
         SessionList.context.setState({ sessions });
       });
@@ -83,7 +83,6 @@ class SessionList extends React.Component {
     }
     
     let {sessions} = SessionList.context.state; 
-//     console.log(JSON.stringify(sessions));
     let sessionRows = sessions.map((session) => 
       <Session session={session} key={session.id} onSessionEdit={this.onSessionEdit} onSessionSubmit={this.onSessionSubmit} parentId={this.props.parentId}/>
     );

@@ -25,7 +25,7 @@ class LapList extends React.Component {
     return totalLap;
   }  
 
-  static createNewLap(parentId) {
+  createNewLap(parentId) {
     const newLap = createLap(parentId);
     return newLap;
   }
@@ -61,7 +61,7 @@ class LapList extends React.Component {
       updatedLap.editLap = false;
       laps.push (updatedLap);
     }
-    const newEntry = LapList.createNewLap(this.props.parentId);
+    const newEntry = this.createNewLap(this.props.parentId);
     laps.push(newEntry);
     this.setState(laps);
     
@@ -72,7 +72,7 @@ class LapList extends React.Component {
 
   constructor(props) {
     super(props);
-    LapList.context = this;
+    this.context = this;
     this.onLapSubmit = this.onLapSubmit.bind(this); 
     this.onLapEdit = this.onLapEdit.bind(this); 
   }
@@ -91,9 +91,9 @@ class LapList extends React.Component {
         } else {
           laps = [];
         }
-        const newEntry = LapList.createNewLap(this.props.parentId);
+        const newEntry = this.createNewLap(this.props.parentId);
         laps.push(newEntry);
-        LapList.context.setState({ laps });
+        this.setState({ laps });
         
         let totalLap = this.calcTotals(laps, this.props.multipliers);
         this.props.updateTotals(totalLap)
@@ -101,12 +101,12 @@ class LapList extends React.Component {
   }
 
   render() {
-    if (LapList.context.state === null) 
+    if (this.state === null) 
     {
       return null;
     }
     
-    let laps = LapList.context.state.laps; 
+    let laps = this.state.laps; 
     const splitData = lapsToReactRows(laps, this.onLapEdit, this.onLapSubmit, this.props.parentId);
     return (
       <div className='lapList'>
