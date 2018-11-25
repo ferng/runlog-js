@@ -3,7 +3,7 @@
  * @module public/lapDataSvcs
  */
 
-import { get, post } from './ajaxSvcs';
+import { get, post, remove } from './ajaxSvcs';
 
 const optionTypes = ['unit', 'activity', 'kit', 'weather', 'feels', 'effort'];
 
@@ -83,6 +83,20 @@ const postNewItem = (body, dataType) =>
       });
   });
 
+
+const removeItem = (dataType, id) =>
+  new Promise((resolve, reject) => {
+    remove(`/api/runs/${dataType}?id=${id}`)
+      .then((response) => {
+        resolve();
+      })
+      .catch(() => {
+        reject(new Error('Error deleting data, please try later.'));
+      });
+  });
+
+
+
 const getRefOpts = (refData, type) =>
   refData.find(ref => ref.optType === type);
 
@@ -129,4 +143,5 @@ export {
   postNewItem,
   prepDistanceMultiplier,
   prepSelectOpts,
+  removeItem,
 };

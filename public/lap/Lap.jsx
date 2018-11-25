@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LapForm from './LapForm';
 import LapInfo from './LapInfo';
-import { postNewItem } from '../lapDataSvcs';
+import { postNewItem, removeItem } from '../lapDataSvcs';
 import { RefDataContext } from '../refData-context';
 import Modal from '../general/Modal';
 
@@ -38,6 +38,21 @@ class Lap extends React.Component {
     this.props.onLapEdit(this.props.lap.id);
   }
 
+  onDel() {
+    const {id} = this.props.lap;
+    removeItem('lap', id)
+      .then(() => {
+        this.props.onLapDel(id);
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({ errHead: 'Error', errMsg: 'Error deleting data, please try later' });
+        Lap.toggleModal();
+      })
+      
+  }
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -48,6 +63,7 @@ class Lap extends React.Component {
     Lap.context = this;
     this.onSubmit = this.onSubmit.bind(this); 
     this.onEdit = this.onEdit.bind(this); 
+    this.onDel = this.onDel.bind(this); 
   }
 
   render() {
@@ -62,7 +78,7 @@ class Lap extends React.Component {
     } else {
       lapAction = 
         <RefDataContext.Consumer>
-          {globalRef => (<LapInfo lap={lap} borderOn={true} multipliers={globalRef.multipliers} onEdit={this.onEdit}/>)}
+          {globalRef => (<LapInfo lap={lap} borderOn={true} multipliers={globalRef.multipliers} onEdit={this.onEdit} onDel={this.onDel} />)}
         </RefDataContext.Consumer>
     }
 

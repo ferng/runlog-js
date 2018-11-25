@@ -79,5 +79,16 @@ router.post('/*', (req, res) => {
     });
 });
 
+router.delete('/*', (req, res) => {
+  const dataType = req.path.slice(1);
+  db.remove(dataType, req.query)
+    .then((data) => {
+      res.status(200).send('');
+    })
+    .catch((err) => {
+      log.error(err);
+      res.status(500).send('');
+    });
+});
 
 module.exports = router;

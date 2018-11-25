@@ -18,10 +18,16 @@ class LapInfo extends React.Component {
     }
   }
 
+  onDel(e) {
+    e.stopPropagation();
+    this.props.onDel(this.props.id);
+  }
+
   constructor(props) {
     super(props);
     LapInfo.context = this;
     this.onEdit= this.onEdit.bind(this); 
+    this.onDel= this.onDel.bind(this); 
   }
 
   render() {
@@ -34,6 +40,11 @@ class LapInfo extends React.Component {
     let borderClass = 'twelve columns';
     if (borderOn) {
       borderClass = 'twelve columns left';
+    }
+
+    let lapDel;
+    if (lap.id !== -1 && this.props.onEdit !== undefined) {
+      lapDel = <button display='primary' type='button' onClick={this.onDel}>DEL</button>;
     }
 
     return (
@@ -61,11 +72,14 @@ class LapInfo extends React.Component {
               {lap.unit}
             </div>
           </div>
-          <div className='three columns' title={mins}>
+          <div className='two columns' title={mins}>
             <label id='lapMphLabel' htmlFor='mph'>mph: </label>
             <div className='data' id='dataMph'>
               {mph}
             </div>
+          </div>
+          <div className='one column'>
+            {lapDel}
           </div>
         </div>
       </div>

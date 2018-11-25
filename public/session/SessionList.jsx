@@ -29,9 +29,6 @@ class SessionList extends React.Component {
     let sessions = this.state.sessions;
     let newSess = true;
     sessions.forEach((session) => {
-      if (session.id === -1) {
-        sessions.pop(session);
-      }
       if (session.id === updatedSess.id) {
         session.activity = updatedSess.activity;
         session.kit = updatedSess.kit;
@@ -43,12 +40,13 @@ class SessionList extends React.Component {
       session.editSession = false;
     })
     if (newSess) {
+      sessions.pop();
       updatedSess.editSession = false;
       sessions.push(updatedSess);
+      const newEntry = this.createNewSession(this.props.parentId);
+      sessions.push(newEntry);
+      this.setState(sessions);
     }
-    const newEntry = this.createNewSession(this.props.parentId);
-    sessions.push(newEntry);
-    this.setState(sessions);
   }
 
 

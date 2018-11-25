@@ -46,9 +46,6 @@ class LapList extends React.Component {
     let laps = this.state.laps;
     let newLap = true;
     laps.forEach((lap) => {
-      if (lap.id === -1) {
-        laps.pop(lap);
-      }
       if (lap.id === updatedLap.id) {
         lap.distance = updatedLap.distance;
         lap.time = updatedLap.time;
@@ -58,16 +55,30 @@ class LapList extends React.Component {
       lap.editLap = false;
     })
     if (newLap) {
+      laps.pop();
       updatedLap.editLap = false;
       laps.push (updatedLap);
+      const newEntry = this.createNewLap(this.props.parentId);
+      laps.push(newEntry);
+      this.setState(laps);
     }
-    const newEntry = this.createNewLap(this.props.parentId);
-    laps.push(newEntry);
-    this.setState(laps);
     
     let totalLap = this.calcTotals(laps, this.props.multipliers);
     this.props.updateTotals(totalLap);
 
+  }
+
+  onLapDel(id) {
+    let laps = this.state.laps;
+    let newLaps =[];
+    laps.forEach((lap) => {
+      if (lap.id !== id) {
+        newLaps.push(lap);
+      }
+    })
+    this.setState({laps: newLaps});
+    let totalLap = this.calcTotals(newLaps, this.props.multipliers);
+    this.props.updateTotals(totalLap);
   }
 
   constructor(props) {
@@ -75,9 +86,8 @@ class LapList extends React.Component {
     this.context = this;
     this.onLapSubmit = this.onLapSubmit.bind(this); 
     this.onLapEdit = this.onLapEdit.bind(this); 
+    this.onLapDel = this.onLapDel.bind(this); 
   }
-
-
 
 
   // Logically this should be set in Lap as that's the only place it's used. But then it would be recalculated for each Lap.
@@ -107,7 +117,7 @@ class LapList extends React.Component {
     }
     
     let laps = this.state.laps; 
-    const splitData = lapsToReactRows(laps, this.onLapEdit, this.onLapSubmit, this.props.parentId);
+    const splitData = lapsToReactRows(laps, this.onLapEdit, this.onLapSubmit, this.onLapDel, this.props.parentId);
     return (
       <div className='lapList'>
         {splitData}

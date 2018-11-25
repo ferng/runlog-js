@@ -26,7 +26,7 @@ async function init() {
 
 // handler
 function requestHandler(req, res, next) {
-  log.debug('Inbound request: ', req.originalUrl);
+  log.debug('Inbound request:', req.method, req.originalUrl);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 'no-cache');
   next();

@@ -187,6 +187,30 @@ function update(table, criteria, updates) {
 }
 
 
+function remove(table, criteria) {
+  return new Promise((resolve, reject) => {
+    if (!val.isDocumentValid(criteria)) {
+      reject(new Error('Invalid criteria'));
+      return;
+    }
+
+    const criteriaColumns = Object.keys(criteria);
+    const criteriaValues = Object.values(criteria);
+    const criteriaSub = prepValuePairs(criteriaColumns, criteriaValues);
+
+    const statement = `DELETE FROM ${table} WHERE ${criteriaSub};`;
+
+    conn.run(statement, (err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve();
+    });
+  })
+}
+
+
 function execute(statement) {
   return new Promise((resolve, reject) => {
     conn.run(statement, (err) => {
@@ -261,4 +285,5 @@ module.exports = {
   insertMany,
   update,
   execute,
+  remove,
 };
