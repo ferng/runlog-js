@@ -13,14 +13,26 @@ class SessionInfo extends React.Component {
     }
   }
 
+  onDel(e) {
+    e.stopPropagation();
+    this.props.onDel(this.props.id);
+  }
+
   constructor(props) {
     super(props);
     SessionInfo.context = this;
     this.onEdit= this.onEdit.bind(this); 
+    this.onDel= this.onDel.bind(this); 
   }
 
   render() {
     const { session } = this.props;
+    const {allowSessDel} = this.props;
+    let delButton;
+    if (allowSessDel) {
+      delButton = <button display='primary' type='button' onClick={this.onDel}>DEL</button>;
+    }
+    
     return (
       <div
         className='twelve columns'
@@ -63,6 +75,10 @@ class SessionInfo extends React.Component {
           </div>
         </div>
         
+          <div className='one column'>
+            {delButton}
+          </div>
+
       </div>
       
     );

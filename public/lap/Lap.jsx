@@ -45,7 +45,6 @@ class Lap extends React.Component {
         this.props.onLapDel(id);
       })
       .catch((err) => {
-        console.log(err);
         this.setState({ errHead: 'Error', errMsg: 'Error deleting data, please try later' });
         Lap.toggleModal();
       })

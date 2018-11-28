@@ -4,7 +4,7 @@ import SessionInfo from './SessionInfo';
 import LapList from '../lap/LapList';
 import LapInfo from '../lap/LapInfo';
 import Modal from '../general/Modal';
-import { getItemsByParent, prepSelectOpts, postNewItem } from '../lapDataSvcs';
+import { prepSelectOpts, postNewItem, removeItem } from '../lapDataSvcs';
 import { lapArrayToMap, lapsToReactRows, createLap, createSession } from '../lapTools';
 import { RefDataContext } from '../refData-context';
 
@@ -14,7 +14,6 @@ class Session extends React.Component {
       showModal: !Session.context.state.showModal,
     });
   }
-
 
   updateTotals(totalLap) {
     this.setState({ totalLap });
@@ -37,17 +36,31 @@ class Session extends React.Component {
     this.props.onSessionEdit(this.props.session.id);
   }
 
+  onDel() {
+    const {id} = this.props.session;
+    removeItem('session', id)
+      .then(() => {
+        this.props.onSessionDel(id);
+      })
+     .catch((err) => {
+       this.setState({ errHead: 'Error', errMsg: 'Error deleting data, please try later' });
+       Lap.toggleModal();
+     })
+      
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
       parentId: props.parentId,
-      session: props.session
+      session: props.session,
     };
     Session.context = this;
     this.onSubmit= this.onSubmit.bind(this); 
     this.onEdit= this.onEdit.bind(this);
     this.updateTotals = this.updateTotals.bind(this);
+    this.onDel = this.onDel.bind(this); 
   }
 
 
@@ -59,7 +72,12 @@ class Session extends React.Component {
     const { editSession } = this.props.session;
     const sessionId = this.state.session.id;
     const {totalLap} = this.state;
-    const {parentId} = this.state
+    const {parentId} = this.state;
+
+    let sessDel = false;
+    if (totalLap !== undefined && totalLap.distance === 0) {
+      sessDel = true;
+    }
     let sessionAction;
     if ( editSession ) {
       sessionAction = 
@@ -69,7 +87,7 @@ class Session extends React.Component {
           }
         </RefDataContext.Consumer> ;
     } else {
-      sessionAction = <SessionInfo session={session} onEdit={this.onEdit} />;
+      sessionAction = <SessionInfo session={session} onEdit={this.onEdit} onDel={this.onDel} allowSessDel={sessDel}/>;
     }
 
     let sessionLaps;

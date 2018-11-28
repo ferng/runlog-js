@@ -39,7 +39,7 @@ class SessionForm extends React.Component {
       !kit || kit === '--' ||
       !weather || weather === '--' ||
       !feels || feels === '--' ||
-      !effort || effort === '--') {
+        !effort || effort === '--') {
         return;
     }
     let newSession;

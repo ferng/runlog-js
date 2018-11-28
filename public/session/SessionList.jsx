@@ -24,6 +24,16 @@ class SessionList extends React.Component {
     this.setState(sessions);
   }
 
+  onSessionDel(id) {
+    let sessions = this.state.sessions;
+    let newSessions =[];
+    sessions.forEach((sess) => {
+      if (sess.id !== id) {
+        newSessions.push(sess);
+      }
+    })
+    this.setState({sessions: newSessions});
+  }
 
   onSessionSubmit(updatedSess) {
     let sessions = this.state.sessions;
@@ -47,6 +57,7 @@ class SessionList extends React.Component {
       sessions.push(newEntry);
       this.setState(sessions);
     }
+    this.forceUpdate();
   }
 
 
@@ -54,7 +65,8 @@ class SessionList extends React.Component {
     super(props);
     SessionList.context = this;
     this.onSessionSubmit = this.onSessionSubmit.bind(this); 
-    this.onSessionEdit = this.onSessionEdit.bind(this); 
+    this.onSessionEdit = this.onSessionEdit.bind(this);
+    this.onSessionDel = this.onSessionDel.bind(this);
   }
 
   componentDidMount() {
@@ -69,20 +81,20 @@ class SessionList extends React.Component {
         }
         const newEntry = this.createNewSession(this.props.parentId);
         sessions.push(newEntry);
-        SessionList.context.setState({ sessions });
+        this.setState({ sessions });
       });
   }
   
 
   render() {
-    if (SessionList.context.state === null) 
+    if (this.state === null) 
     {
       return null;
     }
     
-    let {sessions} = SessionList.context.state; 
+    let {sessions} = this.state; 
     let sessionRows = sessions.map((session) => 
-      <Session session={session} key={session.id} onSessionEdit={this.onSessionEdit} onSessionSubmit={this.onSessionSubmit} parentId={this.props.parentId}/>
+      <Session session={session} key={session.id} onSessionEdit={this.onSessionEdit} onSessionSubmit={this.onSessionSubmit} onSessionDel={this.onSessionDel} parentId={this.props.parentId}/>
     );
     return (
       <div>
