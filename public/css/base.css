@@ -47,6 +47,10 @@ label {
   height: 40px;
 }
 
+@media (min-width: 550px) {
+  .one.wide.column { width: 10%; }
+  .one.narrow.column { width: 5%; }
+}
 
 .modal-popup{
   background-color: rgba(255, 255, 255, 0.15);

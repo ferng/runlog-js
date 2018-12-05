@@ -87,12 +87,12 @@ const createLap = (parentId, id, time = '00:00:00', distance = 0, unit = '--') =
  * @param {string} effort - And what was the perceived effort
  * @return {object} An Activity with the data provided or blanks if none.
  */
-const createSession = (parentId, id, activity = '--', kit = '--', weather = '--', feels = '--', effort = '--') => {
+const createSession = (parentId, id, time = '00:00:00', activity = '--', kit = '--', weather = '--', feels = '--', effort = '--') => {
   let session = {};
   if (id === undefined) {
-    session = { parentId, id: -1, activity, kit, weather, feels, effort, };
+    session = { parentId, id: -1, time, activity, kit, weather, feels, effort, };
   } else {
-    session = { parentId, id, activity, kit, weather, feels, effort, };
+    session = { parentId, id, time, activity, kit, weather, feels, effort, };
   }
   return session;
 }

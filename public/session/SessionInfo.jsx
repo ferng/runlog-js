@@ -40,42 +40,48 @@ class SessionInfo extends React.Component {
         role='presentation'
       >
 
-        <div className='two columns'>
+        <div className='one wide column'>
+            <label id='lapTimeLabel' htmlFor='dataTime'>Time: </label>
+            <div className='data' id='dataTime'>
+              {session.time}
+            </div>
+          </div>
+        <div className='one wide column'>
           <label id='activityLabel' htmlFor='dataActivity'>Activity: </label>
           <div className='data' id='dataActivity'>
             {session.activity}
           </div>
         </div>
         
-        <div className='two columns'>
+        <div className='one wide column'>
           <label id='kitLabel' htmlFor='dataKit'>Kit: </label>
           <div className='data' id='dataKit'>
             {session.kit}
           </div>
         </div>
         
-        <div className='two columns'>
+        <div className='one wide column'>
           <label id='weatherLabel' htmlFor='dataWeather'>Weather: </label>
           <div className='data' id='dataWeather'>
             {session.weather}
           </div>
         </div>
         
-        <div className='two columns'>
+        <div className='one wide column'>
           <label id='feelsLabel' htmlFor='dataFeels'>Feels: </label>
           <div className='data' id='dataFeels'>
             {session.feels}
           </div>
         </div>
         
-        <div className='two columns'>
+        <div className='one wide column'>
           <label id='effortLabel' htmlFor='dataEffort'>Effort: </label>
           <div className='data' id='dataEffort'>
             {session.effort}
           </div>
         </div>
         
-          <div className='one column'>
+        <div className='one narrow column'>
             {delButton}
           </div>
 

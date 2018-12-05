@@ -15,7 +15,7 @@ import { createLap } from '../lapTools';
  */
 class LapForm extends React.Component {
   handleTimeChange(time) {
-    LapForm.context.setState({ time: time});
+    this.setState({ time: time});
   }
 
   handleDistanceChange(e) {

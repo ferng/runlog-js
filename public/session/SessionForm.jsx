@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SelectOpts from '../general/SelectOpts';
+import TimeEntry from '../general/TimeEntry';
 import { prepSelectOpts, postNewItem } from '../lapDataSvcs';
 import { createSession } from '../lapTools';
 
 
 class SessionForm extends React.Component {
+  handleTimeChange(time) {
+    this.setState({ time: time});
+  }
+
   handleActivityChange(e) {
     this.setState({ activity: e.target.value });
   }
@@ -26,9 +31,16 @@ class SessionForm extends React.Component {
     this.setState({ effort: e.target.value });
   }
 
+  handleChange(e) {
+    const data = {};
+    data[e.target.id] = e.target.value;
+    this.setState(data);
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     let id = this.state.id;
+    let time = this.state.time;
     let activity = this.state.activity;
     let kit = this.state.kit;
     let weather = this.state.weather;
@@ -44,9 +56,9 @@ class SessionForm extends React.Component {
     }
     let newSession;
     if (id === -1) {
-      newSession = {parentId, activity, kit, weather, feels, effort};
+      newSession = {parentId, time, activity, kit, weather, feels, effort};
     } else {
-      newSession = {parentId, id, activity, kit, weather, feels, effort};
+      newSession = {parentId, id, time, activity, kit, weather, feels, effort};
     }
     this.props.onSubmit(newSession);
   }
@@ -58,6 +70,7 @@ class SessionForm extends React.Component {
 //       session: props.session,
       id: props.session.id,
       parentIf: props.session.parentId,
+      time: props.session.time,
       activity: props.session.activity, 
       activityOpts: prepSelectOpts(props.refData, 'activity'),
       kit: props.session.kit,
@@ -70,6 +83,8 @@ class SessionForm extends React.Component {
       effortOpts: prepSelectOpts(props.refData, 'effort'),
       }
     SessionForm.context = this;
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleActivityChange = this.handleActivityChange.bind(this); 
     this.handleKitChange = this.handleKitChange.bind(this); 
     this.handleWeatherChange = this.handleWeatherChange.bind(this); 
@@ -85,7 +100,16 @@ class SessionForm extends React.Component {
       <div className='twelve columns'>
           <form className='sessionForm' onSubmit={this.handleSubmit}>
 
-            <div className='two columns'>
+            <div className='one wide column'>
+              <label id='newTimeLabel' htmlFor='newTime'>Time: </label>
+              <TimeEntry
+                  id='newTime'
+                  time={this.state.time}
+                  onUpdate={this.handleTimeChange}
+                  onBlur={this.handleChange}
+                />
+            </div>
+            <div className='one wide column'>
               <label id='newActivityLabel' htmlFor='newActivity'>Activity: </label>
               <SelectOpts
                 id='newActivity'
@@ -95,7 +119,7 @@ class SessionForm extends React.Component {
                 onChange={ this.handleActivityChange }
               />
             </div>
-            <div className='two columns'>
+            <div className='one wide column'>
               <label id='newKitLabel' htmlFor='newKit'>Kit: </label>
               <SelectOpts
                 id='newKit'
@@ -105,7 +129,7 @@ class SessionForm extends React.Component {
                 onChange={ this.handleKitChange }
               />
             </div>
-            <div className='two columns'>
+            <div className='one wide column'>
               <label id='newWeatherLabel' htmlFor='newWeaher'>Weather: </label>
               <SelectOpts
                 id='newWeather'
@@ -115,7 +139,7 @@ class SessionForm extends React.Component {
                 onChange={ this.handleWeatherChange }
               />
             </div>
-            <div className='two columns'>
+            <div className='one wide column'>
               <label id='newFeelsLabel' htmlFor='newFeels'>Feels: </label>
               <SelectOpts
                 id='newFeels'
@@ -125,7 +149,7 @@ class SessionForm extends React.Component {
                 onChange={ this.handleFeelsChange }
               />
             </div>
-            <div className='two columns'>
+            <div className='one wide column'>
               <label id='newEffortLabel' htmlFor='newEffort'>Effort: </label>
               <SelectOpts
                 id='newEffort'
@@ -136,7 +160,7 @@ class SessionForm extends React.Component {
               />
             </div>
 
-            <div className='one column'>
+            <div className='one narrow column'>
               <button display="primary" type="submit" >OK</button>
             </div>
           </form>

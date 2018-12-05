@@ -40,6 +40,7 @@ class SessionList extends React.Component {
     let newSess = true;
     sessions.forEach((session) => {
       if (session.id === updatedSess.id) {
+        session.time = updatedSess.time;
         session.activity = updatedSess.activity;
         session.kit = updatedSess.kit;
         session.weather = updatedSess.weather;
