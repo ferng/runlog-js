@@ -110,7 +110,7 @@ class Session extends React.Component {
           </div>
           <div className='four columns'>
             <RefDataContext.Consumer>
-              {globalRef => (<LapInfo oi={this.props.parentId} lap={totalLap} borderOn={true} multipliers={globalRef.multipliers} />)}
+              {globalRef => (<LapInfo lap={totalLap} borderOn={true} multipliers={globalRef.multipliers} />)}
             </RefDataContext.Consumer>
           </div>
         </div>

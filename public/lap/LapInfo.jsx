@@ -13,7 +13,9 @@ import { calcTimes } from '../lapTools';
  */
 class LapInfo extends React.Component {
   onEdit() {
-    this.props.onEdit(this.props.id);
+    if (this.props.onEdit !== undefined) {
+      this.props.onEdit(this.props.id);
+    }
   }
 
   onDel(e) {
@@ -23,7 +25,6 @@ class LapInfo extends React.Component {
 
   constructor(props) {
     super(props);
-    LapInfo.context = this;
     this.onEdit= this.onEdit.bind(this); 
     this.onDel= this.onDel.bind(this); 
   }
@@ -52,19 +53,19 @@ class LapInfo extends React.Component {
         role='presentation'
       >
         <div className='lap'>
-          <div className='three columns'>
+          <div className='two columns'>
             <label id='lapTimeLabel' htmlFor='dataTime'>Time: </label>
             <div className='data' id='dataTime'>
               {lap.time}
             </div>
           </div>
-          <div className='three columns'>
+          <div className='two columns'>
             <label id='lapDistLabel' htmlFor='dataDist'>Distance:</label>
             <div className='data' id='dataDist'>
               {lap.distance}
             </div>
           </div>
-          <div className='three columns'>
+          <div className='two columns'>
             <label id='lapUnitLabel' htmlFor='dataUnit'>Unit: </label>
             <div className='data' id='dataUnit'>
               {lap.unit}
