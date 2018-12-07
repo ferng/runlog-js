@@ -14,17 +14,8 @@ import { createLap } from '../lapTools';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapForm extends React.Component {
-  handleTimeChange(time) {
+  handleTimeUpdate(time) {
     this.setState({ time: time});
-  }
-
-  handleDistanceChange(e) {
-    this.setState({ distance: e.target.value });
-  }
-
-  handleUnitChange(e) {
-    this.setState({ unit: e.target.value });
-    this.handleChange(e);
   }
 
   handleChange(e) {
@@ -66,9 +57,7 @@ class LapForm extends React.Component {
       options,
     };
     LapForm.context = this;
-    this.handleTimeChange = this.handleTimeChange.bind(this); 
-    this.handleDistanceChange = this.handleDistanceChange.bind(this); 
-    this.handleUnitChange = this.handleUnitChange.bind(this); 
+    this.handleTimeUpdate = this.handleTimeUpdate.bind(this); 
     this.handleChange = this.handleChange.bind(this); 
     this.handleSubmit = this.handleSubmit.bind(this); 
   }
@@ -83,7 +72,7 @@ class LapForm extends React.Component {
       <TimeEntry
           id='time'
           time={this.state.time}
-          onUpdate={this.handleTimeChange}
+          onUpdate={this.handleTimeUpdate}
           onBlur={this.handleChange}
         />
       </div>
@@ -95,8 +84,7 @@ class LapForm extends React.Component {
             id='distance'
             placeholder='Distance'
             value={this.state.distance}
-            onChange={this.handleDistanceChange}
-            onBlur={this.handleChange}
+            onChange={this.handleChange}
           />
         </div>
 
@@ -107,7 +95,7 @@ class LapForm extends React.Component {
             value={this.state.unit}
             defaultValue={this.state.unit}
             options={this.state.options}
-            onChange={this.handleUnitChange}
+            onChange={this.handleChange}
           />
         </div>
 

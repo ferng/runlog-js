@@ -9,40 +9,35 @@ import { RefDataContext } from './refData-context';
 
 
 class TopLevel extends React.Component {
-  static toggleModal() {
-    TopLevel.context.setState({
-      showModal: !TopLevel.context.state.showModal,
+  toggleModal() {
+    this.setState({
+      showModal: !this.state.showModal,
     });
   }
-
-  static handleLapSubmit(lapData) {
-    const { laps } = TopLevel.context.state;
-    laps.set(lapData.lap.id, lapData.lap);
-    TopLevel.context.setState({ laps });
-  }
-
 
   constructor(props) {
     super(props);
     this.state = { laps: [], refData: [], multipliers: [], showModal: false };
     TopLevel.context = this;
+    this.toggleModal = this.toggleModal.bind(this); 
   }
 
   componentDidMount() {
     getRefData()
       .then((data) => {
-        TopLevel.context.setState({ refData: data });
-        TopLevel.context.setState({ multipliers: prepDistanceMultiplier(data) });
+        this.setState({ refData: data });
+        this.setState({ multipliers: prepDistanceMultiplier(data) });
       })
       .then(data => getItems('lap'))
       .then(lapArrayToMap)
       .then((data) => {
-        TopLevel.context.setState({ laps: data });
-        TopLevel.context.setState({ dataLoaded: true });
+        this.setState({ laps: data });
+        this.setState({ dataLoaded: true });
       })
-      .catch(() => {
-        TopLevel.context.setState({ errHead: 'Error', errMsg: 'Error retrieving data, please try later' });
-        TopLevel.toggleModal();
+      .catch((error) => {
+        console.log(JSON.stringify(error.message));
+        this.setState({ errHead: 'Error', errMsg: error.message });
+        this.toggleModal();
       });
   }
 
@@ -61,7 +56,7 @@ class TopLevel extends React.Component {
       );
     } else {
       return (
-        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={TopLevel.toggleModal} />
+        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={this.toggleModal} />
       );
     }
   }

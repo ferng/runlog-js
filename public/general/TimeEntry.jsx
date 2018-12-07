@@ -63,36 +63,38 @@ const parseKeys = (key, pos, str) => {
 
 
 class TimeEntry extends React.Component {
-  static registerKey(e) {
-    TimeEntry.context.setState({ keyVal: e.key });
+  registerKey(e) {
+    this.setState({ keyVal: e.key });
   }
 
   handleTimeChange() {
     const key = this.state.keyVal;
     this.setState({ keyVal: undefined });
-    const pos = TimeEntry.context.myRef.current.selectionStart;
+    const pos = this.myRef.current.selectionStart;
     const timeStr = this.state.time;
     const updated = parseKeys(key, pos, timeStr);
     this.setState(
       { time: updated.parsedTime },
       () => {
-        TimeEntry.context.myRef.current.setSelectionRange(updated.pos, updated.pos);
+        this.myRef.current.setSelectionRange(updated.pos, updated.pos);
       }
     );
   }
 
-  static handleBlur(e) {
-     TimeEntry.context.props.onUpdate(e.target.value);
+  handleBlur(e) {
+     this.props.onUpdate(e.target.value);
   }
 
   constructor(props) {
     super(props);
     this.myRef = React.createRef()
     TimeEntry.context = this;
-    this.handleTimeChange = this.handleTimeChange.bind(this);
     this.state  = {
       time: props.time,
     }
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.registerKey= this.registerKey.bind(this);
+    this.handleBlur= this.handleBlur.bind(this);
   }
 
   render() {
@@ -105,8 +107,8 @@ class TimeEntry extends React.Component {
         placeholder='Time'
         value={this.state.time}
         onChange={this.handleTimeChange}
-        onKeyDown={TimeEntry.registerKey}
-        onBlur={TimeEntry.handleBlur}
+        onKeyDown={this.registerKey}
+        onBlur={this.handleBlur}
       />
     )
   }

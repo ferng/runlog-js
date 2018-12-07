@@ -15,9 +15,9 @@ import Modal from '../general/Modal';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class Lap extends React.Component {
-  static toggleModal() {
-    Lap.context.setState({
-      showModal: !Lap.context.state.showModal,
+  toggleModal() {
+    this.setState({
+      showModal: !this.state.showModal,
     });
   }
 
@@ -30,7 +30,7 @@ class Lap extends React.Component {
       })
       .catch((err) => {
         this.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
-        Lap.toggleModal();
+        toggleModal();
       });
   }
   
@@ -46,7 +46,7 @@ class Lap extends React.Component {
       })
       .catch((err) => {
         this.setState({ errHead: 'Error', errMsg: 'Error deleting data, please try later' });
-        Lap.toggleModal();
+        toggleModal();
       })
       
   }
@@ -63,6 +63,7 @@ class Lap extends React.Component {
     this.onSubmit = this.onSubmit.bind(this); 
     this.onEdit = this.onEdit.bind(this); 
     this.onDel = this.onDel.bind(this); 
+    this.toggleModal = this.toggleModal.bind(this); 
   }
 
   render() {
@@ -83,7 +84,7 @@ class Lap extends React.Component {
 
     return (
       <div className='four columns'>
-        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={Lap.toggleModal} />
+        <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={this.toggleModal} />
         <div className='twelve columns left'>
           {lapAction}      
         </div>

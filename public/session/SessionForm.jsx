@@ -7,28 +7,8 @@ import { createSession } from '../lapTools';
 
 
 class SessionForm extends React.Component {
-  handleTimeChange(time) {
+  handleTimeUpdate(time) {
     this.setState({ time: time});
-  }
-
-  handleActivityChange(e) {
-    this.setState({ activity: e.target.value });
-  }
-  
-  handleKitChange(e) {
-    this.setState({ kit: e.target.value });
-  }
-
-  handleWeatherChange(e) {
-    this.setState({ weather: e.target.value });
-  }
-
-  handleFeelsChange(e) {
-    this.setState({ feels: e.target.value });
-  }
-
-  handleEffortChange(e) {
-    this.setState({ effort: e.target.value });
   }
 
   handleChange(e) {
@@ -67,7 +47,6 @@ class SessionForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-//       session: props.session,
       id: props.session.id,
       parentIf: props.session.parentId,
       time: props.session.time,
@@ -83,13 +62,8 @@ class SessionForm extends React.Component {
       effortOpts: prepSelectOpts(props.refData, 'effort'),
       }
     SessionForm.context = this;
-    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleTimeUpdate = this.handleTimeUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleActivityChange = this.handleActivityChange.bind(this); 
-    this.handleKitChange = this.handleKitChange.bind(this); 
-    this.handleWeatherChange = this.handleWeatherChange.bind(this); 
-    this.handleFeelsChange = this.handleFeelsChange.bind(this); 
-    this.handleEffortChange = this.handleEffortChange.bind(this); 
     this.handleSubmit = this.handleSubmit.bind(this); 
   }
   
@@ -101,62 +75,62 @@ class SessionForm extends React.Component {
           <form className='sessionForm' onSubmit={this.handleSubmit}>
 
             <div className='one wide column'>
-              <label id='newTimeLabel' htmlFor='newTime'>Time: </label>
+              <label id='timeLabel' htmlFor='time'>Time: </label>
               <TimeEntry
-                  id='newTime'
+                  id='time'
                   time={this.state.time}
-                  onUpdate={this.handleTimeChange}
+                  onUpdate={this.handleTimeUpdate}
                   onBlur={this.handleChange}
                 />
             </div>
             <div className='one wide column'>
-              <label id='newActivityLabel' htmlFor='newActivity'>Activity: </label>
+              <label id='activityLabel' htmlFor='activity'>Activity: </label>
               <SelectOpts
-                id='newActivity'
+                id='activity'
                 value={ this.state.activity }
                 defaultValue={ this.state.activity }
                 options={ this.state.activityOpts }
-                onChange={ this.handleActivityChange }
+                onChange={ this.handleChange }
               />
             </div>
             <div className='one wide column'>
-              <label id='newKitLabel' htmlFor='newKit'>Kit: </label>
+              <label id='kitLabel' htmlFor='kit'>Kit: </label>
               <SelectOpts
-                id='newKit'
+                id='kit'
                 value={ this.state.kit }
                 defaultValue={ this.state.kit }
                 options={ this.state.kitOpts }
-                onChange={ this.handleKitChange }
+                onChange={ this.handleChange }
               />
             </div>
             <div className='one wide column'>
-              <label id='newWeatherLabel' htmlFor='newWeaher'>Weather: </label>
+              <label id='weatherLabel' htmlFor='weaher'>Weather: </label>
               <SelectOpts
-                id='newWeather'
+                id='weather'
                 value={ this.state.weather }
                 defaultValue={ this.state.weather }
                 options={ this.state.weatherOpts }
-                onChange={ this.handleWeatherChange }
+                onChange={ this.handleChange }
               />
             </div>
             <div className='one wide column'>
-              <label id='newFeelsLabel' htmlFor='newFeels'>Feels: </label>
+              <label id='feelsLabel' htmlFor='feels'>Feels: </label>
               <SelectOpts
-                id='newFeels'
+                id='feels'
                 value={ this.state.feels }
                 defaultValue={ this.state.feels }
                 options={ this.state.feelsOpts }
-                onChange={ this.handleFeelsChange }
+                onChange={ this.handleChange }
               />
             </div>
             <div className='one wide column'>
-              <label id='newEffortLabel' htmlFor='newEffort'>Effort: </label>
+              <label id='effortLabel' htmlFor='effort'>Effort: </label>
               <SelectOpts
-                id='newEffort'
+                id='effort'
                 value={ this.state.effort }
                 defaultValue={ this.state.effort }
                 options={ this.state.effortOpts }
-                onChange={ this.handleEffortChange }
+                onChange={ this.handleChange }
               />
             </div>
 

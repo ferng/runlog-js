@@ -21,7 +21,7 @@ const getRefData = () =>
         resolve(data);
       })
       .catch(() => {
-        reject(new Error('Error retrieving data, please try later.'));
+        reject(new Error('Error loading data, please try later.'));
       });
   });
 
@@ -40,7 +40,7 @@ const getItems = dataType =>
         resolve(data);
       })
       .catch(() => {
-        reject(new Error('Error retrieving data, please try later.'));
+        reject(new Error('Error loading data, please try later.'));
       });
   });
 
@@ -60,7 +60,7 @@ const getItemsByParent = (dataType, parentId) =>
         resolve(data);
       })
       .catch(() => {
-        reject(new Error('Error retrieving data, please try later.'));
+        reject(new Error('Error loading data, please try later.'));
       });
   });
 
@@ -79,7 +79,11 @@ const postNewItem = (body, dataType) =>
         resolve(JSON.parse(response));
       })
       .catch((error) => {
-        reject(error);
+        if (error === '504') {
+          reject(new Error('Error saving data, please try later.'));
+        } else {
+          reject(new Error('Application error, please contact us.'));
+        }
       });
   });
 

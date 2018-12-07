@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 class Modal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = props;
-    Modal.context = this;
   }
 
   render() {
@@ -19,11 +17,8 @@ class Modal extends React.Component {
             <button onClick={this.props.onClose}>
                Close
             </button>
-
-
             <h1>{this.props.errHead}</h1>
             <div>{this.props.errMsg}</div>
-
           </div>
         </div>
       );
