@@ -136,9 +136,12 @@ const calcLapsTotals = (laps, multipliers) => {
   })
   distance = (Math.round(distance * 100) / 100) ;
   const date = new Date(0,0,0,0,0,0,0);
+  console.log
   date.setHours(hours);
-  date.setMinutes(minutes);
-  date.setSeconds(seconds);
+  date.setMinutes(minutes * 60);
+  date.setSeconds(seconds * 60 *60);
+    console.log(hours, minutes, seconds);
+    console.log(date);
   const time = date.toTimeString().substring(0,8);
 
   return {distance, time};
@@ -149,11 +152,11 @@ const getHours = (time) => {
 }
 
 const getMins = (time) => {
-  return Number.parseInt(time.substr(3, 2), 10);
+  return Number.parseInt(time.substr(3, 2), 10) / 60;
 }
 
 const getSecs = (time) => {
-  return Number.parseInt(time.substr(6, 2), 10);
+  return Number.parseInt(time.substr(6, 2), 10) / (60*60);
 }
 
 /**
