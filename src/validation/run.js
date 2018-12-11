@@ -63,7 +63,7 @@ function validateSession(session) {
  * @param {string} activity - The activity the set of Laps will define
  */
 function isValidSession(session) {
-  return true;
+  return (isValidTime24(session.time));
 }
 
 

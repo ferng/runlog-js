@@ -8,6 +8,25 @@ import Lap from './lap/Lap';
 import LapRow from './lap/LapRow';
 
 
+
+/**
+ * Creates a brand new lap object with the provided data or with blank default data if none is provided.
+ * @param {number} id - Lap id
+ * @param {string} time - Time taken to complete the lap
+ * @param {float} distance - What was the distance convered
+ * @param {string} unit - What was the distance unit: mile, metre, etc
+ * @return {object} A Lap with the data provided or blanks if none.
+ */
+const createLap = (parentId, id, time = '00:00:00', distance = 0, unit = '--') => {
+  let lap = {};
+  if (id === undefined) {
+    lap = { parentId, id: -1, time, distance, unit, }; 
+  } else {
+    lap = { parentId, id, time, distance, unit, }; 
+  }
+  return lap;  
+}
+
 /**
  * Rendering utility which converts a data lap into a React Lap for display.
  * @param  {object} lap - The {@link module:public/types~lap|lap} to convert
@@ -58,24 +77,19 @@ const lapsToReactRows = (laps, editCallback, submitCallback, delCallback, parent
   return rowsToReact(rows);
 };
 
-
 /**
- * Creates a brand new lap object with the provided data or with blank default data if none is provided.
- * @param {number} id - Lap id
- * @param {string} time - Time taken to complete the lap
- * @param {float} distance - What was the distance convered
- * @param {string} unit - What was the distance unit: mile, metre, etc
- * @return {object} A Lap with the data provided or blanks if none.
+ * Converts an array of lap data into a Map for quicker lap access
+ * @param {object[]} laps - An array of {@link module:public/types~lap|laps}
+ * @return {object.<number, object>} A map of all laps with key=lap.id, value=lap.
  */
-const createLap = (parentId, id, time = '00:00:00', distance = 0, unit = '--') => {
-  let lap = {};
-  if (id === undefined) {
-    lap = { parentId, id: -1, time, distance, unit, }; 
-  } else {
-    lap = { parentId, id, time, distance, unit, }; 
-  }
-  return lap;  
-}
+const lapArrayToMap = (laps) => {
+  const lapMap = new Map();
+  laps.forEach((lap) => {
+    lapMap.set(lap.id, lap);
+  });
+  return lapMap;
+};
+
 
 /**
  * Creates a brand new activity object with the provided data or with blank default data if none is provided.
@@ -107,20 +121,6 @@ const cloneData = (source) => {
 }
 
 
-/**
- * Converts an array of lap data into a Map for quicker lap access
- * @param {object[]} laps - An array of {@link module:public/types~lap|laps}
- * @return {object.<number, object>} A map of all laps with key=lap.id, value=lap.
- */
-const lapArrayToMap = (laps) => {
-  const lapMap = new Map();
-  laps.forEach((lap) => {
-    lapMap.set(lap.id, lap);
-  });
-  return lapMap;
-};
-
-
 const calcLapsTotals = (laps, multipliers) => {
   let distance = 0;
   let hours = 0;
@@ -136,12 +136,9 @@ const calcLapsTotals = (laps, multipliers) => {
   })
   distance = (Math.round(distance * 100) / 100) ;
   const date = new Date(0,0,0,0,0,0,0);
-  console.log
   date.setHours(hours);
   date.setMinutes(minutes * 60);
   date.setSeconds(seconds * 60 *60);
-    console.log(hours, minutes, seconds);
-    console.log(date);
   const time = date.toTimeString().substring(0,8);
 
   return {distance, time};

@@ -61,7 +61,6 @@ function get(table, criteria, fields) {
       const criteriaSub = prepCriteriaPairs(criteriaColumns, criteriaValues);
       statement = `SELECT ${fieldList} FROM ${table} WHERE ${criteriaSub};`;
     }
-console.log(statement);
     conn.all(statement, (err, docs) => {
       if (err) {
         log.error('Error retrieving rows: ', err);
@@ -86,6 +85,7 @@ console.log(statement);
 function insertOne(table, document) {
   return new Promise((resolve, reject) => {
     if (!val.isDocumentValid(document)) {
+      log.error('Invalid document', doc);
       reject(new Error('Invalid document'));
       return;
     }
@@ -98,6 +98,7 @@ function insertOne(table, document) {
     const statement = `INSERT INTO ${table} ${insertColumns} VALUES ${insertValues} on CONFLICT(id) DO UPDATE SET ${updateSub}`;
     conn.run(statement, function (err) {
       if (err) {
+        log.error('Error saving data: ', err);
         reject(err);
         return;
       }
@@ -138,6 +139,7 @@ function insertMany(table, documents) {
     const statement = `INSERT INTO ${table}${columns} VALUES${data}`;
     conn.run(statement, (err) => {
       if (err) {
+        log.error('Error saving data: ', err);
         reject(err);
         return;
       }
@@ -158,10 +160,12 @@ function insertMany(table, documents) {
 function update(table, criteria, updates) {
   return new Promise((resolve, reject) => {
     if (!val.isDocumentValid(criteria)) {
+      log.error('Invalid criteria', doc);
       reject(new Error('Invalid criteria'));
       return;
     }
     if (!val.isDocumentValid(updates)) {
+      log.error('Invalid update data', doc);
       reject(new Error('Invalid update data'));
       return;
     }
@@ -178,6 +182,7 @@ function update(table, criteria, updates) {
 
     conn.run(statement, (err) => {
       if (err) {
+        log.error('Error saving data: ', err);
         reject(err);
         return;
       }
@@ -190,6 +195,7 @@ function update(table, criteria, updates) {
 function remove(table, criteria) {
   return new Promise((resolve, reject) => {
     if (!val.isDocumentValid(criteria)) {
+      log.error('Invalid criteria', doc);
       reject(new Error('Invalid criteria'));
       return;
     }
@@ -202,6 +208,7 @@ function remove(table, criteria) {
 
     conn.run(statement, (err) => {
       if (err) {
+        log.error('Error deleting data: ', err);
         reject(err);
         return;
       }

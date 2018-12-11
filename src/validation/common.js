@@ -59,6 +59,6 @@ function isDocumentValid(doc) {
 module.exports = {
   isFloatExpr,
   isTimeExpr24,
-  isDocumentValid,
   objEmpty,
+  isDocumentValid,
 };
