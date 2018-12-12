@@ -22,15 +22,14 @@ class Lap extends React.Component {
   }
 
   onSubmit(lapData) {
-   lapData.parentId=this.state.parentId;
    postNewItem(lapData, 'lap')
       .then((response) => {
         lapData.id = response.id;
         this.props.onLapSubmit(lapData);
       })
       .catch((err) => {
-        this.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
-        toggleModal();
+        this.setState({ errHead: 'Error', errMsg: err.message });
+        this.toggleModal();
       });
   }
   
@@ -45,8 +44,8 @@ class Lap extends React.Component {
         this.props.onLapDel(id);
       })
       .catch((err) => {
-        this.setState({ errHead: 'Error', errMsg: 'Error deleting data, please try later' });
-        toggleModal();
+        this.setState({ errHead: 'Error', errMsg: err.message });
+        this.toggleModal();
       })
       
   }
@@ -56,10 +55,8 @@ class Lap extends React.Component {
     super(props);
     this.state = {
       showModal: false,
-      parentId: props.parentId,
       lap: props.lap
     };
-    Lap.context = this;
     this.onSubmit = this.onSubmit.bind(this); 
     this.onEdit = this.onEdit.bind(this); 
     this.onDel = this.onDel.bind(this); 

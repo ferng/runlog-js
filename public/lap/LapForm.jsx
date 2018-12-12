@@ -31,10 +31,11 @@ class LapForm extends React.Component {
     let { parentId }= this.state;
     const distance = parseFloat(this.state.distance);
     const { unit } = this.state;
-    if (!time || time === '00:00:00' || time === '00:00' || !distance || distance === 0 || Number.isNaN(distance) || !unit || unit === '--') {
-      return;
+    if (!time || time === '00:00:00' || time === '00:00' ||
+      !distance || distance === 0 || Number.isNaN(distance) ||
+      !unit || unit === '--') {
+        return;
     }
-    time = time.length === 5 ? `${time}:00` : time;
     let newLap;
     if (id === -1) {
       newLap = {parentId, time, distance, unit};
@@ -47,16 +48,14 @@ class LapForm extends React.Component {
 
   constructor(props) {
     super(props);
-    const options = prepSelectOpts(props.refData, 'unit');
     this.state = {
       id: props.lap.id,
       parentId: props.lap.parentId,
       distance: props.lap.distance,
       time: props.lap.time,
       unit: props.lap.unit,
-      options,
+      options: prepSelectOpts(props.refData, 'unit'),
     };
-    LapForm.context = this;
     this.handleTimeUpdate = this.handleTimeUpdate.bind(this); 
     this.handleChange = this.handleChange.bind(this); 
     this.handleSubmit = this.handleSubmit.bind(this); 
@@ -66,7 +65,6 @@ class LapForm extends React.Component {
     return (
       <form className='LapForm' onSubmit={this.handleSubmit}>
 
-      <div className='twelve columns'>
       <div className='three columns'>
       <label id='timeLabel' htmlFor='time'>Time: </label>
       <TimeEntry
@@ -99,9 +97,15 @@ class LapForm extends React.Component {
           />
         </div>
 
-        <div className='three columns'>
+          <div className='two columns'>
+            <label id='lapMphLabel' htmlFor='mph'>mph: </label>
+            <div className='data' id='dataMph'>
+              --  
+            </div>
+          </div>
+        
+        <div className='one column'>
           <button display='primary' type='submit' >OK</button>
-      </div>
       </div>
       </form>
     );

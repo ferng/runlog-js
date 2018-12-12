@@ -41,9 +41,9 @@ class LapInfo extends React.Component {
       borderClass = 'twelve columns left';
     }
 
-    let lapDel;
+    let delbutton;
     if (lap.id !== -1 && this.props.onEdit !== undefined) {
-      lapDel = <button display='primary' type='button' onClick={this.onDel}>DEL</button>;
+      delbutton = <button display='primary' type='button' onClick={this.onDel}>DEL</button>;
     }
 
     return (
@@ -53,32 +53,32 @@ class LapInfo extends React.Component {
         role='presentation'
       >
         <div className='lap'>
-          <div className='two columns'>
-            <label id='lapTimeLabel' htmlFor='dataTime'>Time: </label>
+          <div className='three columns'>
+            <label id='dataTimeLabel' htmlFor='dataTime'>Time: </label>
             <div className='data' id='dataTime'>
               {lap.time}
             </div>
           </div>
-          <div className='two columns'>
-            <label id='lapDistLabel' htmlFor='dataDist'>Distance:</label>
+          <div className='three columns'>
+            <label id='dataDistLabel' htmlFor='dataDist'>Distance:</label>
             <div className='data' id='dataDist'>
               {lap.distance}
             </div>
           </div>
-          <div className='two columns'>
-            <label id='lapUnitLabel' htmlFor='dataUnit'>Unit: </label>
+          <div className='three columns'>
+            <label id='dataUnitLabel' htmlFor='dataUnit'>Unit: </label>
             <div className='data' id='dataUnit'>
               {lap.unit}
             </div>
           </div>
           <div className='two columns' title={mins}>
-            <label id='lapMphLabel' htmlFor='mph'>mph: </label>
+            <label id='dataMphLabel' htmlFor='dataMph'>mph: </label>
             <div className='data' id='dataMph'>
               {mph}
             </div>
           </div>
           <div className='one column'>
-            {lapDel}
+            {delbutton}
           </div>
         </div>
       </div>

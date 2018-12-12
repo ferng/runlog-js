@@ -18,7 +18,6 @@ class TopLevel extends React.Component {
   constructor(props) {
     super(props);
     this.state = { laps: [], refData: [], multipliers: [], showModal: false };
-    TopLevel.context = this;
     this.toggleModal = this.toggleModal.bind(this); 
   }
 
@@ -34,9 +33,8 @@ class TopLevel extends React.Component {
         this.setState({ laps: data });
         this.setState({ dataLoaded: true });
       })
-      .catch((error) => {
-        console.log(JSON.stringify(error.message));
-        this.setState({ errHead: 'Error', errMsg: error.message });
+      .catch((err) => {
+        this.setState({ errHead: 'Error', errMsg: err.message });
         this.toggleModal();
       });
   }

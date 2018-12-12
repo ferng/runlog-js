@@ -35,9 +35,9 @@ const createLap = (parentId, id, time = '00:00:00', distance = 0, unit = '--') =
  * @return {Lap} A Lap React component.
  * @private
  */
-const lapToReact = (lap, editCallback, submitCallback, delCallback, parentId) =>
+const lapToReact = (lap, editCallback, submitCallback, delCallback) =>
   React.createElement(Lap, {
-    lap, key: lap.id, onLapEdit: editCallback, onLapSubmit: submitCallback, onLapDel: delCallback, parentId,
+    lap, key: lap.id, onLapEdit: editCallback, onLapSubmit: submitCallback, onLapDel: delCallback,
   });
 
 
@@ -59,11 +59,11 @@ const rowsToReact = rows =>
  * @param {Function} submitCallback - CallBack function when lap being edited is submitted for saving
  * @return {LapRow[]} An array containing of rows each one containing an array of three laps each.
  */
-const lapsToReactRows = (laps, editCallback, submitCallback, delCallback, parentId) => {
+const lapsToReactRows = (laps, editCallback, submitCallback, delCallback) => {
   const rows = [];
   let thisRow = [];
   for (let i = 0; i < laps.length; i++) {
-    const lap = lapToReact(laps[i], editCallback, submitCallback, delCallback, parentId);
+    const lap = lapToReact(laps[i], editCallback, submitCallback, delCallback);
     thisRow.push(lap);
     if ((i + 1) % 3 === 0) {
       rows.push(thisRow);

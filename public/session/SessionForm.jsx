@@ -19,19 +19,19 @@ class SessionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let id = this.state.id;
-    let time = this.state.time;
-    let activity = this.state.activity;
-    let kit = this.state.kit;
-    let weather = this.state.weather;
-    let feels = this.state.feels;
-    let effort = this.state.effort;
-    let parentId = this.state.parentId;
+    let {id} = this.state;
+    let {time} = this.state;
+    let {activity} = this.state;
+    let {kit} = this.state;
+    let {weather} = this.state;
+    let {feels} = this.state;
+    let {effort} = this.state;
+    let {parentId} = this.state;
     if (!activity || activity === '--' ||
       !kit || kit === '--' ||
       !weather || weather === '--' ||
       !feels || feels === '--' ||
-        !effort || effort === '--') {
+      !effort || effort === '--') {
         return;
     }
     let newSession;
@@ -48,7 +48,7 @@ class SessionForm extends React.Component {
     super(props);
     this.state = {
       id: props.session.id,
-      parentIf: props.session.parentId,
+      parentId: props.session.parentId,
       time: props.session.time,
       activity: props.session.activity, 
       activityOpts: prepSelectOpts(props.refData, 'activity'),
@@ -61,7 +61,6 @@ class SessionForm extends React.Component {
       effort: props.session.effort,
       effortOpts: prepSelectOpts(props.refData, 'effort'),
       }
-    SessionForm.context = this;
     this.handleTimeUpdate = this.handleTimeUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this); 
@@ -71,9 +70,7 @@ class SessionForm extends React.Component {
   render() {
     const { lap } = this.props;
     return (
-      <div className='twelve columns'>
           <form className='sessionForm' onSubmit={this.handleSubmit}>
-
             <div className='one wide column'>
               <label id='timeLabel' htmlFor='time'>Time: </label>
               <TimeEntry
@@ -138,8 +135,6 @@ class SessionForm extends React.Component {
               <button display="primary" type="submit" >OK</button>
             </div>
           </form>
-      </div>
-      
     );
   }
 }

@@ -10,14 +10,6 @@ input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none; 
 }
 
-.left {
-  border-left: 0.125rem solid #33C3F0;
-}
-
-.row {
-  border: 0.125rem solid #33C3F0;
-}
-
 label {
   font-size: 1.25rem;
   color: red;
@@ -32,6 +24,14 @@ label {
   display: inline;
 }
 
+.left {
+  border-left: 0.125rem solid #33C3F0;
+}
+
+.row {
+  border: 0.125rem solid #33C3F0;
+}
+
 .time-entry {
   width: 6.7rem;
 }
@@ -44,7 +44,7 @@ label {
 }
 
 .sessionForm {
-  height: 40px;
+  height: 0%;
 }
 
 @media (min-width: 550px) {

@@ -20,7 +20,6 @@ class SessionInfo extends React.Component {
 
   constructor(props) {
     super(props);
-    SessionInfo.context = this;
     this.onEdit= this.onEdit.bind(this); 
     this.onDel= this.onDel.bind(this); 
   }
@@ -41,41 +40,41 @@ class SessionInfo extends React.Component {
       >
 
         <div className='one wide column'>
-            <label id='lapTimeLabel' htmlFor='dataTime'>Time: </label>
+            <label id='dataTimeLabel' htmlFor='dataTime'>Time: </label>
             <div className='data' id='dataTime'>
               {session.time}
             </div>
           </div>
         <div className='one wide column'>
-          <label id='activityLabel' htmlFor='dataActivity'>Activity: </label>
+          <label id='dataActivityLabel' htmlFor='dataActivity'>Activity: </label>
           <div className='data' id='dataActivity'>
             {session.activity}
           </div>
         </div>
         
         <div className='one wide column'>
-          <label id='kitLabel' htmlFor='dataKit'>Kit: </label>
+          <label id='dataKitLabel' htmlFor='dataKit'>Kit: </label>
           <div className='data' id='dataKit'>
             {session.kit}
           </div>
         </div>
         
         <div className='one wide column'>
-          <label id='weatherLabel' htmlFor='dataWeather'>Weather: </label>
+          <label id='dataWeatherLabel' htmlFor='dataWeather'>Weather: </label>
           <div className='data' id='dataWeather'>
             {session.weather}
           </div>
         </div>
         
         <div className='one wide column'>
-          <label id='feelsLabel' htmlFor='dataFeels'>Feels: </label>
+          <label id='dataFeelsLabel' htmlFor='dataFeels'>Feels: </label>
           <div className='data' id='dataFeels'>
             {session.feels}
           </div>
         </div>
         
         <div className='one wide column'>
-          <label id='effortLabel' htmlFor='dataEffort'>Effort: </label>
+          <label id='dataEffortLabel' htmlFor='dataEffort'>Effort: </label>
           <div className='data' id='dataEffort'>
             {session.effort}
           </div>

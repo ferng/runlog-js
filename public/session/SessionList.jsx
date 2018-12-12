@@ -64,7 +64,6 @@ class SessionList extends React.Component {
 
   constructor(props) {
     super(props);
-    SessionList.context = this;
     this.onSessionSubmit = this.onSessionSubmit.bind(this); 
     this.onSessionEdit = this.onSessionEdit.bind(this);
     this.onSessionDel = this.onSessionDel.bind(this);
@@ -95,7 +94,7 @@ class SessionList extends React.Component {
     
     let {sessions} = this.state; 
     let sessionRows = sessions.map((session) => 
-      <Session session={session} key={session.id} onSessionEdit={this.onSessionEdit} onSessionSubmit={this.onSessionSubmit} onSessionDel={this.onSessionDel} parentId={this.props.parentId}/>
+      <Session session={session} key={session.id} onSessionEdit={this.onSessionEdit} onSessionSubmit={this.onSessionSubmit} onSessionDel={this.onSessionDel}/>
     );
     return (
       <div>

@@ -9,9 +9,9 @@ import { lapArrayToMap, lapsToReactRows, createLap, createSession } from '../lap
 import { RefDataContext } from '../refData-context';
 
 class Session extends React.Component {
-  static toggleModal() {
-    Session.context.setState({
-      showModal: !Session.context.state.showModal,
+  toggleModal() {
+    this.setState({
+      showModal: !this.state.showModal,
     });
   }
 
@@ -20,15 +20,14 @@ class Session extends React.Component {
   }
 
   onSubmit(sessionData) {
-    sessionData.parentId=this.state.parentId;
     postNewItem(sessionData, 'session')
       .then((response) => {
         sessionData.id = response.id;
         this.props.onSessionSubmit(sessionData);
       })
       .catch((err) => {
-        this.setState({ errHead: 'Error', errMsg: 'Error saving data, please try later' });
-        Session.toggleModal();
+        this.setState({ errHead: 'Error', errMsg: err.message });
+        this.toggleModal();
       });
   }
 
@@ -42,10 +41,10 @@ class Session extends React.Component {
       .then(() => {
         this.props.onSessionDel(id);
       })
-     .catch((err) => {
-       this.setState({ errHead: 'Error', errMsg: 'Error deleting data, please try later' });
-       Lap.toggleModal();
-     })
+      .catch((err) => {
+        this.setState({ errHead: 'Error', errMsg: err.message });
+        this.toggleModal();
+      })
       
   }
 
@@ -53,14 +52,13 @@ class Session extends React.Component {
     super(props);
     this.state = {
       showModal: false,
-      parentId: props.parentId,
       session: props.session,
     };
-    Session.context = this;
+    this.updateTotals = this.updateTotals.bind(this);
     this.onSubmit= this.onSubmit.bind(this); 
     this.onEdit= this.onEdit.bind(this);
-    this.updateTotals = this.updateTotals.bind(this);
     this.onDel = this.onDel.bind(this); 
+    this.toggleModal = this.toggleModal.bind(this); 
   }
 
 
@@ -70,9 +68,8 @@ class Session extends React.Component {
     }
     const { session } = this.state;
     const { editSession } = this.props.session;
-    const sessionId = this.state.session.id;
     const {totalLap} = this.state;
-    const {parentId} = this.state;
+    const sessionId = session.id;
 
     let sessDel = false;
     if (totalLap !== undefined && totalLap.distance === 0) {
@@ -104,7 +101,7 @@ class Session extends React.Component {
     return (
       <div>
         <div className='twelve columns'>
-          <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={Session.toggleModal} />
+          <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={this.toggleModal} />
           <div className='eight columns'>
             {sessionAction}
           </div>

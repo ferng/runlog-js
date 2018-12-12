@@ -63,9 +63,6 @@ const parseKeys = (key, pos, str) => {
   return {parsedTime, pos};
 }
 
-
-
-
 class TimeEntry extends React.Component {
   registerKey(e) {
     this.setState({ keyVal: e.key });
@@ -92,7 +89,6 @@ class TimeEntry extends React.Component {
   constructor(props) {
     super(props);
     this.myRef = React.createRef()
-    TimeEntry.context = this;
     this.state  = {
       time: props.time,
     }
