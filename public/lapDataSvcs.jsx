@@ -3,7 +3,7 @@
  * @module public/lapDataSvcs
  */
 
-import { get, post, remove } from './ajaxSvcs';
+import { get, post, remove } from './general/ajaxSvcs';
 
 const optionTypes = ['unit', 'activity', 'kit', 'weather', 'feels', 'effort'];
 

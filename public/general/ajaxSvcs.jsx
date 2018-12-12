@@ -1,6 +1,6 @@
 /**
  * Provides common ajax services based on REST actions.
- * @module public/ajaxSvcs
+ * @module public/general/ajaxSvcs
  */
 
 
