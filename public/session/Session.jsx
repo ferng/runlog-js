@@ -17,6 +17,8 @@ class Session extends React.Component {
 
   updateTotals(totalLap) {
     this.setState({ totalLap });
+    totalLap.id = this.props.session.id;
+    this.props.onUpdateTotals(totalLap);
   }
 
   onSubmit(sessionData) {

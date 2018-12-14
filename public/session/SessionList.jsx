@@ -38,6 +38,7 @@ class SessionList extends React.Component {
   onSessionSubmit(updatedSess) {
     let sessions = this.state.sessions;
     let newSess = true;
+    let laps = [];
     sessions.forEach((session) => {
       if (session.id === updatedSess.id) {
         session.time = updatedSess.time;
@@ -61,12 +62,34 @@ class SessionList extends React.Component {
     this.forceUpdate();
   }
 
+  onUpdateTotals(updatedLapTotal) {
+      console.log(updatedLapTotal);
+    let laps = this.state.laps;
+//     console.log(laps);
+    let newLaps = [];
+    if (laps === undefined || laps.length === 0) {
+      newLaps.push(updatedLapTotal);
+    } else {
+      laps.forEach((lap) => {
+        if (lap.id !== updatedLapTotal.id) {
+          newLaps.push(lap);
+        }
+      })
+      newLaps.push(updatedLapTotal);
+    }
+
+    this.setState({laps: newLaps});
+    console.log(JSON.stringify(newLaps));
+//     let totalLap = this.calcTotals(laps, this.props.multipliers);
+//     this.props.updateTotals(totalLap);
+  };
 
   constructor(props) {
     super(props);
     this.onSessionSubmit = this.onSessionSubmit.bind(this); 
     this.onSessionEdit = this.onSessionEdit.bind(this);
     this.onSessionDel = this.onSessionDel.bind(this);
+    this.onUpdateTotals = this.onUpdateTotals.bind(this);
   }
 
   componentDidMount() {
@@ -94,7 +117,7 @@ class SessionList extends React.Component {
     
     let {sessions} = this.state; 
     let sessionRows = sessions.map((session) => 
-      <Session session={session} key={session.id} onSessionEdit={this.onSessionEdit} onSessionSubmit={this.onSessionSubmit} onSessionDel={this.onSessionDel}/>
+      <Session session={session} key={session.id} onSessionEdit={this.onSessionEdit} onSessionSubmit={this.onSessionSubmit} onSessionDel={this.onSessionDel} onUpdateTotals={this.onUpdateTotals}/>
     );
     return (
       <div>

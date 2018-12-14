@@ -78,7 +78,13 @@ const session = {
   create: 'CREATE TABLE session (id INTEGER PRIMARY KEY, parentId INTEGER NOT NULL, time INTEGER NOT NULL, activity INTEGER NOT NULL, kit INTEGER NOT NULL, weather INTEGER NOT NULL, feels INTEGER NOT NULL, effort INTEGER NOT NULL)'
 }
 
-const definitions = [unit, activity, kit, weather, feels, effort, lap, session];
+const day = {
+  table: 'day',
+  create: 'CREATE TABLE day (id INTEGER PRIMARY KEY, activityDate INTEGER NOT NULL, )',
+};
+
+
+const definitions = [unit, activity, kit, weather, feels, effort, lap, session, day];
 
 
 function init() {
