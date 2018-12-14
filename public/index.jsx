@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Modal from './general/Modal';
 import Day from './day/Day';
+import Week from './week/Week';
 import SessionList from './session/SessionList';
 import { getItems, getRefData, prepDistanceMultiplier } from './lapDataSvcs';
 import { lapArrayToMap } from './lapTools';
@@ -48,7 +49,7 @@ class TopLevel extends React.Component {
         <RefDataContext.Provider value={globalRef}> 
           <div className='twelve columns'>
             <div className='topLevel'>
-              <Day activityDate='1544684788213'/>
+              <Week/>
 
 
               </div>
