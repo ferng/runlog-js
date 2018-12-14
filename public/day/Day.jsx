@@ -17,7 +17,8 @@ class Day extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      totalLap: undefined, 
+      totalLap: undefined,
+      parentId: Number.parseInt(props.parentId, 10), 
     }
     this.updateTotals = this.updateTotals.bind(this);
   }
@@ -27,7 +28,7 @@ class Day extends React.Component {
     const date = new Date(activityDate *1); 
     const weekDay = weekDayFromDate(date);
     const stringDate = littleDate(date);
-    const parent = 1;
+    const {parentId} = this.state;
     const totalLap = this.state.totalLap; 
 
     return (
@@ -53,7 +54,7 @@ class Day extends React.Component {
       </div>
        <div className='twelve columns'>
            <RefDataContext.Consumer>
-             {globalRef => (<SessionList parentId={parent} updateTotals={this.updateTotals} multipliers={globalRef.multipliers}/>)}
+             {globalRef => (<SessionList parentId={parentId} updateTotals={this.updateTotals} multipliers={globalRef.multipliers}/>)}
            </RefDataContext.Consumer>
          </div>
        </div>

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import Modal from './general/Modal';
-import Day from './day/Day';
 import Week from './week/Week';
 import SessionList from './session/SessionList';
 import { getItems, getRefData, prepDistanceMultiplier } from './lapDataSvcs';
@@ -50,9 +49,7 @@ class TopLevel extends React.Component {
           <div className='twelve columns'>
             <div className='topLevel'>
               <Week/>
-
-
-              </div>
+            </div>
           </div>
         </RefDataContext.Provider>
       );
