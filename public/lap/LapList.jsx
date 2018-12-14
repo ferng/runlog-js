@@ -14,22 +14,6 @@ import { lapToReact, lapsToReactRows, getValues, createLap, calcLapsTotals } fro
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapList extends React.Component {
-  calcTotals(laps, multipliers) {
-    let totalLap;
-    if (laps.length === 0) {
-      totalLap = createLap();
-    } else {
-      const totals = calcLapsTotals(laps, multipliers);
-      totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
-    }
-    return totalLap;
-  }  
-
-  createNewLap(parentId) {
-    const newLap = createLap(parentId);
-    return newLap;
-  }
-
   onLapEdit(id) {
     let laps = this.state.laps;
     laps.forEach((lap) => {
@@ -58,12 +42,12 @@ class LapList extends React.Component {
       laps.pop();
       updatedLap.editLap = false;
       laps.push (updatedLap);
-      const newEntry = this.createNewLap(this.props.parentId);
+      const newEntry = createLap(this.props.parentId);
       laps.push(newEntry);
       this.setState(laps);
     }
     
-    let totalLap = this.calcTotals(laps, this.props.multipliers);
+    let totalLap = calcLapsTotals(laps, this.props.multipliers);
     this.props.updateTotals(totalLap);
 
   }
@@ -77,7 +61,7 @@ class LapList extends React.Component {
       }
     })
     this.setState({laps: newLaps});
-    let totalLap = this.calcTotals(newLaps, this.props.multipliers);
+    let totalLap = calcLapsTotals(newLaps, this.props.multipliers);
     this.props.updateTotals(totalLap);
   }
 
@@ -101,11 +85,11 @@ class LapList extends React.Component {
         } else {
           laps = [];
         }
-        const newEntry = this.createNewLap(this.props.parentId);
+        const newEntry = createLap(this.props.parentId);
         laps.push(newEntry);
         this.setState({ laps });
         
-        let totalLap = this.calcTotals(laps, this.props.multipliers);
+        let totalLap = calcLapsTotals(laps, this.props.multipliers);
         this.props.updateTotals(totalLap)
       });
   }

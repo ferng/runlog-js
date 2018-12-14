@@ -52,7 +52,9 @@ class Day extends React.Component {
         
       </div>
        <div className='twelve columns'>
-           <SessionList parentId={parent} updateTotals={this.updateTotals}/>
+           <RefDataContext.Consumer>
+             {globalRef => (<SessionList parentId={parent} updateTotals={this.updateTotals} multipliers={globalRef.multipliers}/>)}
+           </RefDataContext.Consumer>
          </div>
        </div>
     );

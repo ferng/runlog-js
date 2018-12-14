@@ -2,16 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Session from './Session';
 import { getItemsByParent } from '../lapDataSvcs';
-import { createSession } from '../lapTools';
+import { createSession, calcLapsTotals } from '../lapTools';
 
 class SessionList extends React.Component {
-
-  createNewSession(parentId) {
-    const newSess = createSession(parentId);
-    return newSess;
-  }
-
-
   onSessionEdit(id) {
     let sessions = this.state.sessions;
     sessions.forEach((session) => {
@@ -55,7 +48,7 @@ class SessionList extends React.Component {
       sessions.pop();
       updatedSess.editSession = false;
       sessions.push(updatedSess);
-      const newEntry = this.createNewSession(this.props.parentId);
+      const newEntry = createSession(this.props.parentId);
       sessions.push(newEntry);
       this.setState(sessions);
     }
@@ -63,9 +56,7 @@ class SessionList extends React.Component {
   }
 
   onUpdateTotals(updatedLapTotal) {
-      console.log(updatedLapTotal);
     let laps = this.state.laps;
-//     console.log(laps);
     let newLaps = [];
     if (laps === undefined || laps.length === 0) {
       newLaps.push(updatedLapTotal);
@@ -79,9 +70,8 @@ class SessionList extends React.Component {
     }
 
     this.setState({laps: newLaps});
-    console.log(JSON.stringify(newLaps));
-//     let totalLap = this.calcTotals(laps, this.props.multipliers);
-//     this.props.updateTotals(totalLap);
+    const totalLap = calcLapsTotals(newLaps, this.props.multipliers);
+    this.props.updateTotals(totalLap);
   };
 
   constructor(props) {
@@ -102,7 +92,7 @@ class SessionList extends React.Component {
         } else {
           sessions = [];
         }
-        const newEntry = this.createNewSession(this.props.parentId);
+        const newEntry = createSession(this.props.parentId);
         sessions.push(newEntry);
         this.setState({ sessions });
       });

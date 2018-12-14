@@ -122,6 +122,18 @@ const cloneData = (source) => {
 
 
 const calcLapsTotals = (laps, multipliers) => {
+    let totalLap;
+    if (laps.length === 0) {
+      totalLap = createLap();
+    } else {
+      const totals = calcTotalVals(laps, multipliers);
+      totalLap = {time: totals.time, distance: totals.distance, unit: 'mile'};
+    }
+    return totalLap;
+}
+
+
+const calcTotalVals = (laps, multipliers) => {
   let distance = 0;
   let hours = 0;
   let minutes = 0;
