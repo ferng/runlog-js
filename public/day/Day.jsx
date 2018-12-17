@@ -33,10 +33,10 @@ class Day extends React.Component {
 
     return (
       <div>
-      <div className='twelve columns' >
+      <div className='twelve columns bkg-day' >
 
         <div className='one column'>
-            <div className='data' id='weekDay'>
+            <div className='week-heading' id='weekDay'>
               {weekDay}
             </div>
         </div>

@@ -25,11 +25,6 @@ class Week extends React.Component {
     return new Date(date.getFullYear(), date.getUTCMonth(), date.getUTCDate() - offset);
   }
 
-  
-  
-
-
-
 
   daysForWeek() {
     const {weekStart} = this.state;
@@ -62,7 +57,6 @@ class Week extends React.Component {
     const parent = 1;
     const totalLap = this.state.totalLap;
     const { weekStart }= this.state;
-console.log(weekStart);
     const weekStartStr = weekStart.toISOString().slice(0,10);
     const days = this.daysForWeek();
 
@@ -71,17 +65,18 @@ console.log(weekStart);
 
     return (
       <div> 
-      <div className='twelve columns' >
+      <div className='twelve columns bkg-week' >
 
-        <div className='four columns'>
+        <div className='two columns'>
             <div className='data'>
-              <label id='weekStartLabel' htmlFor='weekStart'>Weeks Start Date: </label>
+              <label id='weekStartLabel' className='week-heading'>WEEK STARTS: </label>
               {dateAction}
             </div>
         </div>
         <div className='one column'>
-            <div className='data' id='weekNum'>
-              Week No. 33 
+            <label id='weekNumberLabel' htmlFor='weekNo'>Week No:</label>
+            <div className='data' id='weekNo'>
+              33 
             </div>
         </div>
         <div className='one column'>

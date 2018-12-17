@@ -38,7 +38,7 @@ class LapInfo extends React.Component {
     const {borderOn} = this.props;
     let borderClass = 'twelve columns';
     if (borderOn) {
-      borderClass = 'twelve columns left';
+      borderClass = 'twelve columns';
     }
 
     let delbutton;

@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
  */
 const LapRow = function LapRow(props) {
   return (
-    <div className='row'>
+    <div className='twelve columns row'>
       {props.data}
     </div>
   );

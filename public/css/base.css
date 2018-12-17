@@ -1,5 +1,5 @@
 body {
-  background: #888;
+  background-color: grey;
 }
 
 input[type='number'] {
@@ -10,6 +10,10 @@ input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none; 
 }
 
+input[type='date'] {
+  background-color: lavender;
+}
+
 label {
   font-size: 1.25rem;
   color: red;
@@ -17,19 +21,55 @@ label {
   display: inline;
 }
 
+button,
+input[type='submit'],
+input[type='reset'],
+input[type='button'] {
+  font-size: 11px;
+  background-color: lightsteelblue;
+}
+
+.columns {
+    margin-left: 0;
+}
+
+.week-heading {
+  font-size: 1.5rem;
+  color: darkblue;
+  font-weight: normal;
+  display: inline;
+  letter-spacing: -.05rem;
+}
+
+.bkg-week {
+  background: grey;
+}
+
+.bkg-day {
+  background: darkgrey;
+}
+
+.bkg-session {
+  background: silver;
+}
+
+.bkg-lap-odd {
+  background: lightgrey;
+}
+
+.bkg-lap-even {
+  background: #E6E6E6;
+}
+
+.row{
+  background: lightgrey;
+}
+
 .data {
   font-size: 1.25rem;
   color: darkblue;
   font-weight: normal;
   display: inline;
-}
-
-.left {
-  border-left: 0.125rem solid #33C3F0;
-}
-
-.row {
-  border: 0.125rem solid #33C3F0;
 }
 
 .time-entry {

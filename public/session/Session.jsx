@@ -102,7 +102,7 @@ class Session extends React.Component {
 
     return (
       <div>
-        <div className='twelve columns'>
+        <div className='twelve columns bkg-session'>
           <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={this.toggleModal} />
           <div className='eight columns'>
             {sessionAction}

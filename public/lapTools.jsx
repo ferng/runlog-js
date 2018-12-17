@@ -35,9 +35,9 @@ const createLap = (parentId, id, time = '00:00:00', distance = 0, unit = '--') =
  * @return {Lap} A Lap React component.
  * @private
  */
-const lapToReact = (lap, editCallback, submitCallback, delCallback) =>
+const lapToReact = (lap, editCallback, submitCallback, delCallback, style) =>
   React.createElement(Lap, {
-    lap, key: lap.id, onLapEdit: editCallback, onLapSubmit: submitCallback, onLapDel: delCallback,
+    lap, key: lap.id, onLapEdit: editCallback, onLapSubmit: submitCallback, onLapDel: delCallback, style: style
   });
 
 
@@ -49,7 +49,7 @@ const lapToReact = (lap, editCallback, submitCallback, delCallback) =>
  */
 const rowsToReact = rows =>
   rows.map((lapRow, index) =>
-    <LapRow data={lapRow} key={index} />);
+    <LapRow data={lapRow} key={index}/>);
 
 
 /**
@@ -63,7 +63,9 @@ const lapsToReactRows = (laps, editCallback, submitCallback, delCallback) => {
   const rows = [];
   let thisRow = [];
   for (let i = 0; i < laps.length; i++) {
-    const lap = lapToReact(laps[i], editCallback, submitCallback, delCallback);
+    console.log(i, i%2);
+    let style = i % 2 === 1 ? 'bkg-lap-odd' : 'bkg-lap-even';
+    const lap = lapToReact(laps[i], editCallback, submitCallback, delCallback, style);
     thisRow.push(lap);
     if ((i + 1) % 3 === 0) {
       rows.push(thisRow);

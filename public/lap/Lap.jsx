@@ -65,7 +65,8 @@ class Lap extends React.Component {
 
   render() {
     const { lap } = this.props;
-    const { editLap } = lap; 
+    const { editLap } = lap;
+    const style = 'four columns ' + this.props.style;
     let lapAction;
     if (editLap) {
       lapAction = 
@@ -80,9 +81,9 @@ class Lap extends React.Component {
     }
 
     return (
-      <div className='four columns'>
+      <div>
         <Modal errHead={this.state.errHead} errMsg={this.state.errMsg} show={this.state.showModal} onClose={this.toggleModal} />
-        <div className='twelve columns left'>
+        <div className={style}>
           {lapAction}      
         </div>
       </div>
