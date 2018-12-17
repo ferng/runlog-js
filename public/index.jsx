@@ -48,7 +48,7 @@ class TopLevel extends React.Component {
         <RefDataContext.Provider value={globalRef}> 
           <div className='twelve columns'>
             <div className='topLevel'>
-              <Week/>
+              <Week multipliers={globalRef.multipliers} />
             </div>
           </div>
         </RefDataContext.Provider>

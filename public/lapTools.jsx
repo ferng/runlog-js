@@ -63,7 +63,6 @@ const lapsToReactRows = (laps, editCallback, submitCallback, delCallback) => {
   const rows = [];
   let thisRow = [];
   for (let i = 0; i < laps.length; i++) {
-    console.log(i, i%2);
     let style = i % 2 === 1 ? 'bkg-lap-odd' : 'bkg-lap-even';
     const lap = lapToReact(laps[i], editCallback, submitCallback, delCallback, style);
     thisRow.push(lap);

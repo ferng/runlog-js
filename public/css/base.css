@@ -78,9 +78,8 @@ input[type='button'] {
 
 .lapList {
   height: auto;
-  min-geight: 40px;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 .sessionForm {

@@ -6,13 +6,41 @@ import Lap from '../lap/Lap';
 import Day from '../day/Day';
 import SessionList from '../session/SessionList';
 import { prepSelectOpts, postNewItem } from '../lapDataSvcs';
-import { createSession, createLapi, daysFromIds } from '../lapTools';
+import { createSession, createLapi, daysFromIds, calcLapsTotals } from '../lapTools';
 import { RefDataContext } from '../refData-context';
 import LapInfo from '../lap/LapInfo';
 
 class Week extends React.Component {
-  updateTotals(totalLap) {
+  updateTotals(updatedLapTotal) {
+    let laps = this.state.laps;
+    let newLaps = [];
+    if (laps === undefined || laps.length === 0) {
+      newLaps.push(updatedLapTotal);
+    } else {
+      laps.forEach((lap) => {
+        if (lap.id !== updatedLapTotal.id) {
+          newLaps.push(lap);
+        }
+      })
+      newLaps.push(updatedLapTotal);
+    }
+
+    this.setState({laps: newLaps});
+
+    const totalLap = calcLapsTotals(newLaps, this.props.multipliers);
     this.setState({ totalLap });
+  }
+
+  lastWeek() {
+    let {weekStart} = this.state;
+    weekStart = new Date(weekStart.getFullYear(), weekStart.getUTCMonth(), weekStart.getUTCDate() - 7);
+    this.setState({weekStart});
+  }
+
+  nextWeek() {
+    let {weekStart} = this.state;
+    weekStart = new Date(weekStart.getFullYear(), weekStart.getUTCMonth(), weekStart.getUTCDate() + 7);
+    this.setState({weekStart});
   }
 
   handleDateChange(e) {
@@ -35,7 +63,7 @@ class Week extends React.Component {
       let id = idFromDate +i;
       let thisDate = new Date(weekStartMills);
       thisDate.setDate(thisDate.getDate() + i);
-      let day = <Day key={id} parentId={id} activityDate={thisDate}/>;
+      let day = <Day key={id} parentId={id} activityDate={thisDate} updateTotals={this.updateTotals}/>;
       days.push(day);
     }
     return days;
@@ -51,6 +79,8 @@ class Week extends React.Component {
     }
     this.updateTotals = this.updateTotals.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.lastWeek = this.lastWeek.bind(this);
+    this.nextWeek = this.nextWeek.bind(this);
   }
   
   render() {
@@ -60,30 +90,24 @@ class Week extends React.Component {
     const weekStartStr = weekStart.toISOString().slice(0,10);
     const days = this.daysForWeek();
 
-    const dateAction = 
-      <input type="date" id="weekStart" value={weekStartStr} onChange={this.handleDateChange}/> ;
-
     return (
       <div> 
       <div className='twelve columns bkg-week' >
 
-        <div className='two columns'>
+        <div className='three columns'>
             <div className='data'>
               <label id='weekStartLabel' className='week-heading'>WEEK STARTS: </label>
-              {dateAction}
+              <input type="date" id="weekStart" value={weekStartStr} onChange={this.handleDateChange}/> 
+              <button display='primary' type='button' onClick={this.lastWeek}>&#x22B2;</button>
+                <button display='primary' type='button' onClick={this.nextWeek}>&#x22B3;</button>
             </div>
         </div>
-        <div className='one column'>
-            <label id='weekNumberLabel' htmlFor='weekNo'>Week No:</label>
-            <div className='data' id='weekNo'>
-              33 
-            </div>
-        </div>
-        <div className='one column'>
-             <div className='data' id='weekTotal'>
-                55 
-             </div>
-        </div>
+         <div className='four columns'>
+           <RefDataContext.Consumer>
+               {globalRef => (<LapInfo lap={totalLap} borderOn={true} multipliers={globalRef.multipliers} />)}
+            </RefDataContext.Consumer>
+         </div>
+        
       </div>
       <div className='twelve columns' >
         {days}

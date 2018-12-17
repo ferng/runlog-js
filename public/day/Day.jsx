@@ -11,7 +11,9 @@ import LapInfo from '../lap/LapInfo';
 
 class Day extends React.Component {
   updateTotals(totalLap) {
+    totalLap.id = this.props.parentId;
     this.setState({ totalLap });
+    this.props.updateTotals(totalLap);
   }
 
   constructor(props) {

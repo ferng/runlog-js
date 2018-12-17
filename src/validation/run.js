@@ -34,7 +34,6 @@ function validateRequest(type, data) {
  * reject if the validation failed somehow.
  */
 function validateLap(lap) {
-  console.log(lap);
   return new Promise((resolve, reject) => {
     if (isValidLap(lap)) {
       resolve(lap);
@@ -46,7 +45,6 @@ function validateLap(lap) {
 
 
 function validateSession(session) {
-  console.log(session);
   return new Promise((resolve, reject) => {
     if (isValidSession(session)) {
       resolve(session);
