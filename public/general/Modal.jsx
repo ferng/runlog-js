@@ -1,30 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Modal extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    if (!this.props.show) {
-      return null;
-    } else {
-      return (
+const Modal = (props) => {
+  let modal = null;
+  if (props.show) {
+    modal =
+      (
         <div className='modal-popup'>
-
           <div>
-            <button onClick={this.props.onClose}>
+            <button onClick={props.onClose}>
                Close
             </button>
-            <h1>{this.props.errHead}</h1>
-            <div>{this.props.errMsg}</div>
+            <h1>{props.errHead}</h1>
+            <div>{props.errMsg}</div>
           </div>
         </div>
       );
-    }
   }
-}
+  return modal;
+};
 
 
 Modal.propTypes = {

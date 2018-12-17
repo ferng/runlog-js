@@ -91,15 +91,13 @@ const postNewItem = (body, dataType) =>
 const removeItem = (dataType, id) =>
   new Promise((resolve, reject) => {
     remove(`/api/runs/${dataType}?id=${id}`)
-      .then((response) => {
+      .then(() => {
         resolve();
       })
       .catch(() => {
         reject(new Error('Error deleting data, please try later.'));
       });
   });
-
-
 
 const getRefOpts = (refData, type) =>
   refData.find(ref => ref.optType === type);

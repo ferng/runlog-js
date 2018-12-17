@@ -12,21 +12,21 @@ import { calcTimes } from '../lapTools';
  * @return {object} A React select element that will be rendered on the browser or null if properties are missing or invalid.
  */
 class LapInfo extends React.Component {
-  onEdit() {
+  constructor(props) {
+    super(props);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleDel = this.handleDel.bind(this);
+  }
+
+  handleEdit() {
     if (this.props.onEdit !== undefined) {
-      this.props.onEdit(this.props.id);
+      this.props.onEdit();
     }
   }
 
-  onDel(e) {
+  handleDel(e) {
     e.stopPropagation();
-    this.props.onDel(this.props.id);
-  }
-
-  constructor(props) {
-    super(props);
-    this.onEdit= this.onEdit.bind(this); 
-    this.onDel= this.onDel.bind(this); 
+    this.props.onDel();
   }
 
   render() {
@@ -35,50 +35,49 @@ class LapInfo extends React.Component {
     const speed = calcTimes(multiplier, lap.distance, lap.time);
     const { mph } = speed;
     const mins = `mins: ${speed.mins}`;
-    const {borderOn} = this.props;
-    let borderClass = 'twelve columns';
-    if (borderOn) {
-      borderClass = 'twelve columns';
-    }
 
-    let delbutton;
+    let delButton;
     if (lap.id !== -1 && this.props.onEdit !== undefined) {
-      delbutton = <button display='primary' type='button' onClick={this.onDel}>DEL</button>;
+      delButton = <button display='primary' type='button' onClick={this.handleDel}>DEL</button>;
     }
 
     return (
       <div
-        className={borderClass}
-        onClick={() => this.onEdit()}
+        className='twelve columns'
+        onClick={() => this.handleEdit()}
         role='presentation'
       >
         <div className='lap'>
           <div className='three columns'>
-            <label id='dataTimeLabel' htmlFor='dataTime'>Time: </label>
-            <div className='data' id='dataTime'>
-              {lap.time}
-            </div>
+            <label id='dataTimeLabel' htmlFor='dataTime'>Time:
+              <div className='data' id='dataTime'>
+                {lap.time}
+              </div>
+            </label>
           </div>
           <div className='three columns'>
-            <label id='dataDistLabel' htmlFor='dataDist'>Distance:</label>
-            <div className='data' id='dataDist'>
-              {lap.distance}
-            </div>
+            <label id='dataDistLabel' htmlFor='dataDist'>Distance:
+              <div className='data' id='dataDist'>
+                {lap.distance}
+              </div>
+            </label>
           </div>
           <div className='three columns'>
-            <label id='dataUnitLabel' htmlFor='dataUnit'>Unit: </label>
-            <div className='data' id='dataUnit'>
-              {lap.unit}
-            </div>
+            <label id='dataUnitLabel' htmlFor='dataUnit'>Unit:
+              <div className='data' id='dataUnit'>
+                {lap.unit}
+              </div>
+            </label>
           </div>
           <div className='two columns' title={mins}>
-            <label id='dataMphLabel' htmlFor='dataMph'>mph: </label>
-            <div className='data' id='dataMph'>
-              {mph}
-            </div>
+            <label id='dataMphLabel' htmlFor='dataMph'>mph:
+              <div className='data' id='dataMph'>
+                {mph}
+              </div>
+            </label>
           </div>
           <div className='one column'>
-            {delbutton}
+            {delButton}
           </div>
         </div>
       </div>
@@ -87,6 +86,9 @@ class LapInfo extends React.Component {
 }
 
 LapInfo.propTypes = {
+  onEdit: PropTypes.func,
+  onDel: PropTypes.func,
+  multipliers: PropTypes.objectOf(PropTypes.string, PropTypes.number).isRequired,
   lap: PropTypes.shape({
     distance: PropTypes.number.isRequired,
     time: PropTypes.string.isRequired,
@@ -95,6 +97,8 @@ LapInfo.propTypes = {
 };
 
 LapInfo.defaultProps = {
+  onEdit: undefined,
+  onDel: undefined,
   lap: {
     parentId: -1,
     distance: 0,

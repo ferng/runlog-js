@@ -65,13 +65,13 @@ router.post('/*', (req, res) => {
   runVal.validateRequest(dataType, req.body)
     .then((data) => {
       db.insertOne(dataType, data)
-      .then ((id) => {
-        res.status(201).send({id});
-      })
-      .catch((err) => {
-        log.error(err);
-        res.status(500).send('');
-      });
+        .then((id) => {
+          res.status(201).send({ id });
+        })
+        .catch((err) => {
+          log.error(err);
+          res.status(500).send('');
+        });
     })
     .catch((err) => {
       log.error(err);
@@ -82,7 +82,7 @@ router.post('/*', (req, res) => {
 router.delete('/*', (req, res) => {
   const dataType = req.path.slice(1);
   db.remove(dataType, req.query)
-    .then((data) => {
+    .then(() => {
       res.status(200).send('');
     })
     .catch((err) => {

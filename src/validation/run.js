@@ -4,7 +4,6 @@
  */
 
 const common = require('./common.js');
-const log = require('../utils/logger.js').getLogger();
 
 // update doco this doens't return a promise, and neither should any other validation stuff it is not slow as it does not rely on anything external, test it all first then re-work it
 /**
@@ -53,7 +52,6 @@ function validateSession(session) {
     }
   });
 }
-
 
 
 /**

@@ -82,16 +82,17 @@ function get(table, criteria, fields) {
  * resolve returns the rowId of the newly inserted document. Al rowId constraints apply<br>
  * reject on errors: document, sql or connectivity.
  */
-function insertOne(table, document) {
+/* eslint-disable func-names */ // if we use lambda there is no this object so we don't get the last insert id
+function insertOne(table, doc) {
   return new Promise((resolve, reject) => {
-    if (!val.isDocumentValid(document)) {
+    if (!val.isDocumentValid(doc)) {
       log.error('Invalid document', doc);
       reject(new Error('Invalid document'));
       return;
     }
-    const columns = Object.keys(document);
-    const values = Object.values(document);
-    
+    const columns = Object.keys(doc);
+    const values = Object.values(doc);
+
     const insertColumns = prepStatementFields(columns);
     const insertValues = prepStatementFields(values);
     const updateSub = prepValuePairs(columns, values);
@@ -102,15 +103,15 @@ function insertOne(table, document) {
         reject(err);
         return;
       }
-      if (document.id === undefined) {
+      if (doc.id === undefined) {
         resolve(this.lastID);
       } else {
-        resolve(document.id);
+        resolve(doc.id);
       }
-
     });
   });
 }
+/* eslint-enable func-names */
 
 
 /**
@@ -160,12 +161,12 @@ function insertMany(table, documents) {
 function update(table, criteria, updates) {
   return new Promise((resolve, reject) => {
     if (!val.isDocumentValid(criteria)) {
-      log.error('Invalid criteria', doc);
+      log.error('Invalid criteria', criteria);
       reject(new Error('Invalid criteria'));
       return;
     }
     if (!val.isDocumentValid(updates)) {
-      log.error('Invalid update data', doc);
+      log.error('Invalid update data', updates);
       reject(new Error('Invalid update data'));
       return;
     }
@@ -195,7 +196,7 @@ function update(table, criteria, updates) {
 function remove(table, criteria) {
   return new Promise((resolve, reject) => {
     if (!val.isDocumentValid(criteria)) {
-      log.error('Invalid criteria', doc);
+      log.error('Invalid criteria', criteria);
       reject(new Error('Invalid criteria'));
       return;
     }
@@ -214,7 +215,7 @@ function remove(table, criteria) {
       }
       resolve();
     });
-  })
+  });
 }
 
 

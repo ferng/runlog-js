@@ -13,7 +13,7 @@ const app = express();
 async function init() {
   try {
     await db.initPool();
-    const result = await db.get('sqlite_master', {'type': 'table', 'name': 'effort'});
+    const result = await db.get('sqlite_master', { type: 'table', name: 'effort' });
     if (result.length === 0) {
       log.debug('New system, initialising schema');
       dbInit.init();

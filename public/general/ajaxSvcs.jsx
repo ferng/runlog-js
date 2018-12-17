@@ -55,7 +55,6 @@ const remove = endpoint =>
   new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('DELETE', endpoint);
-    let msg;
     xhr.onload = () => {
       if (xhr.status === 200) {
         resolve();
