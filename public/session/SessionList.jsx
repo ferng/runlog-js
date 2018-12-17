@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Session from './Session';
 import { getItemsByParent } from '../lapDataSvcs';
-import { createSession, calcLapsTotals } from '../lapTools';
+import { createSession, calcLapsTotals, updateLaps } from '../lapTools';
 
 class SessionList extends React.Component {
   onSessionEdit(id) {
@@ -56,19 +56,7 @@ class SessionList extends React.Component {
   }
 
   onUpdateTotals(updatedLapTotal) {
-    let laps = this.state.laps;
-    let newLaps = [];
-    if (laps === undefined || laps.length === 0) {
-      newLaps.push(updatedLapTotal);
-    } else {
-      laps.forEach((lap) => {
-        if (lap.id !== updatedLapTotal.id) {
-          newLaps.push(lap);
-        }
-      })
-      newLaps.push(updatedLapTotal);
-    }
-
+    const newLaps = updateLaps(this.state.laps, updatedLapTotal); 
     this.setState({laps: newLaps});
     const totalLap = calcLapsTotals(newLaps, this.props.multipliers);
     this.props.updateTotals(totalLap);

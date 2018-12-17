@@ -121,6 +121,21 @@ const cloneData = (source) => {
   return dest;
 }
 
+const updateLaps = (laps, updatedLap) => {
+    let newLaps = [];
+    if (laps === undefined || laps.length === 0) {
+      newLaps.push(updatedLap);
+    } else {
+      laps.forEach((lap) => {
+        if (lap.id !== updatedLap.id) {
+          newLaps.push(lap);
+        }
+      })
+      newLaps.push(updatedLap);
+    }
+    return newLaps;
+}
+
 
 const calcLapsTotals = (laps, multipliers) => {
     let totalLap;
@@ -223,4 +238,5 @@ export {
   getValues,
   cloneData,
   calcLapsTotals,
+  updateLaps,
 };

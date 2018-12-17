@@ -6,40 +6,28 @@ import Lap from '../lap/Lap';
 import Day from '../day/Day';
 import SessionList from '../session/SessionList';
 import { prepSelectOpts, postNewItem } from '../lapDataSvcs';
-import { createSession, createLapi, daysFromIds, calcLapsTotals } from '../lapTools';
+import { createSession, createLapi, daysFromIds, calcLapsTotals, updateLaps } from '../lapTools';
 import { RefDataContext } from '../refData-context';
 import LapInfo from '../lap/LapInfo';
 
 class Week extends React.Component {
   updateTotals(updatedLapTotal) {
-    let laps = this.state.laps;
-    let newLaps = [];
-    if (laps === undefined || laps.length === 0) {
-      newLaps.push(updatedLapTotal);
-    } else {
-      laps.forEach((lap) => {
-        if (lap.id !== updatedLapTotal.id) {
-          newLaps.push(lap);
-        }
-      })
-      newLaps.push(updatedLapTotal);
-    }
+    const newLaps = updateLaps(this.state.laps, updatedLapTotal); 
 
     this.setState({laps: newLaps});
-
     const totalLap = calcLapsTotals(newLaps, this.props.multipliers);
     this.setState({ totalLap });
   }
 
   lastWeek() {
     let {weekStart} = this.state;
-    weekStart = new Date(weekStart.getFullYear(), weekStart.getUTCMonth(), weekStart.getUTCDate() - 7);
+    weekStart = this.moveDate(weekStart, -7);
     this.setState({weekStart});
   }
 
   nextWeek() {
     let {weekStart} = this.state;
-    weekStart = new Date(weekStart.getFullYear(), weekStart.getUTCMonth(), weekStart.getUTCDate() + 7);
+    weekStart = this.moveDate(weekStart, 7);
     this.setState({weekStart});
   }
 
@@ -49,10 +37,13 @@ class Week extends React.Component {
   }
 
   calcWeekStart(date) {
-    const offset = (date.getUTCDay() === 0 ? 7 : date.getUTCDay()) -1;
-    return new Date(date.getFullYear(), date.getUTCMonth(), date.getUTCDate() - offset);
+    const offset = -((date.getUTCDay() === 0 ? 7 : date.getUTCDay()) -1);
+    return this.moveDate(date, offset);
   }
 
+  moveDate(date, offset) {
+    return new Date(date.getFullYear(), date.getUTCMonth(), date.getUTCDate() + offset);
+  }
 
   daysForWeek() {
     const {weekStart} = this.state;
