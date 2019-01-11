@@ -14,7 +14,7 @@ function initPool() {
   return new Promise((resolve, reject) => {
     const dbFile = config.sqlite.file;
     log.debug('Attempting connection to DB to:', dbFile);
-    conn = new sqlite3.cached.Database(dbFile, sqlite3.OPEN_READWRITE || sqlite3.OPEN_CREATE, (err) => {
+    conn = new sqlite3.cached.Database(dbFile, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
       if (err) {
         log.error('Error connecting DB: ', err);
         reject(err);

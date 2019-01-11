@@ -29,6 +29,114 @@ test('Open db success', async (t) => {
 });
 
 
+test('get on empty', async (t) => {
+  t.plan(2);
+  try {
+    await db.get('unit3', {});
+    t.fail();
+  } catch (actual) {
+    t.equal(actual.name, 'Error');
+    t.equal(actual.message, 'SQLITE_ERROR: no such table: unit3');
+  }
+});
+
+
+
+test('Get Multiple fields', async (t) => {
+  t.plan(3);
+  const testRecords = [
+    { desc: 'well', conversion: 3, fruit: 'apples' },
+    { desc: 'now', conversion: 1.5, fruit: 'pears' },
+    { desc: 'later', conversion: 2, fruit: 'mangos' },
+  ];
+  try {
+    await db.execute('CREATE TABLE unit5 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
+    await db.insertMany('unit5', testRecords);
+
+    let actual = await db.get('unit5', {});
+    t.equal(actual.length, 3);
+
+    actual = await db.get('unit5', {}, ['fruit', 'conversion']);
+    t.equal(actual.length, 3);
+
+    await db.execute('DROP TABLE unit5');
+    t.pass();
+  } catch (err) {
+    t.fail(err);
+  }
+});
+
+
+test('Get with criteria', async (t) => {
+  t.plan(7);
+  const testRecords = [
+    { desc: 'well', conversion: 3, fruit: 'apples' },
+    { desc: 'now', conversion: 1.5, fruit: 'pears' },
+    { desc: 'now', conversion: 2, fruit: 'mangos' },
+  ];
+  try {
+    await db.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
+    await db.insertMany('unit6', testRecords);
+
+    let actual = await db.get('unit6', {});
+    t.equal(actual.length, 3);
+
+    const criteria = { desc: 'now' };
+    actual = await db.get('unit6', criteria);
+
+    t.equal(actual.length, 2);
+    const expected = ['pears', 'mangos'];
+    actual.forEach((actFruit) => {
+      if (expected.includes(actFruit.fruit)) {
+        t.pass();
+      }
+      if (Object.keys(actFruit).length === 3) {
+        t.pass();
+      }
+    });
+
+    await db.execute('DROP TABLE unit6');
+    t.pass();
+  } catch (err) {
+    t.fail(err);
+  }
+});
+
+
+test('Get some fields with criteria', async (t) => {
+  t.plan(7);
+  const testRecords = [
+    { desc: 'well', conversion: 3, fruit: 'apples' },
+    { desc: 'now', conversion: 1.5, fruit: 'pears' },
+    { desc: 'now', conversion: 2, fruit: 'mangos' },
+  ];
+  try {
+    await db.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
+    await db.insertMany('unit6', testRecords);
+
+    let actual = await db.get('unit6', {}, ['conversion']);
+    t.equal(actual.length, 3);
+
+    const criteria = { desc: 'now' };
+    actual = await db.get('unit6', criteria, ['conversion']);
+
+    t.equal(actual.length, 2);
+    const expected = [1.5, 2];
+    actual.forEach((act) => {
+      if (expected.includes(act.conversion)) {
+        t.pass();
+      }
+      if (Object.keys(act).length === 1) {
+        t.pass();
+      }
+    });
+
+    await db.execute('DROP TABLE unit6');
+    t.pass();
+  } catch (err) {
+    t.fail(err);
+  }
+});
 test('Invalid SQL command', async (t) => {
   t.plan(2);
   try {
@@ -52,23 +160,10 @@ test('Create and drop table', async (t) => {
   }
 });
 
-
-test('get on empty', async (t) => {
-  t.plan(2);
-  try {
-    await db.get('unit3', {});
-    t.fail();
-  } catch (actual) {
-    t.equal(actual.name, 'Error');
-    t.equal(actual.message, 'SQLITE_ERROR: no such table: unit3');
-  }
-});
-
-
 test('InsertOne and get', async (t) => {
   t.plan(1);
   try {
-    await db.execute('CREATE TABLE unit3 (desc TEXT NOT NULL)');
+    await db.execute('CREATE TABLE unit3 (id INTEGER PRIMARY KEY, desc TEXT NOT NULL)');
     await db.insertOne('unit3', { desc: 'hello' });
     const actual = await db.get('unit3', {});
     t.equal(actual[0].desc, 'hello');
@@ -138,31 +233,6 @@ test('InsertMany document errors', (t) => {
       t.equal(actual.message === 'Invalid document', testCase.expected);
     }
   });
-});
-
-
-test('Get Multiple fields', async (t) => {
-  t.plan(3);
-  const testRecords = [
-    { desc: 'well', conversion: 3, fruit: 'apples' },
-    { desc: 'now', conversion: 1.5, fruit: 'pears' },
-    { desc: 'later', conversion: 2, fruit: 'mangos' },
-  ];
-  try {
-    await db.execute('CREATE TABLE unit5 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
-    await db.insertMany('unit5', testRecords);
-
-    let actual = await db.get('unit5', {});
-    t.equal(actual.length, 3);
-
-    actual = await db.get('unit5', {}, ['fruit', 'conversion']);
-    t.equal(actual.length, 3);
-
-    await db.execute('DROP TABLE unit5');
-    t.pass();
-  } catch (err) {
-    t.fail(err);
-  }
 });
 
 
@@ -255,73 +325,3 @@ test('Update multiple records', async (t) => {
 });
 
 
-test('Get with criteria', async (t) => {
-  t.plan(7);
-  const testRecords = [
-    { desc: 'well', conversion: 3, fruit: 'apples' },
-    { desc: 'now', conversion: 1.5, fruit: 'pears' },
-    { desc: 'now', conversion: 2, fruit: 'mangos' },
-  ];
-  try {
-    await db.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
-    await db.insertMany('unit6', testRecords);
-
-    let actual = await db.get('unit6', {});
-    t.equal(actual.length, 3);
-
-    const criteria = { desc: 'now' };
-    actual = await db.get('unit6', criteria);
-
-    t.equal(actual.length, 2);
-    const expected = ['pears', 'mangos'];
-    actual.forEach((actFruit) => {
-      if (expected.includes(actFruit.fruit)) {
-        t.pass();
-      }
-      if (Object.keys(actFruit).length === 3) {
-        t.pass();
-      }
-    });
-
-    await db.execute('DROP TABLE unit6');
-    t.pass();
-  } catch (err) {
-    t.fail(err);
-  }
-});
-
-
-test('Get some fields with criteria', async (t) => {
-  t.plan(7);
-  const testRecords = [
-    { desc: 'well', conversion: 3, fruit: 'apples' },
-    { desc: 'now', conversion: 1.5, fruit: 'pears' },
-    { desc: 'now', conversion: 2, fruit: 'mangos' },
-  ];
-  try {
-    await db.execute('CREATE TABLE unit6 (desc TEXT NOT NULL, conversion REAL NOT NULL, fruit TEXT NOT NULL)');
-    await db.insertMany('unit6', testRecords);
-
-    let actual = await db.get('unit6', {}, ['conversion']);
-    t.equal(actual.length, 3);
-
-    const criteria = { desc: 'now' };
-    actual = await db.get('unit6', criteria, ['conversion']);
-
-    t.equal(actual.length, 2);
-    const expected = [1.5, 2];
-    actual.forEach((act) => {
-      if (expected.includes(act.conversion)) {
-        t.pass();
-      }
-      if (Object.keys(act).length === 1) {
-        t.pass();
-      }
-    });
-
-    await db.execute('DROP TABLE unit6');
-    t.pass();
-  } catch (err) {
-    t.fail(err);
-  }
-});
